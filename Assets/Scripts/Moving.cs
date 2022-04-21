@@ -5,13 +5,13 @@ using UnityEngine;
 public class Moving : MonoBehaviour
 {
     private float speed = 0; // - ship speed
-    private float speed_inc = 2; // - ship increase speed (tmp const)
-    private float speed_dec = 1; // - ship decrease speed (tmp const)
-    private float max_speed = 10; // - ship max speed (tmp const)
-    private float min_speed = -4; // - ship min speed (tmp const)
+    private float speed_inc = 0.02f; // - ship increase speed (tmp const)
+    private float speed_dec = 0.01f; // - ship decrease speed (tmp const)
+    private float max_speed = 0.1f; // - ship max speed (tmp const)
+    private float min_speed = -0.04f; // - ship min speed (tmp const)
     private float rotation = 0; // - ship rotation
     private float cur_rotation = 0; // - ship current rotation
-    private float rotation_speed = 0.05f; // - ship rotation speed (tmp const)
+    private float rotation_speed = 5; // - ship rotation speed (tmp const)
     private bool is_overheat = false;
     private Controller controller = null;
     void Start()
@@ -48,8 +48,9 @@ public class Moving : MonoBehaviour
         if ((Input.GetKeyUp(KeyCode.A) && rotation == -rotation_speed) 
             || (Input.GetKeyUp(KeyCode.D) && rotation == rotation_speed))
             rotation = 0;
-        cur_rotation += rotation;
+        cur_rotation += rotation * speed;
         this.transform.SetEulerAnglesY(cur_rotation);
-
+        controller.ChangePosition(speed, cur_rotation * Mathf.PI / 180);
+        //this.transform.SetPositionXZ(controller.pos_x, controller.pos_z);
     }
 }
