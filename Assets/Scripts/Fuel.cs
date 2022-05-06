@@ -6,9 +6,10 @@ public class Fuel : Bonus
 {
     private void OnTriggerEnter(Collider other)
     {
-        GameObject Person = GameObject.Find("Cube");
-        Movement fuelconstroller = Person.GetComponent<Movement>();
-        fuelconstroller._fuel = 10f;
-        Destroy(gameObject);
+        if (other.name == "Player") {
+            Moving fuelconstroller = other.GetComponent<Moving>();
+            fuelconstroller.fuel += 30f;
+            Destroy(gameObject);
+        }
     }
 }

@@ -6,9 +6,10 @@ public class Turbo : Bonus
 {
     private void OnTriggerEnter(Collider other)
     {
-        GameObject Person = GameObject.Find("Cube");
-        Movement turbocontroller = Person.GetComponent<Movement>();
-        turbocontroller._turbo += 1f;
-        Destroy(gameObject);
+        if (other.name == "Player") {
+            Moving fuelconstroller = other.GetComponent<Moving>();
+            fuelconstroller.speed *= 1.2f;
+            Destroy(gameObject);
+        }
     }
 }
