@@ -5,12 +5,10 @@ using UnityEngine;
 public class Moving : MonoBehaviour
 {
     [SerializeField]
- 
-    [Range(-5f,20f)]
     private float _speed = 0; // - ship speed
-    private float _fuel = 100;
+    private float _fuel = 100; // - ship fuel
     private float _max_fuel = 100;
-    private float _fuel_decrease = 2; 
+    private float _fuel_decrease = 0.2f; 
     private float _mass = 5; // - ship mass
     private float _acceleration = 0; // - ship acceleration
     private float _force = 0.2f; // - ship force
@@ -53,18 +51,15 @@ public class Moving : MonoBehaviour
             if (Input.GetKeyDown(KeyCode.D)){
                 _rotation = Time.deltaTime * _rotation_speed; 
             }
-        if ((Input.GetKeyUp(KeyCode.A) && _rotation < 0) 
+        if ((Input.GetKeyUp(KeyCode.A) && _rotation < 0)
             || (Input.GetKeyUp(KeyCode.D) && _rotation > 0))
             _rotation = 0;
-        
-        if (!_acceleration.Equals(0)) 
-            fuel -= _fuel_decrease * Time.deltaTime * speed * 20;
-        print("speed: " + _speed + " fuel: " + _fuel);
-        _speed += (_acceleration - _speed * _percent_stop) * Time.deltaTime; // - stoping + move
-        _cur_rotation += _rotation * _speed * 5;
-        this.transform.SetEulerAnglesY(_cur_rotation);
-        controller.ChangePosition(_speed, _cur_rotation * Mathf.PI / 180);
-        this.transform.SetPositionXZ(controller.pos_x, controller.pos_z);
+        //print("speed: " + _speed + " fuel: " + _fuel);
+        _speed += (_acceleration - Mathf.Abs(_speed) * _percent_stop) * Time.deltaTime; // - stoping + move
+        fuel -= (_fuel_decrease + speed * 20) * Time.deltaTime;
+        controller.ChangePosition(_speed, _rotation * _speed * 5);
+        //this.transform.SetPositionXZ(controller.pos_x, controller.pos_z);
+        this.transform.SetEulerAnglesY(controller.angle);
     }
 }
  

@@ -5,7 +5,6 @@ using UnityEngine;
 public enum BonusPrefabs
 {
     Fuel,
-    EngineUpgrade,
     Turbo
 }
 
