@@ -34,7 +34,7 @@ public class Controller : MonoBehaviour
     }
     void Start()
     {
-        _direction = ToRadian(_direction);
+        _direction = Mathf.Deg2Rad * _direction;
     }
 
     void Update()
@@ -44,16 +44,13 @@ public class Controller : MonoBehaviour
 
     public void ChangePosition(float speed, float delta_angle) {
         _angle += delta_angle;
-        _delta_x = Mathf.Sin(ToRadian(angle)) * speed;
-        _delta_z = Mathf.Cos(ToRadian(angle)) * speed;
+        _delta_x = Mathf.Sin(Mathf.Deg2Rad * angle) * speed;
+        _delta_z = Mathf.Cos(Mathf.Deg2Rad * angle) * speed;
         _pos_z += delta_z;
         _pos_x += delta_x;
     }
     void End(){
         Debug.Log("Level ended!");
         Application.Quit();
-    }
-    public float ToRadian(float degrees) {
-        return degrees * Mathf.PI / 180;
     }
 }

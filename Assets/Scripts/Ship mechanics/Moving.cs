@@ -54,11 +54,9 @@ public class Moving : MonoBehaviour
         if ((Input.GetKeyUp(KeyCode.A) && _rotation < 0)
             || (Input.GetKeyUp(KeyCode.D) && _rotation > 0))
             _rotation = 0;
-        //print("speed: " + _speed + " fuel: " + _fuel);
         _speed += (_acceleration - Mathf.Abs(_speed) * _percent_stop) * Time.deltaTime; // - stoping + move
         fuel -= (_fuel_decrease + speed * 20) * Time.deltaTime;
         controller.ChangePosition(_speed, _rotation * _speed * 5);
-        //this.transform.SetPositionXZ(controller.pos_x, controller.pos_z);
         this.transform.SetEulerAnglesY(controller.angle);
     }
 }
