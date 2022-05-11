@@ -10,7 +10,8 @@ public class Controller : MonoBehaviour
     private float _direction = 0; // - direction of sea
     [SerializeField]
     [Range(-20f,20f)]
-    private float _speed = 2; // - sea speed 
+    private Material sea = null;
+    private float _speed = 1; // - sea speed 
     private float _pos_x = 0; // - ship coord x
     private float _pos_z = 0; // - ship coord z
     private float _angle = 0;
@@ -35,19 +36,31 @@ public class Controller : MonoBehaviour
     void Start()
     {
         _direction = Mathf.Deg2Rad * _direction;
+        sea = GameObject.Find("Plane").GetComponent<MeshRenderer>().material;
     }
 
     void Update()
     {
-        
     }
 
-    public void ChangePosition(float speed, float delta_angle) {
-        _angle += delta_angle;
-        _delta_x = Mathf.Sin(Mathf.Deg2Rad * angle) * speed;
-        _delta_z = Mathf.Cos(Mathf.Deg2Rad * angle) * speed;
+    public void ChangePosition(float ship_speed, float delta_angle) {
+        _angle += delta_angle * ship_speed / 10;
+        _delta_x = Mathf.Sin(Mathf.Deg2Rad * angle) * ship_speed * Time.deltaTime;
+        _delta_z = Mathf.Cos(Mathf.Deg2Rad * angle) * ship_speed * Time.deltaTime;
         _pos_z += delta_z;
         _pos_x += delta_x;
+        SeaWork();
+    }
+    void SeaWork(){
+        Vector2  tmpVector = 
+         new Vector2(
+            (_pos_x + _speed * Mathf.Sin(_direction) * Time.time) / 4,
+            (_pos_z + _speed * Mathf.Cos(_direction) * Time.time) / 4
+         );
+        sea.SetVector("_Wave_vector", tmpVector);
+        tmpVector.x += _speed * Mathf.Sin(_direction) * Time.time * 0.375f;
+        tmpVector.y += _speed * Mathf.Cos(_direction) * Time.time * 0.375f;
+        sea.SetVector("_Normal_vector", tmpVector);
     }
     void End(){
         Debug.Log("Level ended!");
