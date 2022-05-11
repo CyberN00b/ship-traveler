@@ -36,7 +36,7 @@ public class WorldGenerator : MonoBehaviour
                     float angle = Mathf.Atan2(i, j) * Mathf.Rad2Deg - controller.angle;
                     if (Random.Range(0, 5000) == 0 && angle > -90 && angle < 90)
                     {
-                        Instantiate(RandomBonus(), new Vector3(i, 1f, j), Quaternion.identity, transform).is_prefab = false;
+                        Instantiate(RandomBonus(), new Vector3(i, 0.5f, j), Quaternion.identity, transform).is_prefab = false;
                     }
                 }
             }
