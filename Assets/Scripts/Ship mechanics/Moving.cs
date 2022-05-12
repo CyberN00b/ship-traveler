@@ -11,7 +11,7 @@ public class Moving : MonoBehaviour
     private float _fuel_decrease = 0.2f; 
     private float _mass = 5; // - ship mass
     private float _acceleration = 0; // - ship acceleration
-    private float _force = 0.2f; // - ship force
+    private float _force = 5f; // - ship force
     private float _rotation = 0; // - ship rotation
     private float _cur_rotation = 0; // - ship current rotation
     private float _rotation_speed = 30; // - ship rotation speed (tmp const)
@@ -21,6 +21,7 @@ public class Moving : MonoBehaviour
     void Start()
     {
         controller = GameObject.Find("GameController").GetComponent<Controller>();
+        StartCoroutine("SpeedWork");
     }
  
     public float fuel {
@@ -54,10 +55,18 @@ public class Moving : MonoBehaviour
         if ((Input.GetKeyUp(KeyCode.A) && _rotation < 0)
             || (Input.GetKeyUp(KeyCode.D) && _rotation > 0))
             _rotation = 0;
-        _speed += (_acceleration - Mathf.Abs(_speed) * _percent_stop) * Time.deltaTime; // - stoping + move
-        fuel -= (_fuel_decrease + speed * 20) * Time.deltaTime;
-        controller.ChangePosition(_speed, _rotation * _speed * 5);
+        print("Speed with delta: " + _speed + " Fuel: " + _fuel);
+        fuel -= (_fuel_decrease + _speed / 10) * Time.deltaTime;
+        controller.ChangePosition(_speed, _rotation);
         this.transform.SetEulerAnglesY(controller.angle);
+    }
+    IEnumerator SpeedWork() 
+    {
+        for(;;) 
+        {
+            _speed += _acceleration - _speed * _percent_stop; // - stoping + move
+            yield return new WaitForSeconds(0.3f);
+        }
     }
 }
  

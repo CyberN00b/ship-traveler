@@ -34,9 +34,9 @@ public class WorldGenerator : MonoBehaviour
                 float radius = j * j + i * i;
                 if (_game_radius * _game_radius > radius && radius > _player_radius * _player_radius) {
                     float angle = Mathf.Atan2(i, j) * Mathf.Rad2Deg - controller.angle;
-                    if (Random.Range(0, 1000) == 0 && angle > -90 && angle < 90)
+                    if (Random.Range(0, 5000) == 0 && angle > -90 && angle < 90)
                     {
-                        Instantiate(RandomBonus(), new Vector3(i, 1f, j), Quaternion.identity, transform).is_prefab = false;
+                        Instantiate(RandomBonus(), new Vector3(i, 0.5f, j), Quaternion.identity, transform).is_prefab = false;
                     }
                 }
             }
