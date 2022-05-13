@@ -4,42 +4,32 @@ using UnityEngine;
 
 public class SpeedEffect : MonoBehaviour
 {
-    private Vector3 _startPos;
     private GameObject _player;
-    private float _speedEff = 50;
-    private float _speed = 0;
-    private float _pos = 5;
-    private float _deltaPos = 0;
-    void Start()
+    private float _speedEff = 1.5f;
+    private void Start()
     {
         _player = GameObject.Find("Player");
     }
 
     void Update()
     {
+        Vector3 _localpos = transform.InverseTransformPoint(transform.position);
         Moving _speedEffect = _player.GetComponent<Moving>();
         float _currentSpeed = _speedEffect.speed;
-        float _nextPos = _pos;
-        if (_pos <= 5 && _pos >= 0)
+        if (_localpos.z <= -8 && _localpos.z >= -11)
         {
-            if (_currentSpeed > _speed)
+            if (_currentSpeed > 3.8f)
             {
-                _speed = _currentSpeed;
-                _pos -= _speedEff * Time.deltaTime;
-                _pos = Mathf.Clamp(_pos, 0, 5);
-                _deltaPos = _pos - _nextPos;
-                transform.Translate(0, 0, _deltaPos);
-
+                _localpos -= Vector3.forward * _speedEff * Time.deltaTime;
+                transform.localPosition = transform.TransformDirection(new Vector3(_localpos.x, _localpos.y,
+                    Mathf.Clamp(_localpos.z, -11, -8)));
             }
-            else if (_currentSpeed < _speed)
+            else
             {
-                _speed = _currentSpeed;
-                _pos += _speedEff * Time.deltaTime;
-                _pos = Mathf.Clamp(_pos, 0, 5);
-                _deltaPos = _pos - _nextPos;
-                transform.Translate(0, 0, _deltaPos);
+                _localpos += Vector3.forward * _speedEff * Time.deltaTime;
+                transform.localPosition = transform.TransformDirection(new Vector3(_localpos.x, _localpos.y,
+                    Mathf.Clamp(_localpos.z, -11, -8)));
             }
         }
-        print(_pos);
     }
 }
