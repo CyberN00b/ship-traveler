@@ -71,19 +71,16 @@ public class Moving : MonoBehaviour
         fuel -= (_fuel_decrease + _speed / 10) * Time.deltaTime;
         controller.ChangePosition(_speed, _rotation);
         this.transform.SetEulerAnglesY(controller.angle);
+        this.transform.SetEulerAnglesZ(_rotation / 5);
     }
     IEnumerator SpeedWork() 
     {
         for(;;) 
         {
-            if (Mathf.Abs(_rotation + _speed * _rotation_N * _rotation_direction * 0.1f) < _max_rotation)
-                _rotation += _speed * _rotation_N * _rotation_direction * 0.1f;
-            if ((_rotation < 0 && _rotation_direction > 0) ||
-                (_rotation > 0 && _rotation_direction < 0) ||
-                _rotation_direction == 0)
-                _rotation -= _rotation * 0.1f;
-            _speed += _acceleration - _speed * _percent_stop; // - stoping + move
-            yield return new WaitForSeconds(0.3f);
+            if (Mathf.Abs(_rotation + (_speed * _rotation_N * _rotation_direction - _rotation) / 60) < _max_rotation)
+                _rotation += (_speed * _rotation_N * _rotation_direction - _rotation) / 60;
+            _speed += (_acceleration - _speed * _percent_stop) / 6; // - stoping + move
+            yield return new WaitForSeconds(0.05f);
         }
     }
 }
