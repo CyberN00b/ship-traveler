@@ -15,7 +15,7 @@ public class Moving : MonoBehaviour
     private float _force = 5f; // - ship force
     private float _rotation = 0; // - ship rotation
     private float _cur_rotation = 0; // - ship current rotation
-    private float _rotation_direction = 0; // - ship rotation speed
+    private int _rotation_direction = 0; // - ship rotation speed
     private float _max_rotation = 30; // - ship max rotation speed
     private float _rotation_N = 0; // - calculation variable
     private float _percent_stop = 0.2f; // - ship passive stoping (_speed * _percent_stop)
@@ -67,18 +67,19 @@ public class Moving : MonoBehaviour
         if ((Input.GetKeyUp(KeyCode.A) && _rotation_direction < 0)
             || (Input.GetKeyUp(KeyCode.D) && _rotation_direction > 0))
             _rotation_direction = 0;
-        print("Speed with delta: " + _speed + " Fuel: " + _fuel + " Rotation: " + _rotation);
-        fuel -= (_fuel_decrease + _speed / 10) * Time.deltaTime;
-        controller.ChangePosition(_speed, _rotation);
+        //print("Speed with delta: " + _speed + " Fuel: " + _fuel + " Rotation: " + _rotation);
+        fuel -= (_fuel_decrease + Mathf.Abs(_speed / 10)) * Time.deltaTime;
+        controller.ChangePositionByShip(_speed, _rotation);
         this.transform.SetEulerAnglesY(controller.angle);
         this.transform.SetEulerAnglesZ(_rotation / 5);
     }
     IEnumerator SpeedWork() 
     {
-        for(;;) 
+        for(;;)
         {
-            if (Mathf.Abs(_rotation + (_speed * _rotation_N * _rotation_direction - _rotation) / 60) < _max_rotation)
-                _rotation += (_speed * _rotation_N * _rotation_direction - _rotation) / 60;
+            if (Mathf.Abs(_rotation + (((_speed < 0)? -1f : 1f) * _speed * 
+                _rotation_N * _rotation_direction - _rotation / 2) / 60) < _max_rotation)
+                _rotation += (((_speed < 0)? -1f : 1f) * _speed * _rotation_N * _rotation_direction - _rotation / 2) / 60;
             _speed += (_acceleration - _speed * _percent_stop) / 6; // - stoping + move
             yield return new WaitForSeconds(0.05f);
         }
