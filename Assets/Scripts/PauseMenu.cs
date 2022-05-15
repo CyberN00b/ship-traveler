@@ -8,6 +8,8 @@ public class PauseMenu : MonoBehaviour
 {
     [SerializeField]
     private GameObject _PauseMenu;
+    [SerializeField]
+    private GameObject _gameOver;
     private bool _isPaused = false;
 
     private void Start()
@@ -25,6 +27,7 @@ public class PauseMenu : MonoBehaviour
             }
             else
             {
+                if(_gameOver.activeSelf == false)
                 Pause();
             }
         }
