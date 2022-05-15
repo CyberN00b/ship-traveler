@@ -5,8 +5,8 @@ using UnityEngine;
 public class WorldGenerator : MonoBehaviour
 {
 
-    private float _player_radius = 50;
-    private float _game_radius = 60;
+    private float _player_radius = 75;
+    private float _game_radius = 80;
     private bool _is_endPoint_spawned = false;
     private EndPoint _End = null;
     public float player_radius {

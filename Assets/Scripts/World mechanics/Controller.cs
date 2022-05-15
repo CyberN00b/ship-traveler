@@ -59,15 +59,14 @@ public class Controller : MonoBehaviour
     }
 
     public void ChangePositionByShip(float ship_speed, float delta_angle) {
+        
         _angle += Time.deltaTime * delta_angle * ship_speed / 10;
-        _delta_x = (
-            Mathf.Sin(Mathf.Deg2Rad * angle) * ship_speed * Time.deltaTime *
-            ((is_collide)? Mathf.Cos(Mathf.Deg2Rad * stop_angle) : 1)
-        );
-        _delta_z = (
-            Mathf.Cos(Mathf.Deg2Rad * angle) * ship_speed * Time.deltaTime * 
-            ((is_collide)? Mathf.Sin(Mathf.Deg2Rad * stop_angle) : 1)
-        );
+        _delta_x = Mathf.Sin(Mathf.Deg2Rad * angle) * ship_speed * Time.deltaTime;
+        _delta_z = Mathf.Cos(Mathf.Deg2Rad * angle) * ship_speed * Time.deltaTime;
+        if (is_collide) {
+            _delta_x -= Mathf.Sin(Mathf.Deg2Rad * stop_angle) * ship_speed * Time.deltaTime;
+            _delta_z -= Mathf.Cos(Mathf.Deg2Rad * stop_angle) * ship_speed * Time.deltaTime;
+        }
         _pos_z += delta_z;
         _pos_x += delta_x;
         SeaWork();
