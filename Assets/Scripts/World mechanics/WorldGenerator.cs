@@ -5,8 +5,10 @@ using UnityEngine;
 public class WorldGenerator : MonoBehaviour
 {
 
-    private float _player_radius = 50;
-    private float _game_radius = 60;
+    private float _player_radius = 75;
+    private float _game_radius = 80;
+    private bool _is_endPoint_spawned = false;
+    private EndPoint _End = null;
     public float player_radius {
         get{return _player_radius;}
     }
@@ -15,12 +17,14 @@ public class WorldGenerator : MonoBehaviour
     }
     private Controller controller = null;
     [SerializeField] private Bonus[] _bonusprefabs;
+    [SerializeField] private EndPoint _endPoint;
     private Bonus RandomBonus() => _bonusprefabs[UnityEngine.Random.Range(0, _bonusprefabs.Length)];
 
     private void Start()
     {
         controller = GameObject.Find("GameController").GetComponent<Controller>();
         StartCoroutine("BonusGeneration");
+        StartCoroutine("EndPointGenerator");
     }
     void Update() {
 
@@ -48,6 +52,25 @@ public class WorldGenerator : MonoBehaviour
         {
             SpawnBonus();
             yield return new WaitForSeconds(1f);
+        }
+    }
+    IEnumerator EndPointGenerator() 
+    {
+        for(;;) 
+        {
+            if (Mathf.Abs(controller.pos_x - controller.point_x) < 100 && Mathf.Abs(controller.pos_z - controller.point_z) < 100) {
+                if (!_is_endPoint_spawned) {
+                    _End = Instantiate(_endPoint, new Vector3(controller.point_x - controller.pos_x, 0, controller.point_z - controller.pos_z), Quaternion.identity, transform);
+                    _End.is_prefab = false;
+                    _is_endPoint_spawned = true;
+                } 
+            } else
+                if (_is_endPoint_spawned) {
+                    Destroy(_End);
+                    _End = null;
+                    _is_endPoint_spawned = false;
+                }
+            yield return new WaitForSeconds(2f);
         }
     }
 }

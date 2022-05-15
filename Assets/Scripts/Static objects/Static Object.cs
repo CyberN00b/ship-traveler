@@ -3,24 +3,18 @@ using System.Collections.Generic;
 using Redcode.Extensions;
 using UnityEngine;
 
-public class DynamicObject : MonoBehaviour
+public class StaticObject : MonoBehaviour
 {
     protected Controller controller = null;
-    protected Rigidbody rg = null;
+    [SerializeField] public bool is_prefab = false;
     protected void Start()
     {
         controller = GameObject.Find("GameController").GetComponent<Controller>();
-        rg = this.GetComponent<Rigidbody>();
-        rg.AddForce(
-            -controller.speed * Mathf.Sin(Mathf.Deg2Rad * controller.direction),
-            0,
-            -controller.speed * Mathf.Cos(Mathf.Deg2Rad * controller.direction),
-            ForceMode.VelocityChange
-        );
     }
 
     protected void Update(){
-        ChangePosition();
+        if (!is_prefab)
+            ChangePosition();
     }
     void ChangePosition(){
         this.transform.SetPositionXZ(
