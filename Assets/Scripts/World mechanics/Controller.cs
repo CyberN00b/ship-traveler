@@ -53,8 +53,8 @@ public class Controller : MonoBehaviour
     void Start()
     {
         sea = GameObject.Find("Plane").GetComponent<MeshRenderer>().material;
-        _point_x = Random.Range(0, 50); // need rework
-        _point_z = Random.Range(50, 100);
+        _point_x = Random.Range(-500, 500); // need rework
+        _point_z = Random.Range(800, 1000);
         print("End on x: " + _point_x + " z: " + point_z);
     }
 
@@ -64,8 +64,9 @@ public class Controller : MonoBehaviour
         _delta_x = Mathf.Sin(Mathf.Deg2Rad * angle) * ship_speed * Time.deltaTime;
         _delta_z = Mathf.Cos(Mathf.Deg2Rad * angle) * ship_speed * Time.deltaTime;
         if (is_collide) {
-            _delta_x -= Mathf.Sin(Mathf.Deg2Rad * stop_angle) * ship_speed * Time.deltaTime;
-            _delta_z -= Mathf.Cos(Mathf.Deg2Rad * stop_angle) * ship_speed * Time.deltaTime;
+            _delta_x -= Mathf.Sin(stop_angle) * ship_speed * Time.deltaTime;
+            _delta_z -= Mathf.Cos(stop_angle) * ship_speed * Time.deltaTime;
+            print("Angle: " + stop_angle * Mathf.Rad2Deg);
         }
         _pos_z += delta_z;
         _pos_x += delta_x;

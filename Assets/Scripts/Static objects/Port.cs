@@ -17,7 +17,7 @@ public class Port : StaticObject
         base.Update();
         if (_is_collide) {
             float x = this.transform.position.x, z = this.transform.position.z;
-            controller.stop_angle = Mathf.Atan2(x , z);
+            controller.stop_angle = Mathf.Atan2(x, z);
         }
     }
     IEnumerator PortCheck()
