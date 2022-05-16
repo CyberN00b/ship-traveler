@@ -12,6 +12,8 @@ public class Controller : MonoBehaviour
     private Material sea = null;
     [SerializeField]
     private GameObject _completedLevel;
+    [SerializeField]
+    private GameObject _endText;
     private float _point_x = 0;
     private float _point_z = 0; 
     private float _speed = 1; // - sea speed 
@@ -87,6 +89,7 @@ public class Controller : MonoBehaviour
     public void End(){
         //Debug.Log("Level ended!");
         //Application.Quit();
+        _endText.SetActive(false);
         _completedLevel.SetActive(true);
     }
 }
