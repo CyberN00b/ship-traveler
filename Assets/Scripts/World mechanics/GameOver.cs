@@ -39,10 +39,12 @@ public class GameOver : MonoBehaviour
     {
         Moving _controller = _player.GetComponent<Moving>();
         Animation _anim = _text.GetComponent<Animation>();
-        while (Mathf.Abs(_controller.speed) > 0.1f || _controller.fuel > 0f) { yield return new WaitForSeconds(1f); }
-
+        while (Mathf.Abs(_controller.speed) > 0.1f || _controller.fuel > 0f) 
+        {
+            yield return new WaitForSeconds(1f); 
+        }
         _anim.Play();
-        yield return new WaitForSeconds(2f);
+        yield return new WaitForSeconds(3f);
         _gameOver.SetActive(true);
         _text.SetActive(false);
         Time.timeScale = 0f;
