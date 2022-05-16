@@ -52,12 +52,11 @@ public class Controller : MonoBehaviour
     public float pos_z {
         get {return _pos_z;}
     }
-    void Start()
+    void Awake() 
     {
-        sea = GameObject.Find("Plane").GetComponent<MeshRenderer>().material;
         _point_x = Random.Range(0, 50); // need rework
         _point_z = Random.Range(50, 100);
-        print("End on x: " + _point_x + " z: " + point_z);
+        sea = GameObject.Find("Plane").GetComponent<MeshRenderer>().material;
     }
 
     public void ChangePositionByShip(float ship_speed, float delta_angle) {
