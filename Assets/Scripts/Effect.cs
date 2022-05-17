@@ -25,7 +25,6 @@ public class Effect : MonoBehaviour
               max_z = -max_distance * Mathf.Cos(transform.localEulerAngles.x * Mathf.Deg2Rad),
               min_y = min_distance * Mathf.Sin(transform.localEulerAngles.x * Mathf.Deg2Rad) + 10,
               max_y = max_distance * Mathf.Cos(transform.localEulerAngles.x * Mathf.Deg2Rad) + 10;
-        //print(8 * Mathf.Cos(transform.localEulerAngles.x * Mathf.Deg2Rad) + " " + transform.localEulerAngles.x);
         if (transform.localPosition.z <= min_z && transform.localPosition.z >= max_z)
         {
             if (_currentSpeed > high_speed)
