@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 1091692952}
   - component: {fileID: 1150051382722299980}
   - component: {fileID: 4097813421101844330}
+  - component: {fileID: 4558556081216153604}
   m_Layer: 0
   m_Name: Turbo
   m_TagString: Untagged
@@ -129,3 +130,19 @@ SphereCollider:
   serializedVersion: 2
   m_Radius: 0.8600166
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!111 &4558556081216153604
+Animation:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4057326301181247315}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Animation: {fileID: 7400000, guid: dbfb1980c7c8c554a9caa2986863cafb, type: 2}
+  m_Animations:
+  - {fileID: 7400000, guid: dbfb1980c7c8c554a9caa2986863cafb, type: 2}
+  m_WrapMode: 0
+  m_PlayAutomatically: 1
+  m_AnimatePhysics: 0
+  m_CullingType: 0
