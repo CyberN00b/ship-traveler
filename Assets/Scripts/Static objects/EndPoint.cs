@@ -23,7 +23,6 @@ public class EndPoint : Port
             if (Input.GetKey(KeyCode.F))
                 controller.End();
         }
-        print(_is_activated);
     }
 
     private IEnumerator EndLevel()

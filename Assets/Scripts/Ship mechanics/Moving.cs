@@ -7,10 +7,10 @@ public class Moving : MonoBehaviour
     [SerializeField]
     private float _speed = 0; // - ship speed
     [SerializeField]
-    private float _fuel = 100; // - ship fuel
-    private float _max_fuel = 100;
+    private float _fuel = 60; // - ship fuel
+    private float _max_fuel = 60;
     private float _max_speed = 0;
-    private float _fuel_decrease = 0.2f; 
+    private float _fuel_decrease = 0.5f; 
     private float _mass = 5; // - ship mass
     private float _acceleration = 0; // - ship acceleration
     private float _force = 5f; // - ship force
@@ -68,7 +68,6 @@ public class Moving : MonoBehaviour
         if ((Input.GetKeyUp(KeyCode.A) && _rotation_direction < 0)
             || (Input.GetKeyUp(KeyCode.D) && _rotation_direction > 0))
             _rotation_direction = 0;
-        //print("Speed with delta: " + _speed + " Fuel: " + _fuel + " Rotation: " + _rotation);
         fuel -= (_fuel_decrease + Mathf.Abs(_speed / 10)) * Time.deltaTime;
         controller.ChangePositionByShip(_speed, _rotation);
         this.transform.SetEulerAnglesY(controller.angle);
@@ -81,7 +80,7 @@ public class Moving : MonoBehaviour
             if (Mathf.Abs(_rotation + (((_speed < 0)? -1f : 1f) * _speed * 
                 _rotation_N * _rotation_direction - _rotation / 2) / 60) < _max_rotation)
                 _rotation += (((_speed < 0)? -1f : 1f) * _speed * _rotation_N * _rotation_direction - _rotation / 2) / 60;
-            _speed += (_acceleration - _speed * _percent_stop) / 6; // - stoping + move
+            _speed += (_acceleration - _speed * _percent_stop) / 6;
             yield return new WaitForSeconds(0.05f);
         }
     }

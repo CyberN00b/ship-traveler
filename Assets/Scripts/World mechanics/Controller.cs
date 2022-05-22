@@ -86,8 +86,6 @@ public class Controller : MonoBehaviour
         sea.SetVector("_Normal_vector", tmpVector);
     }
     public void End(){
-        //Debug.Log("Level ended!");
-        //Application.Quit();
         _endText.SetActive(false);
         _completedLevel.SetActive(true);
     }

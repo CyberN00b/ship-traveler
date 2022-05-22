@@ -60,7 +60,6 @@ public class WorldGenerator : MonoBehaviour
         {
             if (Mathf.Abs(controller.pos_x - controller.point_x) < 100 && Mathf.Abs(controller.pos_z - controller.point_z) < 100) {
                 if (!_is_endPoint_spawned) {
-                    print("spawned on x: " + controller.point_x + " " + controller.pos_x + " z: " + controller.point_z + " " +  controller.pos_z);
                     _End = Instantiate(_endPoint, new Vector3(controller.point_x - controller.pos_x, 0, controller.point_z - controller.pos_z), Quaternion.identity, transform);
                     _End.is_prefab = false;
                     _is_endPoint_spawned = true;
