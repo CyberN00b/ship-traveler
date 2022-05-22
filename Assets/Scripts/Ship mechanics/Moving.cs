@@ -11,10 +11,24 @@ public class Moving : MonoBehaviour
     private float _max_fuel = 60;
     private float _max_speed = 0;
     private float _fuel_decrease = 0.3f; 
-    private int _health = 100;
+    private int _max_health = 100;
+    public int max_health {
+        get {return _max_health;}
+    }
+    [SerializeField]
+    private int _health = 0;
+    public int health {
+        get {return _health;}
+    }
     private float _overheat = 0;
-    private float _overheat_increase = 3f;
+    public float overheat {
+        get {return _overheat;}
+    }
+    private float _overheat_increase = 2f;
     private float _boost_amount = 0f;
+    public float boost_amount {
+        get {return _boost_amount;}
+    }
     private float _mass = 5; // - ship mass
     private float _acceleration = 0; // - ship acceleration
     private float _force = 5f; // - ship force
@@ -34,6 +48,7 @@ public class Moving : MonoBehaviour
         inventory = this.GetComponent<Inventory>();
         _max_speed = _force / (_percent_stop * _mass);
         _rotation_N = _max_rotation / _max_speed;
+        _health = _max_health;
     }
     void Start()
     {
@@ -138,14 +153,14 @@ public class Moving : MonoBehaviour
     IEnumerator OverheatDamage() {
         for (;;) {
             int damage = 0;
-            if (30 <= _overheat && _overheat < 50)
+            if (50 <= _overheat && _overheat < 75)
                 damage = Random.Range(1, 4);
-            else if (50 <= _overheat && _overheat < 75)
-                damage = Random.Range(5, 8);
-                else if (75 <= _overheat && _overheat < 90)
-                    damage = Random.Range(8, 10);
-                    else if (90 <= _overheat && _overheat <= 100)
-                        damage = Random.Range(10, 12);
+            else 
+                if (75 <= _overheat && _overheat < 90)
+                    damage = Random.Range(5, 8);
+                else 
+                    if (90 <= _overheat && _overheat <= 100)
+                        damage = Random.Range(8, 10);
             if (damage > 0) {
                 generator.addEventText("You got " + damage + " damage on your ship by overheat!").disableAfterSec(2f);
                 decreaseHealth(damage);
