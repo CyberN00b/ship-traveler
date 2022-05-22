@@ -10,7 +10,8 @@ public class Moving : MonoBehaviour
     private float _fuel = 60; // - ship fuel
     private float _max_fuel = 60;
     private float _max_speed = 0;
-    private float _fuel_decrease = 0.5f; 
+    private float _fuel_decrease = 0.3f; 
+    private float _boost_amount = 0f;
     private float _mass = 5; // - ship mass
     private float _acceleration = 0; // - ship acceleration
     private float _force = 5f; // - ship force
@@ -20,15 +21,13 @@ public class Moving : MonoBehaviour
     private float _max_rotation = 30; // - ship max rotation speed
     private float _rotation_N = 0; // - calculation variable
     private float _percent_stop = 0.2f; // - ship passive stoping (_speed * _percent_stop)
-    private bool _is_overheat = false;
+    public bool is_boosted = false;
     private Controller controller = null;
-    void Awake()
-    {
-
-    }
+    private Inventory inventory = null;
     void Start()
     {
         controller = GameObject.Find("GameController").GetComponent<Controller>();
+        inventory = this.GetComponent<Inventory>();
         _max_speed = _force / (_percent_stop * _mass);
         _rotation_N = _max_rotation / _max_speed;
         StartCoroutine("SpeedWork");
@@ -56,6 +55,20 @@ public class Moving : MonoBehaviour
             if ((Input.GetKeyUp(KeyCode.S) && _acceleration < 0) 
                 || (Input.GetKeyUp(KeyCode.W) && _acceleration > 0))
                 _acceleration = 0;
+            if (Input.GetKeyDown(KeyCode.LeftShift))
+            {
+                if (_boost_amount <= 0)  {
+                    if (inventory.count_of_boosts > 0) {
+                        inventory.UseBoost();
+                        _boost_amount = 100f;
+                        is_boosted = true;
+                    }
+                } else
+                    is_boosted = true;
+            }
+            if (Input.GetKeyUp(KeyCode.LeftShift) && is_boosted == true) {
+                is_boosted = false;
+            }
         } else {
             _acceleration = 0;
         }
@@ -69,6 +82,18 @@ public class Moving : MonoBehaviour
             || (Input.GetKeyUp(KeyCode.D) && _rotation_direction > 0))
             _rotation_direction = 0;
         fuel -= (_fuel_decrease + Mathf.Abs(_speed / 10)) * Time.deltaTime;
+        if (is_boosted) {
+                _boost_amount -= 100f / inventory.time_of_boost * Time.deltaTime;
+                if (_boost_amount <= 0) {
+                    if (inventory.count_of_boosts > 0) {
+                        inventory.UseBoost();
+                        _boost_amount = 100f;
+                    } else {
+                        is_boosted = false;
+                        _boost_amount = 0;
+                    }
+                }
+            }
         controller.ChangePositionByShip(_speed, _rotation);
         this.transform.SetEulerAnglesY(controller.angle);
         this.transform.SetEulerAnglesZ(_rotation / 5);
@@ -80,7 +105,7 @@ public class Moving : MonoBehaviour
             if (Mathf.Abs(_rotation + (((_speed < 0)? -1f : 1f) * _speed * 
                 _rotation_N * _rotation_direction - _rotation / 2) / 60) < _max_rotation)
                 _rotation += (((_speed < 0)? -1f : 1f) * _speed * _rotation_N * _rotation_direction - _rotation / 2) / 60;
-            _speed += (_acceleration - _speed * _percent_stop) / 6;
+            _speed += (_acceleration * ((is_boosted) ? 1.3f : 1) - _speed * _percent_stop) / 6;
             yield return new WaitForSeconds(0.05f);
         }
     }

@@ -10,9 +10,9 @@ public class Turbo : Bonus
     private void OnTriggerEnter(Collider other)
     {
         if (other.name == "Player") {
-            Moving fuelconstroller = other.GetComponent<Moving>();
-            fuelconstroller.speed *= 1.2f;
-            interface_generator.addEventText("You got boost!").disableAfterSec(1.5f);
+            Inventory inventory = other.GetComponent<Inventory>();
+            inventory.AddBoost();
+            interface_generator.addEventText("You picked up the boost!").disableAfterSec(1.5f);
             Destroy(gameObject);
         }
     }

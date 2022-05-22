@@ -11,8 +11,8 @@ public class Fuel : Bonus
     private void OnTriggerEnter(Collider other)
     {
         if (other.name == "Player") {
-            Moving fuelconstroller = other.GetComponent<Moving>();
-            fuelconstroller.fuel += count_of_gas;
+            Moving fuelcontroller = other.GetComponent<Moving>();
+            fuelcontroller.fuel += count_of_gas;
             interface_generator.addEventText("+" + count_of_gas + " fuel").disableAfterSec(1.5f);
             Destroy(gameObject);
         }

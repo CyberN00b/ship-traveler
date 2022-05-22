@@ -43,7 +43,7 @@ public class GameOver : MonoBehaviour
         while (player.fuel > 0f) {
             yield return new WaitForSeconds(1f);  
         }
-        EventText txt = generator.addEventText("Закончилось топливо");
+        EventText txt = generator.addEventText("Ran out of fuel!");
         while (Mathf.Abs(player.speed) > 0.1f && player.fuel <= 0f)
         {
             yield return new WaitForSeconds(1f);
