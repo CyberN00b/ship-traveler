@@ -11,6 +11,9 @@ public class Moving : MonoBehaviour
     private float _max_fuel = 60;
     private float _max_speed = 0;
     private float _fuel_decrease = 0.3f; 
+    private int _health = 100;
+    private float _overheat = 0;
+    private float _overheat_increase = 3f;
     private float _boost_amount = 0f;
     private float _mass = 5; // - ship mass
     private float _acceleration = 0; // - ship acceleration
@@ -23,14 +26,19 @@ public class Moving : MonoBehaviour
     private float _percent_stop = 0.2f; // - ship passive stoping (_speed * _percent_stop)
     public bool is_boosted = false;
     private Controller controller = null;
+    private InterfaceGenerator generator = null;
     private Inventory inventory = null;
-    void Start()
-    {
+    void Awake() {
         controller = GameObject.Find("GameController").GetComponent<Controller>();
+        generator = GameObject.Find("Generator").GetComponent<InterfaceGenerator>();
         inventory = this.GetComponent<Inventory>();
         _max_speed = _force / (_percent_stop * _mass);
         _rotation_N = _max_rotation / _max_speed;
+    }
+    void Start()
+    {
         StartCoroutine("SpeedWork");
+        StartCoroutine(OverheatDamage());
     }
  
     public float fuel {
@@ -46,7 +54,7 @@ public class Moving : MonoBehaviour
     }
     void Update()
     {   
-        if (_fuel > 0) {
+        if (_fuel > 0 && _health > 0) {
             if (Input.GetKeyDown(KeyCode.W))
                 _acceleration = _force / _mass;
             else 
@@ -83,17 +91,28 @@ public class Moving : MonoBehaviour
             _rotation_direction = 0;
         fuel -= (_fuel_decrease + Mathf.Abs(_speed / 10)) * Time.deltaTime;
         if (is_boosted) {
-                _boost_amount -= 100f / inventory.time_of_boost * Time.deltaTime;
-                if (_boost_amount <= 0) {
-                    if (inventory.count_of_boosts > 0) {
-                        inventory.UseBoost();
-                        _boost_amount = 100f;
-                    } else {
-                        is_boosted = false;
-                        _boost_amount = 0;
-                    }
+            _boost_amount -= 100f / inventory.time_of_boost * Time.deltaTime;
+            if (_boost_amount <= 0) {
+                if (inventory.count_of_boosts > 0) {
+                    inventory.UseBoost();
+                    _boost_amount = 100f;
+                } else {
+                    is_boosted = false;
+                    _boost_amount = 0;
                 }
             }
+            if (_overheat < 100f)
+                _overheat += (_overheat_increase + _overheat * 0.05f) * Time.deltaTime;
+            else
+                _overheat = 100f;
+        } else {
+            if (_overheat > 0) {
+                _overheat -= _overheat_increase * Time.deltaTime * 0.5f;
+                if (_overheat < 0) {
+                    _overheat = 0;
+                }
+            }
+        }
         controller.ChangePositionByShip(_speed, _rotation);
         this.transform.SetEulerAnglesY(controller.angle);
         this.transform.SetEulerAnglesZ(_rotation / 5);
@@ -107,6 +126,31 @@ public class Moving : MonoBehaviour
                 _rotation += (((_speed < 0)? -1f : 1f) * _speed * _rotation_N * _rotation_direction - _rotation / 2) / 60;
             _speed += (_acceleration * ((is_boosted) ? 1.3f : 1) - _speed * _percent_stop) / 6;
             yield return new WaitForSeconds(0.05f);
+        }
+    }
+    public void decreaseHealth(int damage) {
+        _health -= damage;
+        if (_health <= 0) {
+            _health = 0;
+            GameObject.Find("GameOver").GetComponent<GameOver>().EndOfHealth();
+        }
+    }
+    IEnumerator OverheatDamage() {
+        for (;;) {
+            int damage = 0;
+            if (30 <= _overheat && _overheat < 50)
+                damage = Random.Range(1, 4);
+            else if (50 <= _overheat && _overheat < 75)
+                damage = Random.Range(5, 8);
+                else if (75 <= _overheat && _overheat < 90)
+                    damage = Random.Range(8, 10);
+                    else if (90 <= _overheat && _overheat <= 100)
+                        damage = Random.Range(10, 12);
+            if (damage > 0) {
+                generator.addEventText("You got " + damage + " damage on your ship by overheat!").disableAfterSec(2f);
+                decreaseHealth(damage);
+            }
+            yield return new WaitForSeconds(2f);
         }
     }
 }
