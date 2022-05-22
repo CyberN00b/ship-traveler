@@ -36,6 +36,13 @@ public class EventText : MonoBehaviour
     {
         StartCoroutine("HideAndDisable");
     }
+    public void disableAfterSec(float seconds) {
+        StartCoroutine(DisableAfterSec(seconds));
+    }
+    IEnumerator DisableAfterSec(float seconds) {
+        yield return new WaitForSeconds(seconds);
+        hideAndDisable();
+    }
     IEnumerator Hide()
     {
         _animation.Play("Hide");
