@@ -9,16 +9,14 @@ public class GameOver : MonoBehaviour
     [SerializeField]
     private GameObject _gameOver;
 
-    [SerializeField]
-    private GameObject _text;
-
     private GameObject _player;
-
+    private InterfaceGenerator generator = null; 
     
 
     void Start()
     {
         _player = GameObject.Find("Player");
+        generator = GameObject.Find("Generator").GetComponent<InterfaceGenerator>();
         StartCoroutine(IncreaseCanvas());
     }
 
@@ -34,19 +32,31 @@ public class GameOver : MonoBehaviour
         SceneManager.LoadScene("MainMenu");
         Time.timeScale = 1f;
     }
-    
+    private void RestartCoroutine() 
+    {
+        StopCoroutine(IncreaseCanvas());
+        StartCoroutine(IncreaseCanvas());
+    }
     private IEnumerator IncreaseCanvas()
     {
-        Moving _controller = _player.GetComponent<Moving>();
-        Animation _anim = _text.GetComponent<Animation>();
-        while (Mathf.Abs(_controller.speed) > 0.1f || _controller.fuel > 0f) 
-        {
-            yield return new WaitForSeconds(1f); 
+        Moving player = _player.GetComponent<Moving>();
+        while (player.fuel > 0f) {
+            yield return new WaitForSeconds(1f);  
         }
-        _anim.Play();
-        yield return new WaitForSeconds(3f);
+        EventText txt = generator.addEventText("Закончилось топливо");
+        while (Mathf.Abs(player.speed) > 0.1f && player.fuel <= 0f)
+        {
+            yield return new WaitForSeconds(1f);
+        }
+        if (player.fuel > 0f) {
+            txt.hideAndDisable();
+            RestartCoroutine();
+        }
+        while (generator.isEventActive("end_level")) {
+            yield return new WaitForSeconds(2f);
+        }
+        yield return new WaitForSeconds(2f);
         _gameOver.SetActive(true);
-        _text.SetActive(false);
         Time.timeScale = 0f;
         Cursor.lockState = CursorLockMode.Confined;
     }

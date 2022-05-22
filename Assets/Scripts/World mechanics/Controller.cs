@@ -69,7 +69,6 @@ public class Controller : MonoBehaviour
         if (is_collide) {
             _delta_x -= Mathf.Sin(stop_angle) * ship_speed * Time.deltaTime;
             _delta_z -= Mathf.Cos(stop_angle) * ship_speed * Time.deltaTime;
-            print("Angle: " + stop_angle * Mathf.Rad2Deg);
         }
         _pos_z += delta_z;
         _pos_x += delta_x;

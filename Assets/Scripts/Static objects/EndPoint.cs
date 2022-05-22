@@ -6,11 +6,13 @@ public class EndPoint : Port
 {
     [SerializeField]
     private GameObject _textEnd;
+    private InterfaceGenerator generator = null;
     void Start() {
         _distance = 20;
         _collide_zone = 10;
         base.Start();
         this.GetComponent<SphereCollider>().radius = _collide_zone;
+        generator = GameObject.Find("Generator").GetComponent<InterfaceGenerator>();
         StartCoroutine(EndLevel());
 
     }
@@ -18,8 +20,6 @@ public class EndPoint : Port
     {
         base.Update();
         if (_is_activated) {
-
-            print("Press F to End!");
             if (Input.GetKey(KeyCode.F))
                 controller.End();
         }
@@ -28,19 +28,16 @@ public class EndPoint : Port
 
     private IEnumerator EndLevel()
     {
-        Animation _anim = _textEnd.GetComponent<Animation>();
         while(!_is_activated)
         {
             yield return new WaitForSeconds(1f);
         }
-        _textEnd.SetActive(true);
-        _anim.Play();
+        EventText text = generator.addEventText("РќР°Р¶РјРёС‚Рµ F РґР»СЏ Р·Р°РІРµСЂС€РµРЅРёСЏ СѓСЂРѕРІРЅСЏ", "end_level");
         while (_is_activated) 
         {
             yield return new WaitForSeconds(1f);
         }
-        //обратная анимация
-        _textEnd.SetActive(false);
+        text.hideAndDisable();
         StartCoroutine(EndLevel());
     }
 }
