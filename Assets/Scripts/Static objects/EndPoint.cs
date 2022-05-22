@@ -31,7 +31,7 @@ public class EndPoint : Port
         {
             yield return new WaitForSeconds(1f);
         }
-        EventText text = generator.addEventText("Нажмите F для завершения уровня", "end_level");
+        EventText text = generator.addEventText("Press F to end mission", "end_level");
         while (_is_activated) 
         {
             yield return new WaitForSeconds(1f);
