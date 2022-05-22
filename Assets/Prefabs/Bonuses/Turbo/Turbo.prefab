@@ -11,9 +11,10 @@ GameObject:
   - component: {fileID: 6341260359664142739}
   - component: {fileID: 5920217144887050321}
   - component: {fileID: 3964239220410489203}
-  - component: {fileID: 6751000992624375117}
   - component: {fileID: 1091692952}
   - component: {fileID: 1150051382722299980}
+  - component: {fileID: 4097813421101844330}
+  - component: {fileID: 4558556081216153604}
   m_Layer: 0
   m_Name: Turbo
   m_TagString: Untagged
@@ -43,7 +44,7 @@ MeshFilter:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4057326301181247315}
-  m_Mesh: {fileID: 10208, guid: 0000000000000000e000000000000000, type: 0}
+  m_Mesh: {fileID: 960851980793905205, guid: 3b587a16db709b7c99b51ef34a68e036, type: 3}
 --- !u!23 &3964239220410489203
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -64,7 +65,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 35543d24862855a449e70db09728f35a, type: 2}
+  - {fileID: -6478536213147159724, guid: 3b587a16db709b7c99b51ef34a68e036, type: 3}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -86,20 +87,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!136 &6751000992624375117
-CapsuleCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4057326301181247315}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_Enabled: 1
-  m_Radius: 1
-  m_Height: 2
-  m_Direction: 1
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &1091692952
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -130,3 +117,32 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!135 &4097813421101844330
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4057326301181247315}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.8600166
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!111 &4558556081216153604
+Animation:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4057326301181247315}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Animation: {fileID: 7400000, guid: dbfb1980c7c8c554a9caa2986863cafb, type: 2}
+  m_Animations:
+  - {fileID: 7400000, guid: dbfb1980c7c8c554a9caa2986863cafb, type: 2}
+  m_WrapMode: 0
+  m_PlayAutomatically: 1
+  m_AnimatePhysics: 0
+  m_CullingType: 0

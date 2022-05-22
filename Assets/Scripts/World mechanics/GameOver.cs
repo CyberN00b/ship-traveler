@@ -37,13 +37,21 @@ public class GameOver : MonoBehaviour
         StopCoroutine(IncreaseCanvas());
         StartCoroutine(IncreaseCanvas());
     }
+    public void EndOfHealth() {
+        StartCoroutine(endOfHealth());
+    }
+    private IEnumerator endOfHealth() {
+        generator.addEventText("Ship is destroyed!");
+        yield return new WaitForSeconds(2f);
+        GameIsOver();
+    }
     private IEnumerator IncreaseCanvas()
     {
         Moving player = _player.GetComponent<Moving>();
         while (player.fuel > 0f) {
             yield return new WaitForSeconds(1f);  
         }
-        EventText txt = generator.addEventText("Закончилось топливо");
+        EventText txt = generator.addEventText("Ran out of fuel!");
         while (Mathf.Abs(player.speed) > 0.1f && player.fuel <= 0f)
         {
             yield return new WaitForSeconds(1f);
@@ -56,8 +64,12 @@ public class GameOver : MonoBehaviour
             yield return new WaitForSeconds(2f);
         }
         yield return new WaitForSeconds(2f);
+        GameIsOver();
+    }
+    void GameIsOver() 
+    {
         _gameOver.SetActive(true);
         Time.timeScale = 0f;
         Cursor.lockState = CursorLockMode.Confined;
-    }
+    } 
 }

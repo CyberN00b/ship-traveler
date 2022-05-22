@@ -8,7 +8,7 @@ public class InterfaceGenerator : MonoBehaviour
     private GameObject _eventText;
     private List<EventText> _events = new List<EventText>();
     private int _count_of_event_text = 0;
-    void Start()
+    void Awake()
     {
         _interface = GameObject.Find("Interface");
         _eventText = GameObject.Find("Text");

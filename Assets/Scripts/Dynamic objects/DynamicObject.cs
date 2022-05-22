@@ -19,10 +19,12 @@ public class DynamicObject : MonoBehaviour
         );
     }
 
-    protected void Update(){
+    protected void Update()
+    {
         ChangePosition();
     }
-    void ChangePosition(){
+    void ChangePosition()
+    {
         this.transform.SetPositionXZ(
             this.transform.position.x - controller.delta_x,
             this.transform.position.z - controller.delta_z
