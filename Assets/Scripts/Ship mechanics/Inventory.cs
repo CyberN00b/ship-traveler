@@ -10,6 +10,7 @@ public class Inventory : MonoBehaviour
             return false;
         else
             _cash += value;
+        print(_cash);
         return true;
     }
 }

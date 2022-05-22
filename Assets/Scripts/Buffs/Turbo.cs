@@ -4,6 +4,9 @@ using UnityEngine;
 
 public class Turbo : Bonus
 {
+    void Awake() {
+        _spawnY = 1f;
+    }
     private void OnTriggerEnter(Collider other)
     {
         if (other.name == "Player") {
