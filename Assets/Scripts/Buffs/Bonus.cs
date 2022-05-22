@@ -8,11 +8,17 @@ public class Bonus : DynamicObject
     [SerializeField] private BonusPrefabs _bonusPrefabs;
     protected WorldGenerator generator = null;
     protected float radius = 0;
+    protected float _spawnY = 0;
+    public float spawnY {
+        get {return _spawnY;}
+    }
     [SerializeField] public bool is_prefab = false;
     void Start(){
-        base.Start();
-        generator = GameObject.Find("Generator").GetComponent<WorldGenerator>();
-        radius = generator.game_radius;
+        if (!is_prefab) {
+            base.Start();
+            generator = GameObject.Find("Generator").GetComponent<WorldGenerator>();
+            radius = generator.game_radius;
+        }
 
     }
     void Update(){

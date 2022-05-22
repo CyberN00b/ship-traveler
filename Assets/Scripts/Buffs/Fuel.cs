@@ -4,6 +4,9 @@ using UnityEngine;
 
 public class Fuel : Bonus
 {
+    void Awake() {
+        _spawnY = 0.5f;
+    }
     private void OnTriggerEnter(Collider other)
     {
         if (other.name == "Player") {

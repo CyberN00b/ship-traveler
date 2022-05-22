@@ -17,7 +17,7 @@ public class Port : StaticObject
         base.Update();
         if (_is_collide) {
             float x = this.transform.position.x, z = this.transform.position.z;
-            controller.stop_angle = Mathf.Atan2(x , z);
+            controller.stop_angle = Mathf.Atan2(x, z);
         }
     }
     IEnumerator PortCheck()
@@ -25,7 +25,6 @@ public class Port : StaticObject
         for (;;) {
             if (!is_prefab) {
                 float x = this.transform.position.x, z = this.transform.position.z;
-                float ship_x = controller.pos_x, ship_z = controller.pos_z; 
                 if (x * x + z * z <= _distance * _distance)
                     _is_activated = true;
                 else

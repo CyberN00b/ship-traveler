@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Redcode.Extensions;
 using UnityEngine;
 
 public class WorldGenerator : MonoBehaviour
@@ -40,7 +41,9 @@ public class WorldGenerator : MonoBehaviour
                     float angle = Mathf.Atan2(i, j) * Mathf.Rad2Deg - controller.angle;
                     if (Random.Range(0, 5000) == 0 && angle > -90 && angle < 90)
                     {
-                        Instantiate(RandomBonus(), new Vector3(i, 0.5f, j), Quaternion.identity, transform).is_prefab = false;
+                        var tmp = Instantiate(RandomBonus(), new Vector3(i, 0f, j), Quaternion.identity, transform);
+                        tmp.transform.SetLocalPositionY(tmp.spawnY); 
+                        tmp.is_prefab = false;
                     }
                 }
             }

@@ -10,6 +10,10 @@ public class Controller : MonoBehaviour
     [SerializeField]
     [Range(-20f,20f)]
     private Material sea = null;
+    [SerializeField]
+    private GameObject _completedLevel;
+    [SerializeField]
+    private GameObject _endText;
     private float _point_x = 0;
     private float _point_z = 0; 
     private float _speed = 1; // - sea speed 
@@ -50,12 +54,11 @@ public class Controller : MonoBehaviour
     public float pos_z {
         get {return _pos_z;}
     }
-    void Start()
+    void Awake() 
     {
-        sea = GameObject.Find("Plane").GetComponent<MeshRenderer>().material;
         _point_x = Random.Range(0, 50); // need rework
         _point_z = Random.Range(50, 100);
-        print("End on x: " + _point_x + " z: " + point_z);
+        sea = GameObject.Find("Plane").GetComponent<MeshRenderer>().material;
     }
 
     public void ChangePositionByShip(float ship_speed, float delta_angle) {
@@ -64,8 +67,8 @@ public class Controller : MonoBehaviour
         _delta_x = Mathf.Sin(Mathf.Deg2Rad * angle) * ship_speed * Time.deltaTime;
         _delta_z = Mathf.Cos(Mathf.Deg2Rad * angle) * ship_speed * Time.deltaTime;
         if (is_collide) {
-            _delta_x -= Mathf.Sin(Mathf.Deg2Rad * stop_angle) * ship_speed * Time.deltaTime;
-            _delta_z -= Mathf.Cos(Mathf.Deg2Rad * stop_angle) * ship_speed * Time.deltaTime;
+            _delta_x -= Mathf.Sin(stop_angle) * ship_speed * Time.deltaTime;
+            _delta_z -= Mathf.Cos(stop_angle) * ship_speed * Time.deltaTime;
         }
         _pos_z += delta_z;
         _pos_x += delta_x;
@@ -83,7 +86,7 @@ public class Controller : MonoBehaviour
         sea.SetVector("_Normal_vector", tmpVector);
     }
     public void End(){
-        Debug.Log("Level ended!");
-        Application.Quit();
+        _endText.SetActive(false);
+        _completedLevel.SetActive(true);
     }
 }
