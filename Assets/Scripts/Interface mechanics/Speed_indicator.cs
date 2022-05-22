@@ -20,7 +20,7 @@ public class Speed_indicator : MonoBehaviour
     IEnumerator NotStatic()
     {
         for(;;) {
-            delta_speed = 0.1f * Random.RandomRange(-Mathf.Abs(player.speed), Mathf.Abs(player.speed));
+            delta_speed = 0.1f * Random.Range(-Mathf.Abs(player.speed), Mathf.Abs(player.speed));
             yield return new WaitForSeconds(0.5f);
         }
     }
