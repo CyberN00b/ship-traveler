@@ -17,6 +17,7 @@ public class WorldGenerator : MonoBehaviour
         get{return _game_radius;}
     }
     private Controller controller = null;
+    private Moving ship = null;
     [SerializeField] private Bonus[] _bonusprefabs;
     [SerializeField] private EndPoint _endPoint;
     private Bonus RandomBonus() => _bonusprefabs[UnityEngine.Random.Range(0, _bonusprefabs.Length)];
@@ -24,6 +25,7 @@ public class WorldGenerator : MonoBehaviour
     private void Start()
     {
         controller = GameObject.Find("GameController").GetComponent<Controller>();
+        ship = GameObject.Find("Player").GetComponent<Moving>();
         StartCoroutine("BonusGeneration");
         StartCoroutine("EndPointGenerator");
     }
@@ -31,18 +33,21 @@ public class WorldGenerator : MonoBehaviour
 
     }
     void SpawnBonus(){
-        float tan = Mathf.Tan(Mathf.Deg2Rad * controller.angle);
+        float point_angle = (controller.direction * controller.speed + ship.speed * controller.angle) / (controller.speed + ship.speed);
         for(float i = -_game_radius; i < _game_radius; i += 0.5f)
         {
             for(float j = -_game_radius; j < _game_radius; j += 0.5f)
             {
                 float radius = j * j + i * i;
                 if (_game_radius * _game_radius > radius && radius > _player_radius * _player_radius) {
-                    float angle = Mathf.Atan2(i, j) * Mathf.Rad2Deg - controller.angle;
+                    float angle = Mathf.Atan2(i, j) * Mathf.Rad2Deg - point_angle;
+                    if (Mathf.Abs(point_angle) > 90 && ((angle >= 0 && point_angle < 0) || (angle < 0 && point_angle >= 0))) {
+                        angle = 360 - Mathf.Abs(angle) - Mathf.Abs(point_angle);
+                    } 
                     if (Random.Range(0, 5000) == 0 && angle > -90 && angle < 90)
                     {
                         var tmp = Instantiate(RandomBonus(), new Vector3(i, 0f, j), Quaternion.identity, transform);
-                        tmp.transform.SetLocalPositionY(tmp.spawnY); 
+                        tmp.transform.SetLocalPositionY(tmp.spawnY);
                         tmp.is_prefab = false;
                     }
                 }

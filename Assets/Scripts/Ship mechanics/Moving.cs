@@ -17,18 +17,9 @@ public class Moving : MonoBehaviour
     }
     [SerializeField]
     private int _health = 0;
-    public int health {
-        get {return _health;}
-    }
     private float _overheat = 0;
-    public float overheat {
-        get {return _overheat;}
-    }
     private float _overheat_increase = 2f;
     private float _boost_amount = 0f;
-    public float boost_amount {
-        get {return _boost_amount;}
-    }
     private float _mass = 5; // - ship mass
     private float _acceleration = 0; // - ship acceleration
     private float _force = 5f; // - ship force
@@ -42,6 +33,27 @@ public class Moving : MonoBehaviour
     private Controller controller = null;
     private InterfaceGenerator generator = null;
     private Inventory inventory = null;
+    public float boost_amount {
+        get {return _boost_amount;}
+    }
+    public float overheat {
+        get {return _overheat;}
+    }
+    public int health {
+        get {return _health;}
+    }
+    public float fuel {
+        get {return _fuel;}
+        set {_fuel = Mathf.Max(Mathf.Min(value, _max_fuel), 0);}
+    }
+    public float speed {
+        get {return _speed;}
+        set {_speed = value;}
+    }
+    public float max_speed {
+        get {return _max_speed;}
+    }
+
     void Awake() {
         controller = GameObject.Find("GameController").GetComponent<Controller>();
         generator = GameObject.Find("Generator").GetComponent<InterfaceGenerator>();
@@ -54,20 +66,7 @@ public class Moving : MonoBehaviour
     {
         StartCoroutine("SpeedWork");
         StartCoroutine(OverheatDamage());
-    }
- 
-    public float fuel {
-        get {return _fuel;}
-        set {_fuel = Mathf.Max(Mathf.Min(value, _max_fuel), 0);}
-    }
-    public float speed {
-        get {return _speed;}
-        set {_speed = value;}
-    }
-    public float max_speed {
-        get {return _max_speed;}
-    }
-    void Update()
+    }    void Update()
     {   
         if (_fuel > 0 && _health > 0) {
             if (Input.GetKeyDown(KeyCode.W))

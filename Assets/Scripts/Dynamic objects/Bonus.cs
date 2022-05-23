@@ -10,6 +10,7 @@ public class Bonus : DynamicObject
     protected InterfaceGenerator interface_generator = null;
     protected float radius = 0;
     protected float _spawnY = 0;
+
     public float spawnY {
         get {return _spawnY;}
     }
