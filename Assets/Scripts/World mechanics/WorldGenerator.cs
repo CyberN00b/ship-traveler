@@ -9,6 +9,7 @@ public class WorldGenerator : MonoBehaviour
     private float _player_radius = 75;
     private float _game_radius = 80;
     private bool _is_endPoint_spawned = false;
+    private int sum_of_frequency = 0;
     private EndPoint _End = null;
     public float player_radius {
         get{return _player_radius;}
@@ -26,6 +27,9 @@ public class WorldGenerator : MonoBehaviour
     {
         controller = GameObject.Find("GameController").GetComponent<Controller>();
         ship = GameObject.Find("Player").GetComponent<Moving>();
+        foreach (Bonus bonus in _bonusprefabs) {
+            sum_of_frequency += bonus.frequency;
+        }
         StartCoroutine("BonusGeneration");
         StartCoroutine("EndPointGenerator");
     }
@@ -46,13 +50,25 @@ public class WorldGenerator : MonoBehaviour
                     } 
                     if (Random.Range(0, 5000) == 0 && angle > -90 && angle < 90)
                     {
-                        var tmp = Instantiate(RandomBonus(), new Vector3(i, 0f, j), Quaternion.identity, transform);
+                        var tmp = Instantiate(GetRandomBonus(), new Vector3(i, 0f, j), Quaternion.identity, transform);
                         tmp.transform.SetLocalPositionY(tmp.spawnY);
                         tmp.is_prefab = false;
                     }
                 }
             }
         }
+    }
+    Bonus GetRandomBonus()
+    {
+        int rand = Random.Range(0, sum_of_frequency);
+        foreach (Bonus bonus in _bonusprefabs) {
+            if (rand > bonus.frequency) {
+                rand -= bonus.frequency;
+            } else {
+                return bonus;
+            }
+        }
+        return null;
     }
     IEnumerator BonusGeneration() 
     {

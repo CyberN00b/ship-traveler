@@ -6,6 +6,7 @@ public class Turbo : Bonus
 {
     void Awake() {
         _spawnY = 1f;
+        _frequency = 8;
     }
     private void OnTriggerEnter(Collider other)
     {

@@ -10,7 +10,10 @@ public class Bonus : DynamicObject
     protected InterfaceGenerator interface_generator = null;
     protected float radius = 0;
     protected float _spawnY = 0;
-
+    protected int _frequency = 0;
+    public int frequency {
+        get {return _frequency;}
+    }
     public float spawnY {
         get {return _spawnY;}
     }
