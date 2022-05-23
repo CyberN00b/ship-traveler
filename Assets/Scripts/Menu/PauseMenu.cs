@@ -10,6 +10,8 @@ public class PauseMenu : MonoBehaviour
     private GameObject _PauseMenu;
     [SerializeField]
     private GameObject _gameOver;
+    [SerializeField]
+    private GameObject _completedLevel;
     private bool _isPaused = false;
 
     private void Start()
@@ -27,7 +29,7 @@ public class PauseMenu : MonoBehaviour
             }
             else
             {
-                if(_gameOver.activeSelf == false)
+                if(_gameOver.activeSelf == false || _completedLevel.activeSelf == false)
                 Pause();
             }
         }

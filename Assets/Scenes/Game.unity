@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.18028334, g: 0.22571343, b: 0.30692208, a: 1}
+  m_IndirectSpecularColor: {r: 0.18028378, g: 0.22571412, b: 0.30692285, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -97,8 +97,10 @@ LightmapSettings:
     m_ExportTrainingData: 0
     m_TrainingDataDestination: TrainingData
     m_LightProbeSampleCountMultiplier: 4
-  m_LightingDataAsset: {fileID: 0}
-  m_LightingSettings: {fileID: 0}
+  m_LightingDataAsset: {fileID: 112000000, guid: 45f96d7d36021a24cbebe32ed85370c5,
+    type: 2}
+  m_LightingSettings: {fileID: 4890085278179872738, guid: 2a35a93fb33a3e64e898a69697c4a404,
+    type: 2}
 --- !u!196 &4
 NavMeshSettings:
   serializedVersion: 2
@@ -1191,6 +1193,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _PauseMenu: {fileID: 876689014}
   _gameOver: {fileID: 1923010788}
+  _completedLevel: {fileID: 691207566}
 --- !u!114 &537224627
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2241,7 +2244,7 @@ GameObject:
   - component: {fileID: 691207569}
   - component: {fileID: 691207568}
   m_Layer: 5
-  m_Name: Panel
+  m_Name: _completedLevel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -5516,7 +5519,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1970993633}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 593730417}
+        m_TargetAssemblyTypeName: CompletedLevel, Assembly-CSharp
+        m_MethodName: Continue
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1970993633
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5715,7 +5730,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 2080670899}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 593730417}
+        m_TargetAssemblyTypeName: CompletedLevel, Assembly-CSharp
+        m_MethodName: Menu
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &2080670899
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5835,6 +5862,11 @@ PrefabInstance:
       objectReference: {fileID: 1449604821}
     - target: {fileID: 2388922560148700826, guid: 2edc5bbc5bd3e936cb5b291bc672e478,
         type: 3}
+      propertyPath: _bonusprefabs.Array.size
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 2388922560148700826, guid: 2edc5bbc5bd3e936cb5b291bc672e478,
+        type: 3}
       propertyPath: _bonusprefabs.Array.data[0]
       value: 
       objectReference: {fileID: 2118761992}
@@ -5848,6 +5880,12 @@ PrefabInstance:
       propertyPath: _bonusprefabs.Array.data[2]
       value: 
       objectReference: {fileID: 1493036024}
+    - target: {fileID: 2388922560148700826, guid: 2edc5bbc5bd3e936cb5b291bc672e478,
+        type: 3}
+      propertyPath: _bonusprefabs.Array.data[3]
+      value: 
+      objectReference: {fileID: 770589508, guid: f393e1bd4e11dbe42b6edc6aeb3034b4,
+        type: 3}
     - target: {fileID: 7349376840735926213, guid: 2edc5bbc5bd3e936cb5b291bc672e478,
         type: 3}
       propertyPath: m_Name

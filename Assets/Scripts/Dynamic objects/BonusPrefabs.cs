@@ -6,6 +6,7 @@ public enum BonusPrefabs
 {
     Coin,
     Fuel,
-    Turbo
+    Turbo,
+    Wrench
 }
 

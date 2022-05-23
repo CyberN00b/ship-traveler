@@ -17,9 +17,6 @@ public class Moving : MonoBehaviour
     }
     [SerializeField]
     private int _health = 0;
-    public int health {
-        get {return _health;}
-    }
     private float _overheat = 0;
     public float overheat {
         get {return _overheat;}
@@ -59,6 +56,11 @@ public class Moving : MonoBehaviour
     public float fuel {
         get {return _fuel;}
         set {_fuel = Mathf.Max(Mathf.Min(value, _max_fuel), 0);}
+    }
+    public int health
+    {
+        get { return _health; }
+        set { _health = Mathf.Max(Mathf.Min(value, _max_health), 0);}
     }
     public float speed {
         get {return _speed;}
