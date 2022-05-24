@@ -24,7 +24,6 @@ public class Moving : MonoBehaviour
     private float _acceleration = 0; // - ship acceleration
     private float _force = 5f; // - ship force
     private float _rotation = 0; // - ship rotation
-    private float _cur_rotation = 0; // - ship current rotation
     private int _rotation_direction = 0; // - ship rotation speed
     private float _max_rotation = 30; // - ship max rotation speed
     private float _rotation_N = 0; // - calculation variable
@@ -35,10 +34,12 @@ public class Moving : MonoBehaviour
     private Inventory inventory = null;
     private Item[] heal_items;
     private int _heal_item_selected = 0;
-    public Item heal_item_selected {
+    public Item heal_item_selected 
+    {
         get {return heal_items[_heal_item_selected];}
     }
-    public float boost_amount {
+    public float boost_amount 
+    {
         get {return _boost_amount;}
         set {
             if (value > 100)
@@ -49,10 +50,12 @@ public class Moving : MonoBehaviour
                 _boost_amount = value;
         }
     }
-    public float overheat {
+    public float overheat 
+    {
         get {return _overheat;}
     }
-    public float fuel {
+    public float fuel 
+    {
         get {return _fuel;}
         set {_fuel = Mathf.Max(Mathf.Min(value, _max_fuel), 0);}
     }
@@ -61,15 +64,22 @@ public class Moving : MonoBehaviour
         get { return _health; }
         set { _health = Mathf.Max(Mathf.Min(value, _max_health), 0);}
     }
-    public float speed {
+    public int rotation_direction 
+    {
+        get {return _rotation_direction;}
+    }
+    public float speed 
+    {
         get {return _speed;}
         set {_speed = value;}
     }
-    public float max_speed {
+    public float max_speed 
+    {
         get {return _max_speed;}
     }
 
-    void Awake() {
+    void Awake() 
+    {
         controller = GameObject.Find("GameController").GetComponent<Controller>();
         generator = GameObject.Find("Generator").GetComponent<InterfaceGenerator>();
         inventory = this.GetComponent<Inventory>();
@@ -82,14 +92,15 @@ public class Moving : MonoBehaviour
     {
         StartCoroutine("SpeedWork");
         StartCoroutine(OverheatDamage());
-    }    void Update()
+    }    
+    void Update()
     {   
         if (_fuel > 0 && _health > 0) {
             if (Input.GetKeyDown(KeyCode.W))
                 _acceleration = _force / _mass;
             else 
                 if (Input.GetKeyDown(KeyCode.S))
-                    _acceleration = -_force / (_mass * 2);
+                    _acceleration = -_force / (_mass * 1.5f);
             if ((Input.GetKeyUp(KeyCode.S) && _acceleration < 0) 
                 || (Input.GetKeyUp(KeyCode.W) && _acceleration > 0))
                 _acceleration = 0;
