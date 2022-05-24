@@ -12,6 +12,6 @@ public class Boost_indicator : MonoBehaviour
     }
     void Update()
     {
-        this.GetComponent<TextMeshProUGUI>().text = "Boosts: " + inventory.count_of_boosts;
+        this.GetComponent<TextMeshProUGUI>().text = "Boosts: " + inventory.GetCountOfItem("boost");
     }
 }

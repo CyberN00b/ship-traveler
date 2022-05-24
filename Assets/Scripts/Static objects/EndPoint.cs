@@ -7,7 +7,7 @@ public class EndPoint : Port
     [SerializeField]
     private GameObject _textEnd;
     private InterfaceGenerator generator = null;
-    void Start() {
+    new void Start() {
         _distance = 20;
         _collide_zone = 10;
         base.Start();
@@ -16,7 +16,7 @@ public class EndPoint : Port
         StartCoroutine(EndLevel());
 
     }
-    void Update()
+    new void Update()
     {
         base.Update();
         if (_is_activated) {

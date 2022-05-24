@@ -6,6 +6,7 @@ public class Fuel : Bonus
 {
     void Awake() {
         _spawnY = 0.5f;
+        _frequency = 5;
     }
     private float count_of_gas = 10f;
     private void OnTriggerEnter(Collider other)

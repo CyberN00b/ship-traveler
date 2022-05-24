@@ -64,6 +64,12 @@ public class Controller : MonoBehaviour
     public void ChangePositionByShip(float ship_speed, float delta_angle) {
         
         _angle += Time.deltaTime * delta_angle * ship_speed / 10;
+        if (Mathf.Abs(_angle) > 180f) {
+            if (angle < 0)
+                _angle += 360;
+            else
+                _angle -= 360;
+        }
         _delta_x = Mathf.Sin(Mathf.Deg2Rad * angle) * ship_speed * Time.deltaTime;
         _delta_z = Mathf.Cos(Mathf.Deg2Rad * angle) * ship_speed * Time.deltaTime;
         if (is_collide) {
@@ -88,5 +94,6 @@ public class Controller : MonoBehaviour
     public void End(){
         _endText.SetActive(false);
         _completedLevel.SetActive(true);
+        Cursor.lockState = CursorLockMode.Confined;
     }
 }

@@ -17,18 +17,9 @@ public class Moving : MonoBehaviour
     }
     [SerializeField]
     private int _health = 0;
-    public int health {
-        get {return _health;}
-    }
     private float _overheat = 0;
-    public float overheat {
-        get {return _overheat;}
-    }
     private float _overheat_increase = 2f;
     private float _boost_amount = 0f;
-    public float boost_amount {
-        get {return _boost_amount;}
-    }
     private float _mass = 5; // - ship mass
     private float _acceleration = 0; // - ship acceleration
     private float _force = 5f; // - ship force
@@ -42,23 +33,33 @@ public class Moving : MonoBehaviour
     private Controller controller = null;
     private InterfaceGenerator generator = null;
     private Inventory inventory = null;
-    void Awake() {
-        controller = GameObject.Find("GameController").GetComponent<Controller>();
-        generator = GameObject.Find("Generator").GetComponent<InterfaceGenerator>();
-        inventory = this.GetComponent<Inventory>();
-        _max_speed = _force / (_percent_stop * _mass);
-        _rotation_N = _max_rotation / _max_speed;
-        _health = _max_health;
+    private Item[] heal_items;
+    private int _heal_item_selected = 0;
+    public Item heal_item_selected {
+        get {return heal_items[_heal_item_selected];}
     }
-    void Start()
-    {
-        StartCoroutine("SpeedWork");
-        StartCoroutine(OverheatDamage());
+    public float boost_amount {
+        get {return _boost_amount;}
+        set {
+            if (value > 100)
+                _boost_amount = 100;
+            else if (value < 0)
+                _boost_amount = 0;
+            else
+                _boost_amount = value;
+        }
     }
- 
+    public float overheat {
+        get {return _overheat;}
+    }
     public float fuel {
         get {return _fuel;}
         set {_fuel = Mathf.Max(Mathf.Min(value, _max_fuel), 0);}
+    }
+    public int health
+    {
+        get { return _health; }
+        set { _health = Mathf.Max(Mathf.Min(value, _max_health), 0);}
     }
     public float speed {
         get {return _speed;}
@@ -67,7 +68,21 @@ public class Moving : MonoBehaviour
     public float max_speed {
         get {return _max_speed;}
     }
-    void Update()
+
+    void Awake() {
+        controller = GameObject.Find("GameController").GetComponent<Controller>();
+        generator = GameObject.Find("Generator").GetComponent<InterfaceGenerator>();
+        inventory = this.GetComponent<Inventory>();
+        _max_speed = _force / (_percent_stop * _mass);
+        _rotation_N = _max_rotation / _max_speed;
+        _health = _max_health;
+        heal_items = new Item[]{null, new Item_wrench()};
+    }
+    void Start()
+    {
+        StartCoroutine("SpeedWork");
+        StartCoroutine(OverheatDamage());
+    }    void Update()
     {   
         if (_fuel > 0 && _health > 0) {
             if (Input.GetKeyDown(KeyCode.W))
@@ -80,14 +95,26 @@ public class Moving : MonoBehaviour
                 _acceleration = 0;
             if (Input.GetKeyDown(KeyCode.LeftShift))
             {
-                if (_boost_amount <= 0)  {
-                    if (inventory.count_of_boosts > 0) {
-                        inventory.UseBoost();
-                        _boost_amount = 100f;
-                        is_boosted = true;
-                    }
-                } else
+                if (_boost_amount <= 0)
+                    inventory.UseItem("boost");
+                else
                     is_boosted = true;
+            }
+            if (Input.GetKeyDown(KeyCode.UpArrow)) 
+            {
+                _heal_item_selected++;
+                _heal_item_selected %= heal_items.Length;
+            } else {
+                if (Input.GetKeyDown(KeyCode.DownArrow)) {
+                _heal_item_selected--;
+                if (_heal_item_selected < 0)
+                    _heal_item_selected += heal_items.Length;
+            }
+            if (Input.GetKeyDown(KeyCode.H)) 
+            {
+                if (heal_items[_heal_item_selected] != null)
+                    inventory.UseItem(heal_items[_heal_item_selected].item_name);
+            }
             }
             if (Input.GetKeyUp(KeyCode.LeftShift) && is_boosted == true) {
                 is_boosted = false;
@@ -106,15 +133,10 @@ public class Moving : MonoBehaviour
             _rotation_direction = 0;
         fuel -= (_fuel_decrease + Mathf.Abs(_speed / 10)) * Time.deltaTime;
         if (is_boosted) {
-            _boost_amount -= 100f / inventory.time_of_boost * Time.deltaTime;
+            boost_amount -= 100f / inventory.time_of_boost * Time.deltaTime;
             if (_boost_amount <= 0) {
-                if (inventory.count_of_boosts > 0) {
-                    inventory.UseBoost();
-                    _boost_amount = 100f;
-                } else {
+                if (!inventory.UseItem("boost"))
                     is_boosted = false;
-                    _boost_amount = 0;
-                }
             }
             if (_overheat < 100f)
                 _overheat += (_overheat_increase + _overheat * 0.05f) * Time.deltaTime;

@@ -6,6 +6,7 @@ public class Coin : Bonus
 {
     void Awake() {
         _spawnY = 1.5f;
+        _frequency = 8;
     }
     private int value = 1;
     private void OnTriggerEnter(Collider other)

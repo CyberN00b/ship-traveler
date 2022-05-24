@@ -10,11 +10,15 @@ public class Bonus : DynamicObject
     protected InterfaceGenerator interface_generator = null;
     protected float radius = 0;
     protected float _spawnY = 0;
+    protected int _frequency = 0;
+    public int frequency {
+        get {return _frequency;}
+    }
     public float spawnY {
         get {return _spawnY;}
     }
     [SerializeField] public bool is_prefab = false;
-    void Start(){
+    new void Start(){
         if (!is_prefab) {
             base.Start();
             generator = GameObject.Find("Generator").GetComponent<WorldGenerator>();
@@ -23,7 +27,7 @@ public class Bonus : DynamicObject
         }
 
     }
-    void Update(){
+    new void Update(){
         if (!is_prefab) {
             base.Update();
             float x = transform.position.x, z = this.transform.position.z;
