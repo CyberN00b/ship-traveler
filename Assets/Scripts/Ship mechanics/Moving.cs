@@ -41,18 +41,12 @@ public class Moving : MonoBehaviour
     public float boost_amount 
     {
         get {return _boost_amount;}
-        set {
-            if (value > 100)
-                _boost_amount = 100;
-            else if (value < 0)
-                _boost_amount = 0;
-            else
-                _boost_amount = value;
-        }
+        set { _boost_amount = Mathf.Max(Mathf.Min(value, 100), 0);}
     }
     public float overheat 
     {
         get {return _overheat;}
+        set { _overheat = Mathf.Max(Mathf.Min(value, 100), 0);}
     }
     public float fuel 
     {
@@ -86,7 +80,7 @@ public class Moving : MonoBehaviour
         _max_speed = _force / (_percent_stop * _mass);
         _rotation_N = _max_rotation / _max_speed;
         _health = _max_health;
-        heal_items = new Item[]{null, new Item_wrench()};
+        heal_items = new Item[]{null, new Item_wrench(), new Item_cooller()};
     }
     void Start()
     {

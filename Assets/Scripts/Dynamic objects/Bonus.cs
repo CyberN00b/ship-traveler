@@ -5,8 +5,6 @@ using UnityEngine;
 
 public class Bonus : DynamicObject
 {
-
-    [SerializeField] private BonusPrefabs _bonusPrefabs;
     protected WorldGenerator generator = null;
     protected InterfaceGenerator interface_generator = null;
     protected float radius = 0;
