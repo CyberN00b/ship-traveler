@@ -6,8 +6,8 @@ using UnityEngine;
 public class WorldGenerator : MonoBehaviour
 {
 
-    private float _player_radius = 75;
-    private float _game_radius = 80;
+    private float _player_radius = 85;
+    private float _game_radius = 90;
     private bool _is_endPoint_spawned = false;
     private int sum_of_frequency = 0;
     private EndPoint _End = null;
@@ -37,7 +37,18 @@ public class WorldGenerator : MonoBehaviour
 
     }
     void SpawnBonus(){
-        float point_angle = (controller.direction * controller.speed + ship.speed * controller.angle) / (controller.speed + ship.speed);
+        float ship_angle = controller.angle;
+        if (ship.speed < 0) 
+        {
+            ship_angle += 180;
+            if (Mathf.Abs(ship_angle) > 180f) {
+                if (ship_angle < 0)
+                    ship_angle += 360;
+                else
+                    ship_angle -= 360;
+            }
+        }
+        float point_angle = (controller.direction * controller.speed + ship.speed * ship_angle) / (controller.speed + ship.speed);
         for(float i = -_game_radius; i < _game_radius; i += 0.5f)
         {
             for(float j = -_game_radius; j < _game_radius; j += 0.5f)
@@ -62,7 +73,7 @@ public class WorldGenerator : MonoBehaviour
     {
         int rand = Random.Range(0, sum_of_frequency);
         foreach (Bonus bonus in _bonusprefabs) {
-            if (rand > bonus.frequency) {
+            if (rand >= bonus.frequency) {
                 rand -= bonus.frequency;
             } else {
                 return bonus;

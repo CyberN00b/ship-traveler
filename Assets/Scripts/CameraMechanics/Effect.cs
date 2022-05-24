@@ -21,8 +21,8 @@ public class Effect : MonoBehaviour
     {
         Moving _speedEffect = _player.GetComponent<Moving>();
         float _currentSpeed = _speedEffect.speed;
-        float min_z = -min_distance * Mathf.Cos(transform.localEulerAngles.x * Mathf.Deg2Rad),
-              max_z = -max_distance * Mathf.Cos(transform.localEulerAngles.x * Mathf.Deg2Rad),
+        float min_z = -min_distance * Mathf.Cos(transform.localEulerAngles.x * Mathf.Deg2Rad) - 4,
+              max_z = -max_distance * Mathf.Cos(transform.localEulerAngles.x * Mathf.Deg2Rad) - 4,
               min_y = min_distance * Mathf.Sin(transform.localEulerAngles.x * Mathf.Deg2Rad) + 10,
               max_y = max_distance * Mathf.Cos(transform.localEulerAngles.x * Mathf.Deg2Rad) + 10;
         if (transform.localPosition.z <= min_z && transform.localPosition.z >= max_z)
