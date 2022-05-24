@@ -6,27 +6,26 @@ public class Inventory : MonoBehaviour
 {
     private int _cash = 0;
     [SerializeField]
-    private int _count_of_boosts = 0;
     private int iteration = 0;
     public float time_of_boost = 10f;
-    public int count_of_boosts {
-        get{return _count_of_boosts;}
-    }
     private Moving movement = null;
     private InterfaceGenerator generator = null;
     private List<Item> items = new List<Item>();
+    private int _count_of_items = 0;
     [SerializeField]
-    private int size_of_inventory = 10;
+    private int size_of_inventory = 1;
     void Awake() 
     {
         generator = GameObject.Find("Generator").GetComponent<InterfaceGenerator>();
     }
     public bool AddItem(Item item) 
     {
-            
-        if (items.Count >= size_of_inventory) 
+        if (_count_of_items >= size_of_inventory) {
+            generator.addEventText("You can't take one more!").disableAfterSec(2f);
             return false;
+        }
         Item tmp = GetItem(item.item_name);
+        _count_of_items++;
         if (tmp != null) {
             tmp.count++;
             return true;
@@ -44,8 +43,11 @@ public class Inventory : MonoBehaviour
         Item item = GetItem(name);
         if (item == null)
             return false;
-        if (item.is_usable) {
-            item.UseItem();
+        int count = item.count;
+        if (item.is_usable && item.UseItem()) {
+            if (item.count != count) {
+                _count_of_items -= count - item.count;
+            }
             generator.addEventText("You used " + name + "!").disableAfterSec(2f);
             if (item.count <= 0) {
                 items.Remove(item);
@@ -63,12 +65,24 @@ public class Inventory : MonoBehaviour
         }
         return null;
     }
-    public bool RemoveItem(string name)
+    bool RemoveItem(string name)
     {
         Item item = GetItem(name);
         if (item == null)
             return false;
+        _count_of_items -= item.count;
         items.Remove(item);
+        return true;
+    }
+    public bool RemoveAllItem(string name)
+    {
+        Item item = GetItem(name);
+        if (item == null)
+            return false;
+        item.count--;
+        _count_of_items--;
+        if (item.count <= 0)
+            items.Remove(item);
         return true;
     }
     public bool ChangeCash(int value)

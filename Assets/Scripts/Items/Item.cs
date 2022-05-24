@@ -7,8 +7,9 @@ public class Item
     public bool is_usable = false;
     public string item_name = "";
     public int count = 1;
-    public virtual void UseItem() 
+    public virtual bool UseItem() 
     {
         // item functionality
+        return true;
     }
 }

@@ -11,10 +11,11 @@ public class Item_boost : Item
         is_usable = true;
         ship = GameObject.Find("Player").GetComponent<Moving>();
     }
-    public override void UseItem() 
+    public override bool UseItem() 
     {
-        count -= 1;
+        count--;
         ship.is_boosted = true;
         ship.boost_amount = 100;
+        return true;
     }
 }
