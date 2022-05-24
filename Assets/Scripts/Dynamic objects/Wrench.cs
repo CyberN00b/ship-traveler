@@ -13,8 +13,7 @@ public class Wrench : Bonus
     {
         if (other.name == "Player") {
             Inventory inventory = other.GetComponent<Inventory>();
-            Item_wrench wrench = new Item_wrench();
-            if (inventory.AddItem(wrench)) {
+            if (inventory.AddItem(new Item_wrench())) {
                 interface_generator.addEventText("You picked up the wrench!").disableAfterSec(1.5f);
                 Destroy(gameObject);
             }
