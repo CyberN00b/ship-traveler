@@ -35,6 +35,14 @@ public class Moving : MonoBehaviour
     private Inventory inventory = null;
     public float boost_amount {
         get {return _boost_amount;}
+        set {
+            if (value > 100)
+                _boost_amount = 100;
+            else if (value < 0)
+                _boost_amount = 0;
+            else
+                _boost_amount = value;
+        }
     }
     public float overheat {
         get {return _overheat;}
@@ -79,13 +87,9 @@ public class Moving : MonoBehaviour
                 _acceleration = 0;
             if (Input.GetKeyDown(KeyCode.LeftShift))
             {
-                if (_boost_amount <= 0)  {
-                    if (inventory.count_of_boosts > 0) {
-                        inventory.UseBoost();
-                        _boost_amount = 100f;
-                        is_boosted = true;
-                    }
-                } else
+                if (_boost_amount <= 0)
+                    inventory.UseItem("boost");
+                else
                     is_boosted = true;
             }
             if (Input.GetKeyUp(KeyCode.LeftShift) && is_boosted == true) {
@@ -105,15 +109,10 @@ public class Moving : MonoBehaviour
             _rotation_direction = 0;
         fuel -= (_fuel_decrease + Mathf.Abs(_speed / 10)) * Time.deltaTime;
         if (is_boosted) {
-            _boost_amount -= 100f / inventory.time_of_boost * Time.deltaTime;
+            boost_amount -= 100f / inventory.time_of_boost * Time.deltaTime;
             if (_boost_amount <= 0) {
-                if (inventory.count_of_boosts > 0) {
-                    inventory.UseBoost();
-                    _boost_amount = 100f;
-                } else {
+                if (!inventory.UseItem("boost"))
                     is_boosted = false;
-                    _boost_amount = 0;
-                }
             }
             if (_overheat < 100f)
                 _overheat += (_overheat_increase + _overheat * 0.05f) * Time.deltaTime;

@@ -12,9 +12,11 @@ public class Turbo : Bonus
     {
         if (other.name == "Player") {
             Inventory inventory = other.GetComponent<Inventory>();
-            inventory.AddBoost();
-            interface_generator.addEventText("You picked up the boost!").disableAfterSec(1.5f);
-            Destroy(gameObject);
+            Item_boost boost = new Item_boost();
+            if (inventory.AddItem(boost)) {
+                interface_generator.addEventText("You picked up the boost!").disableAfterSec(1.5f);
+                Destroy(gameObject);
+            }
         }
     }
 }
