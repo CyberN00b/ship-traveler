@@ -33,6 +33,11 @@ public class Moving : MonoBehaviour
     private Controller controller = null;
     private InterfaceGenerator generator = null;
     private Inventory inventory = null;
+    private Item[] heal_items;
+    private int _heal_item_selected = 0;
+    public Item heal_item_selected {
+        get {return heal_items[_heal_item_selected];}
+    }
     public float boost_amount {
         get {return _boost_amount;}
         set {
@@ -71,6 +76,7 @@ public class Moving : MonoBehaviour
         _max_speed = _force / (_percent_stop * _mass);
         _rotation_N = _max_rotation / _max_speed;
         _health = _max_health;
+        heal_items = new Item[]{null, new Item_wrench()};
     }
     void Start()
     {
@@ -93,6 +99,22 @@ public class Moving : MonoBehaviour
                     inventory.UseItem("boost");
                 else
                     is_boosted = true;
+            }
+            if (Input.GetKeyDown(KeyCode.UpArrow)) 
+            {
+                _heal_item_selected++;
+                _heal_item_selected %= heal_items.Length;
+            } else {
+                if (Input.GetKeyDown(KeyCode.DownArrow)) {
+                _heal_item_selected--;
+                if (_heal_item_selected < 0)
+                    _heal_item_selected += heal_items.Length;
+            }
+            if (Input.GetKeyDown(KeyCode.H)) 
+            {
+                if (heal_items[_heal_item_selected] != null)
+                    inventory.UseItem(heal_items[_heal_item_selected].item_name);
+            }
             }
             if (Input.GetKeyUp(KeyCode.LeftShift) && is_boosted == true) {
                 is_boosted = false;

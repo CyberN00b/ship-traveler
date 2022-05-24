@@ -14,7 +14,7 @@ public class Turbo : Bonus
             Inventory inventory = other.GetComponent<Inventory>();
             Item_boost boost = new Item_boost();
             if (inventory.AddItem(boost)) {
-                interface_generator.addEventText("You picked up the boost!").disableAfterSec(1.5f);
+                interface_generator.addEventText("You picked up the booster!").disableAfterSec(1.5f);
                 Destroy(gameObject);
             }
         }

@@ -11,14 +11,15 @@ public class Inventory : MonoBehaviour
     private Moving movement = null;
     private InterfaceGenerator generator = null;
     private List<Item> items = new List<Item>();
+    private List<string> just_used_items = new List<string>();
     private int _count_of_items = 0;
     [SerializeField]
-    private int size_of_inventory = 1;
+    private int size_of_inventory = 10;
     void Awake() 
     {
         generator = GameObject.Find("Generator").GetComponent<InterfaceGenerator>();
     }
-    public bool AddItem(Item item) 
+    public bool AddItem(Item item)
     {
         if (_count_of_items >= size_of_inventory) {
             generator.addEventText("You can't take one more!").disableAfterSec(2f);
@@ -41,14 +42,16 @@ public class Inventory : MonoBehaviour
     }
     public bool UseItem(string name) {
         Item item = GetItem(name);
-        if (item == null)
+        if (item == null || just_used_items.Contains(name))
             return false;
         int count = item.count;
         if (item.is_usable && item.UseItem()) {
+            generator.addEventText("You used " + item.full_name + "!").disableAfterSec(2f);
+            if (item.time_of_wait > 0)
+                StartCoroutine(WaitOfUse(item.item_name, item.time_of_wait));
             if (item.count != count) {
                 _count_of_items -= count - item.count;
             }
-            generator.addEventText("You used " + name + "!").disableAfterSec(2f);
             if (item.count <= 0) {
                 items.Remove(item);
             }
@@ -56,7 +59,7 @@ public class Inventory : MonoBehaviour
         }
         return false;
     }
-    private Item GetItem(string name) {
+    public Item GetItem(string name) {
         foreach (Item item in items) {
             if (item.item_name == name) 
             {
@@ -92,5 +95,11 @@ public class Inventory : MonoBehaviour
         else
             _cash += value;
         return true;
+    }
+    IEnumerator WaitOfUse (string name, float time)
+    {
+        just_used_items.Add(name);
+        yield return new WaitForSeconds(time);
+        just_used_items.Remove(name);
     }
 }

@@ -9,15 +9,15 @@ public class Wrench : Bonus
         _spawnY = 1.5f;
         _frequency = 5;
     }
-    private int _heal = 50;
     private void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.name == "Player")
-        {
-            Moving healthcontroller = other.GetComponent<Moving>();
-            healthcontroller.health += _heal;
-            print(healthcontroller.health);
-            Destroy(gameObject);
+        if (other.name == "Player") {
+            Inventory inventory = other.GetComponent<Inventory>();
+            Item_wrench wrench = new Item_wrench();
+            if (inventory.AddItem(wrench)) {
+                interface_generator.addEventText("You picked up the wrench!").disableAfterSec(1.5f);
+                Destroy(gameObject);
+            }
         }
     }
 }

@@ -2,21 +2,22 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Item_boost : Item
+public class Item_wrench : Item
 {
     private Moving ship = null;
-    public Item_boost()
+    private int _heal = 30;
+    public Item_wrench()
     {
-        item_name = "boost";
-        full_name = "booster";
+        item_name = "wrench";
+        full_name = "wrench";
         is_usable = true;
+        time_of_wait = 5f;
         ship = GameObject.Find("Player").GetComponent<Moving>();
     }
     public override bool UseItem() 
     {
         count--;
-        ship.is_boosted = true;
-        ship.boost_amount = 100;
+        ship.health += _heal;
         return true;
     }
 }
