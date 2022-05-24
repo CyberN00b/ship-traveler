@@ -7,6 +7,7 @@ public class Wrench : Bonus
     private void Awake()
     {
         _spawnY = 1.5f;
+        _frequency = 5;
     }
     private int _heal = 50;
     private void OnTriggerEnter(Collider other)

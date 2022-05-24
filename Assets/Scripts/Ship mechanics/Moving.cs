@@ -47,9 +47,6 @@ public class Moving : MonoBehaviour
     public float overheat {
         get {return _overheat;}
     }
-    public int health {
-        get {return _health;}
-    }
     public float fuel {
         get {return _fuel;}
         set {_fuel = Mathf.Max(Mathf.Min(value, _max_fuel), 0);}
