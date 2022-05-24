@@ -71,9 +71,9 @@ public class WorldGenerator : MonoBehaviour
     }
     Bonus GetRandomBonus()
     {
-        int rand = Random.Range(0, sum_of_frequency);
+        int rand = Random.Range(0, sum_of_frequency + 1);
         foreach (Bonus bonus in _bonusprefabs) {
-            if (rand > bonus.frequency) {
+            if (rand >= bonus.frequency) {
                 rand -= bonus.frequency;
             } else {
                 return bonus;

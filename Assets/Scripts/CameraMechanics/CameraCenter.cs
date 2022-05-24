@@ -20,7 +20,7 @@ public class CameraCenter : MonoBehaviour
                 anim.Play("CameraCenterLeftBack");
              else if (ship.rotation_direction == -1) 
                     anim.Play("CameraCenterRightBack");
-                 else if(Random.Range(0, 1) == 1)
+                 else if (Random.Range(0, 2) == 1)
                         anim.Play("CameraCenterRightBack");
                     else
                         anim.Play("CameraCenterLeftBack");
@@ -31,7 +31,7 @@ public class CameraCenter : MonoBehaviour
                 anim.Play("CameraCenterLeftForward");
              else if (ship.rotation_direction == -1) 
                     anim.Play("CameraCenterRightForward");
-                 else if(Random.Range(0, 1) == 1)
+                 else if (Random.Range(0, 2) == 1)
                         anim.Play("CameraCenterRightForward");
                     else
                         anim.Play("CameraCenterLeftForward");
