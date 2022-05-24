@@ -94,5 +94,6 @@ public class Controller : MonoBehaviour
     public void End(){
         _endText.SetActive(false);
         _completedLevel.SetActive(true);
+        Cursor.lockState = CursorLockMode.Confined;
     }
 }
