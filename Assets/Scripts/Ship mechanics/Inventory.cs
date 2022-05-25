@@ -6,7 +6,6 @@ public class Inventory : MonoBehaviour
 {
     private int _cash = 0;
     [SerializeField]
-    private int iteration = 0;
     public float time_of_boost = 10f;
     private Moving movement = null;
     private InterfaceGenerator generator = null;
