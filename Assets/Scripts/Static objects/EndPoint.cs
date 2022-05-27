@@ -27,15 +27,9 @@ public class EndPoint : Port
 
     private IEnumerator EndLevel()
     {
-        while(!_is_activated)
-        {
-            yield return new WaitForSeconds(1f);
-        }
+        yield return new WaitUntil(() => _is_activated == true);
         EventText text = generator.addEventText("Press F to end mission", "end_level");
-        while (_is_activated) 
-        {
-            yield return new WaitForSeconds(1f);
-        }
+        yield return new WaitUntil(() => _is_activated == false);
         text.hideAndDisable();
         StartCoroutine(EndLevel());
     }
