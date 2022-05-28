@@ -5,8 +5,6 @@ using UnityEngine;
 public class Inventory : MonoBehaviour
 {
     private int _cash = 0;
-    [SerializeField]
-    public float time_of_boost = 10f;
     private Moving movement = null;
     private InterfaceGenerator generator = null;
     private List<Item> items = new List<Item>();
@@ -21,7 +19,7 @@ public class Inventory : MonoBehaviour
     public bool AddItem(Item item)
     {
         if (_count_of_items >= size_of_inventory) {
-            generator.addEventText("You can't take one more!").disableAfterSec(2f);
+            generator.addEventText("You can't take anymore!").disableAfterSec(2f);
             return false;
         }
         Item tmp = GetItem(item.item_name);
