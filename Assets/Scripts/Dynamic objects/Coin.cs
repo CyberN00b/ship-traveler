@@ -24,7 +24,6 @@ public class Coin : Bonus
     private IEnumerator Anim()
     {
         gameObject.transform.GetChild(0).gameObject.GetComponent<Animation>().Play();
-        GameObject.Find("Camera").GetComponent<AudioSource>().Play();
         yield return new WaitForSeconds(1f);
         Destroy(gameObject);
     }

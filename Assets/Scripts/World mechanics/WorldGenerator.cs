@@ -3,6 +3,43 @@ using System.Collections.Generic;
 using Redcode.Extensions;
 using UnityEngine;
 
+public class Struction 
+{
+    public float x, z;
+    private float rand_range = 20;
+    public Port port;
+    public Port spawned_port = null;
+    public Struction(float new_x, float new_z, Port new_port) 
+    {
+        x = Random.Range(new_x - rand_range, new_x - rand_range);
+        z = Random.Range(new_z - rand_range, new_z - rand_range);
+        port = new_port;
+    }
+    public bool IsInDistance(float point_x, float point_z) 
+    {
+        point_x -= x;
+        point_z -= z;
+        return point_x * point_x + point_z * point_z <= port.spawn_distance * port.spawn_distance;
+    }
+}
+class SpawnRect
+{
+    public int lx, rx, lz, rz, center_x, center_z;
+    public int size = 500;
+    public SpawnRect(int x, int z)
+    {
+        center_x = x;
+        center_z = z;
+        lx = x - size;
+        rx = x + size;
+        lz = z - size;
+        rz = z + size;
+    }
+    public bool IsCollide(int x, int z)
+    {
+        return (x >= lx) && (x <= rx) && (z >= lz) && (z <= rz);
+    } 
+}
 public class WorldGenerator : MonoBehaviour
 {
     [SerializeField]
@@ -22,7 +59,10 @@ public class WorldGenerator : MonoBehaviour
     private Moving ship = null;
     [SerializeField] private Bonus[] _bonusprefabs;
     [SerializeField] private EndPoint _endPoint;
-    private Bonus RandomBonus() => _bonusprefabs[UnityEngine.Random.Range(0, _bonusprefabs.Length)];
+    [SerializeField] private OilBase _oilBase;
+    private List<Struction> structions = new List<Struction>();
+    private List<SpawnRect> rects = new List<SpawnRect>();
+    private SpawnRect current_rect = null;
 
     private void Start()
     {
@@ -32,8 +72,68 @@ public class WorldGenerator : MonoBehaviour
         {
             sum_of_frequency += bonus.frequency;
         }
-        StartCoroutine("BonusGeneration");
-        StartCoroutine("EndPointGenerator");
+        structions.Add(new Struction(controller.point_x, controller.point_z, _endPoint));
+        StartCoroutine(BonusGeneration());
+        StartCoroutine(StructionChecker());
+        StartCoroutine(StructionGenerator());
+    }
+    void SpawnStructions()
+    {
+        if (
+            current_rect == null ||
+            Mathf.Abs(current_rect.center_x - controller.pos_x) > 350 || 
+            Mathf.Abs(current_rect.center_z - controller.pos_z) > 350
+            ) 
+        {
+            current_rect = new SpawnRect((int)controller.pos_x, (int)controller.pos_z);
+            for (int i = current_rect.lx; i <= current_rect.rx; i += 200)
+                for (int j = current_rect.lx; j <= current_rect.rx; j += 200)
+                {
+                    if (Mathf.Abs(i - controller.pos_x) + Mathf.Abs(j - controller.pos_z) < 100)
+                        continue;
+                    if (Random.Range(0, 5) == 0) 
+                    {
+                        bool flag = false;
+                        foreach (SpawnRect rect in rects) 
+                        {
+                            if (rect.IsCollide(i, j)) {
+                                flag = true;
+                                break;
+                            }
+                        }
+                        if (!flag) 
+                        {
+                            structions.Add(new Struction(i, j, _oilBase));
+                        }
+                    }
+                }
+        }
+    }
+    void CheckStructions() 
+    {
+        foreach (Struction struction in structions)
+        {
+            if (struction.IsInDistance(controller.pos_x, controller.pos_z)) 
+            {
+                if (struction.spawned_port == null) 
+                {
+                    struction.spawned_port = (
+                        Instantiate(
+                            struction.port, 
+                            new Vector3(struction.x - controller.pos_x, 0, struction.z - controller.pos_z), 
+                            Quaternion.identity, transform
+                        )
+                    );
+                    struction.spawned_port.is_prefab = false;
+                }
+            } else {
+                if (struction.spawned_port != null)
+                {
+                    Destroy(struction.spawned_port);
+                    struction.spawned_port = null;
+                }
+            }
+        }
     }
     void SpawnBonus()
     {
@@ -88,32 +188,24 @@ public class WorldGenerator : MonoBehaviour
     }
     IEnumerator BonusGeneration() 
     {
-        for(;;) 
+        for (;;) 
         {
             SpawnBonus();
             yield return new WaitForSeconds(1f);
         }
     }
-    IEnumerator EndPointGenerator() 
+    IEnumerator StructionGenerator() 
     {
-        for(;;) 
-        {
-            if (Mathf.Abs(controller.pos_x - controller.point_x) < 100 && Mathf.Abs(controller.pos_z - controller.point_z) < 100) 
-            {
-                if (!_is_endPoint_spawned) 
-                {
-                    _End = Instantiate(_endPoint, new Vector3(controller.point_x - controller.pos_x, 0, controller.point_z - controller.pos_z), Quaternion.identity, transform);
-                    _End.is_prefab = false;
-                    _is_endPoint_spawned = true;
-                } 
-            } else
-                if (_is_endPoint_spawned) 
-                {
-                    Destroy(_End);
-                    _End = null;
-                    _is_endPoint_spawned = false;
-                }
-            yield return new WaitForSeconds(2f);
+        for (;;) {
+            SpawnStructions();
+            yield return new WaitForSeconds(5f);
+        }
+    }
+    IEnumerator StructionChecker() 
+    {
+        for (;;) {
+            CheckStructions();
+            yield return new WaitForSeconds(4f);
         }
     }
 }
