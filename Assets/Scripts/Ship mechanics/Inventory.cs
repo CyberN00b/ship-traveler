@@ -52,10 +52,7 @@ public class Inventory : MonoBehaviour
             return false;
         int count = item.count;
         if (item.is_usable && item.UseItem()) {
-            audio = item._audio;
-            audio.Play();
             generator.addEventText("You used " + item.full_name + "!").disableAfterSec(2f);
-            
             if (item.time_of_wait > 0)
                 StartCoroutine(WaitOfUse(item.item_name, item.time_of_wait));
             if (item.count != count) {

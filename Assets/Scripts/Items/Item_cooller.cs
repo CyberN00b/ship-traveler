@@ -6,10 +6,8 @@ public class Item_cooller: Item
 {
     private Moving ship = null;
     private int _cool = 30;
-    
     public Item_cooller()
     {
-        _audio = GameObject.Find("Cooller").GetComponent<AudioSource>();
         item_name = "cooller";
         full_name = "cooller";
         is_usable = true;

@@ -8,7 +8,6 @@ public class Item_wrench : Item
     private int _heal = 30;
     public Item_wrench()
     {
-        _audio = GameObject.Find("Wrench").GetComponent<AudioSource>();
         item_name = "wrench";
         full_name = "wrench";
         is_usable = true;

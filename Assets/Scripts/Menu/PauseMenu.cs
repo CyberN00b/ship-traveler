@@ -13,13 +13,11 @@ public class PauseMenu : MonoBehaviour
     [SerializeField]
     private GameObject _completedLevel;
     private bool _isPaused = false;
-    private GameObject player;
 
     private void Start()
     {
         _PauseMenu.SetActive(false);
         Cursor.lockState = CursorLockMode.Locked;
-        player = GameObject.Find("Player");
     }
     private void Update()
     {
@@ -31,8 +29,8 @@ public class PauseMenu : MonoBehaviour
             }
             else
             {
-                if (_gameOver.activeSelf == false && _completedLevel.activeSelf == false)
-                { Pause(); }
+                if(_gameOver.activeSelf == false || _completedLevel.activeSelf == false)
+                Pause();
             }
         }
     }
@@ -42,8 +40,6 @@ public class PauseMenu : MonoBehaviour
         _PauseMenu.SetActive(false);
         Cursor.lockState = CursorLockMode.Locked;
         Time.timeScale = 1f;
-        AudioSource audio = player.GetComponent<AudioSource>();
-        audio.UnPause();
     }
     public void Pause()
     {
@@ -51,8 +47,6 @@ public class PauseMenu : MonoBehaviour
         _PauseMenu.SetActive(true);
         Cursor.lockState = CursorLockMode.Confined;
         Time.timeScale = 0f;
-        AudioSource audio = player.GetComponent<AudioSource>();
-        audio.Pause();
     }
     public void Restart() 
     { 

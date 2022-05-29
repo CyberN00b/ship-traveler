@@ -11,7 +11,6 @@ public class Item_boost : Item
     }
     public Item_boost()
     {
-        _audio = GameObject.Find("Turbo").GetComponent<AudioSource>();
         item_name = "boost";
         full_name = "booster";
         is_usable = true;
