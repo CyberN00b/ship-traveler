@@ -23,6 +23,8 @@ public class Coin : Bonus
 
     private IEnumerator Anim()
     {
+        var audio = gameObject.GetComponent<AudioSource>();
+        audio.Play();   
         gameObject.transform.GetChild(0).gameObject.GetComponent<Animation>().Play();
         yield return new WaitForSeconds(1f);
         Destroy(gameObject);
