@@ -4,8 +4,6 @@ using UnityEngine;
 
 public class EndPoint : Port
 {
-    [SerializeField]
-    private GameObject _textEnd;
     private InterfaceGenerator generator = null;
     new void Start() {
         _distance = 20;

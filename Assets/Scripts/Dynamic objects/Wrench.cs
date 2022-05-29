@@ -4,8 +4,9 @@ using UnityEngine;
 
 public class Wrench : Bonus
 {
-    private void Awake()
+    new void Awake()
     {
+        base.Awake();
         _spawnY = 1.5f;
         _frequency = 5;
     }

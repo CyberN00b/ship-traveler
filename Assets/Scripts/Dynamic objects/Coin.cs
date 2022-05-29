@@ -4,7 +4,9 @@ using UnityEngine;
 
 public class Coin : Bonus
 {
-    void Awake() {
+    new void Awake() 
+    {
+        base.Awake();
         _spawnY = 1.5f;
         _frequency = 8;
     }
@@ -22,6 +24,7 @@ public class Coin : Bonus
     private IEnumerator Anim()
     {
         gameObject.transform.GetChild(0).gameObject.GetComponent<Animation>().Play();
+        GameObject.Find("Camera").GetComponent<AudioSource>().Play();
         yield return new WaitForSeconds(1f);
         Destroy(gameObject);
     }

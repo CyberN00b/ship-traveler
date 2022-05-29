@@ -4,17 +4,22 @@ using UnityEngine;
 
 public class Fuel : Bonus
 {
-    void Awake() {
+    new void Awake()
+    {
+        base.Awake();
         _spawnY = 0.5f;
         _frequency = 5;
     }
-    private float count_of_gas = 10f;
+    private float _count_of_gas = 10f;
+    public float count_of_gas {
+        get {return _count_of_gas;}
+    }
     private void OnTriggerEnter(Collider other)
     {
         if (other.name == "Player") {
             Moving fuelcontroller = other.GetComponent<Moving>();
-            fuelcontroller.fuel += count_of_gas;
-            interface_generator.addEventText("+" + count_of_gas + " fuel").disableAfterSec(1.5f);
+            fuelcontroller.fuel += _count_of_gas;
+            interface_generator.addEventText("+" + _count_of_gas + " fuel").disableAfterSec(1.5f);
             Destroy(gameObject);
         }
     }

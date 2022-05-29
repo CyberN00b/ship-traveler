@@ -21,16 +21,12 @@ public class Bonus : DynamicObject
         get {return _spawnY;}
     }
     [SerializeField] public bool is_prefab = false;
-    new void Start()
+    protected new void Awake()
     {
-        if (!is_prefab) 
-        {
-            base.Start();
-            generator = GameObject.Find("Generator").GetComponent<WorldGenerator>();
-            interface_generator = GameObject.Find("Generator").GetComponent<InterfaceGenerator>();
-            radius = generator.game_radius;
-        }
-
+        base.Awake();
+        generator = GameObject.Find("Generator").GetComponent<WorldGenerator>();
+        interface_generator = GameObject.Find("Generator").GetComponent<InterfaceGenerator>();
+        radius = generator.game_radius;
     }
     new void Update()
     {
