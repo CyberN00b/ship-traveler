@@ -7,8 +7,8 @@ public class Moving : MonoBehaviour
     [SerializeField]
     private float _speed = 0; // - ship speed
     [SerializeField]
-    private float _fuel = 60; // - ship fuel
-    private float _max_fuel = 60;
+    private float _fuel = 100; // - ship fuel
+    private float _max_fuel = 100;
     private float _max_speed = 0;
     private float _fuel_decrease = 0.3f; 
     private int _max_health = 100;
