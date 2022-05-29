@@ -5,6 +5,10 @@ using UnityEngine;
 public class Item_boost : Item
 {
     private Moving ship = null;
+    private float _time_of_boost = 10f;
+    public float time_of_boost {
+        get {return _time_of_boost;}
+    }
     public Item_boost()
     {
         item_name = "boost";

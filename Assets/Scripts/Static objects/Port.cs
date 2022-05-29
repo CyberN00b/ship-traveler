@@ -5,15 +5,19 @@ using UnityEngine;
 public class Port : StaticObject
 {
     protected float _distance = 0;
+    protected float _spawn_distance = 100;
     protected float _collide_zone = 0;
     protected bool _is_activated = false;
     protected bool _is_collide = false;
-    protected void Start() {
+    public float spawn_distance {
+        get {return _spawn_distance;}
+    }
+    protected new void Start() {
         base.Start();
         StartCoroutine("PortCheck");
         this.GetComponent<SphereCollider>().radius = _collide_zone;
     }
-    protected void Update() {
+    protected new void Update() {
         base.Update();
         if (_is_collide) {
             float x = this.transform.position.x, z = this.transform.position.z;
