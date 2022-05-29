@@ -12,8 +12,6 @@ public class Controller : MonoBehaviour
     private Material sea = null;
     [SerializeField]
     private GameObject _completedLevel;
-    [SerializeField]
-    private GameObject _endText;
     private float _point_x = 0;
     private float _point_z = 0; 
     private float _speed = 1; // - sea speed 
@@ -92,8 +90,8 @@ public class Controller : MonoBehaviour
         sea.SetVector("_Normal_vector", tmpVector);
     }
     public void End(){
-        _endText.SetActive(false);
         _completedLevel.SetActive(true);
         Cursor.lockState = CursorLockMode.Confined;
+        Time.timeScale = 0f;
     }
 }

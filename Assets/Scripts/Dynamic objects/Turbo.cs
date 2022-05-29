@@ -4,7 +4,9 @@ using UnityEngine;
 
 public class Turbo : Bonus
 {
-    void Awake() {
+    new void Awake()
+    {
+        base.Awake();
         _spawnY = 1f;
         _frequency = 8;
     }

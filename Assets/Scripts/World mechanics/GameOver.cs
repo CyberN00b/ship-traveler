@@ -37,10 +37,12 @@ public class GameOver : MonoBehaviour
         StopCoroutine(IncreaseCanvas());
         StartCoroutine(IncreaseCanvas());
     }
-    public void EndOfHealth() {
+    public void EndOfHealth() 
+    {
         StartCoroutine(endOfHealth());
     }
-    private IEnumerator endOfHealth() {
+    private IEnumerator endOfHealth() 
+    {
         generator.addEventText("Ship is destroyed!");
         yield return new WaitForSeconds(2f);
         GameIsOver();
@@ -48,7 +50,8 @@ public class GameOver : MonoBehaviour
     private IEnumerator IncreaseCanvas()
     {
         Moving player = _player.GetComponent<Moving>();
-        while (player.fuel > 0f) {
+        while (player.fuel > 0f) 
+        {
             yield return new WaitForSeconds(1f);  
         }
         EventText txt = generator.addEventText("Ran out of fuel!");
@@ -56,11 +59,17 @@ public class GameOver : MonoBehaviour
         {
             yield return new WaitForSeconds(1f);
         }
-        if (player.fuel > 0f) {
+        if (player.fuel > 0f) 
+        {
             txt.hideAndDisable();
             RestartCoroutine();
         }
-        while (generator.isEventActive("end_level")) {
+        Inventory inventory = _player.GetComponent<Inventory>();
+        OilBase oilBase = new OilBase();
+        while (
+            generator.isEventActive("end_level") || 
+            (generator.isEventActive("oil_base") && inventory.cash >= oilBase.barrel_cost)
+        ) {
             yield return new WaitForSeconds(2f);
         }
         yield return new WaitForSeconds(2f);

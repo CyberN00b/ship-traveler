@@ -7,9 +7,12 @@ public class DynamicObject : MonoBehaviour
 {
     protected Controller controller = null;
     protected Rigidbody rg = null;
-    protected void Start()
+    protected void Awake() 
     {
         controller = GameObject.Find("GameController").GetComponent<Controller>();
+    }
+    protected void Start()
+    {
         rg = this.GetComponent<Rigidbody>();
         rg.AddForce(
             -controller.speed * Mathf.Sin(Mathf.Deg2Rad * controller.direction),
