@@ -138,6 +138,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   is_prefab: 1
+  barrel: {fileID: 2024752490249005553, guid: 4ce4b01ede8dafc9699c1b40dde1b0db, type: 3}
 --- !u!1001 &989304070544788954
 PrefabInstance:
   m_ObjectHideFlags: 0

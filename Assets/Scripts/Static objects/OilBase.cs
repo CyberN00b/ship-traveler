@@ -8,6 +8,7 @@ public class OilBase : Port
     private InterfaceGenerator interface_generator = null;
     private WorldGenerator generator = null;
     private Inventory inventory = null;
+    [SerializeField]
     private FuelBuy barrel = null;
     private bool waiting = false;
     private float time_of_wait = 0.5f;
@@ -24,7 +25,6 @@ public class OilBase : Port
         inventory = GameObject.Find("Player").GetComponent<Inventory>();
         interface_generator = GameObject.Find("Generator").GetComponent<InterfaceGenerator>();
         generator = GameObject.Find("Generator").GetComponent<WorldGenerator>();
-        barrel = GameObject.Find("FuelBuy").GetComponent<FuelBuy>();
         StartCoroutine(CheckBase());
     }
     new void Update()
