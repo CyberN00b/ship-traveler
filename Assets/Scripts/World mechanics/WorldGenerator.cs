@@ -9,7 +9,7 @@ public class Struction
     private float rand_range = 20;
     public Port port;
     public Port spawned_port = null;
-    public Struction(float new_x, float new_z, Port new_port) 
+    public Struction(float new_x, float new_z, Port new_port)
     {
         x = Random.Range(new_x - rand_range, new_x - rand_range);
         z = Random.Range(new_z - rand_range, new_z - rand_range);
@@ -44,7 +44,6 @@ public class WorldGenerator : MonoBehaviour
 {
     [SerializeField]
     private float _player_radius = 85;
-    [SerializeField]
     private float _game_radius = 90;
     private int sum_of_frequency = 0;
     private EndPoint _End = null;
@@ -56,7 +55,7 @@ public class WorldGenerator : MonoBehaviour
     }
     private Controller controller = null;
     private Moving ship = null;
-    [SerializeField] private Bonus[] _bonusprefabs;
+    [SerializeField] private DynamicObject[] _bonusprefabs;
     [SerializeField] private EndPoint _endPoint;
     [SerializeField] private OilBase _oilBase;
     private List<Struction> _structions = new List<Struction>();
@@ -70,7 +69,7 @@ public class WorldGenerator : MonoBehaviour
     {
         controller = GameObject.Find("GameController").GetComponent<Controller>();
         ship = GameObject.Find("Player").GetComponent<Moving>();
-        foreach (Bonus bonus in _bonusprefabs) 
+        foreach (DynamicObject bonus in _bonusprefabs) 
         {
             sum_of_frequency += bonus.frequency;
         }
@@ -174,10 +173,10 @@ public class WorldGenerator : MonoBehaviour
             }
         }
     }
-    Bonus GetRandomBonus()
+    DynamicObject GetRandomBonus()
     {
         int rand = Random.Range(0, sum_of_frequency);
-        foreach (Bonus bonus in _bonusprefabs) 
+        foreach (DynamicObject bonus in _bonusprefabs) 
         {
             if (rand >= bonus.frequency) 
             {
@@ -193,7 +192,7 @@ public class WorldGenerator : MonoBehaviour
         for (;;) 
         {
             SpawnBonus();
-            yield return new WaitForSeconds(1f);
+            yield return new WaitForSeconds((game_radius - player_radius) / ((ship.speed + controller.speed) * 2));
         }
     }
     IEnumerator StructionGenerator() 
