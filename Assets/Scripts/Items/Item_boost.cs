@@ -7,6 +7,7 @@ public class Item_boost : Item
     private Moving ship = null;
     public Item_boost()
     {
+        _audio = GameObject.Find("Turbo").GetComponent<AudioSource>();
         item_name = "boost";
         full_name = "booster";
         is_usable = true;
