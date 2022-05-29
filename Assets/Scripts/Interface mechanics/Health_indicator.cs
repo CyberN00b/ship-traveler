@@ -21,7 +21,8 @@ public class Health_indicator : MonoBehaviour
             StartCoroutine(CriticalHealth());
         }
     }
-    IEnumerator CriticalHealth() {
+    IEnumerator CriticalHealth() 
+    {
         for(;image.fillAmount <= 0.3f;) {
             image.color = Color.white;
             yield return new WaitForSeconds(0.1f);

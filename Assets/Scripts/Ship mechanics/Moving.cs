@@ -32,6 +32,7 @@ public class Moving : MonoBehaviour
     private Controller controller = null;
     private InterfaceGenerator generator = null;
     private Inventory inventory = null;
+    private Item_boost booster = null;
     private Item[] heal_items;
     private int _heal_item_selected = 0;
     public Item heal_item_selected 
@@ -80,6 +81,7 @@ public class Moving : MonoBehaviour
         _max_speed = _force / (_percent_stop * _mass);
         _rotation_N = _max_rotation / _max_speed;
         _health = _max_health;
+        booster = new Item_boost();
         heal_items = new Item[]{null, new Item_wrench(), new Item_cooller()};
     }
     void Start()
@@ -138,7 +140,7 @@ public class Moving : MonoBehaviour
             _rotation_direction = 0;
         fuel -= (_fuel_decrease + Mathf.Abs(_speed / 10)) * Time.deltaTime;
         if (is_boosted) {
-            boost_amount -= 100f / inventory.time_of_boost * Time.deltaTime;
+            boost_amount -= 100f / booster.time_of_boost * Time.deltaTime;;
             if (_boost_amount <= 0) {
                 if (!inventory.UseItem("boost"))
                     is_boosted = false;

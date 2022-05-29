@@ -4,10 +4,8 @@ using UnityEngine;
 
 public class Inventory : MonoBehaviour
 {
-    private int _cash = 0;
     [SerializeField]
-    private int iteration = 0;
-    public float time_of_boost = 10f;
+    private int _cash = 0;
     private Moving movement = null;
     private InterfaceGenerator generator = null;
     private List<Item> items = new List<Item>();
@@ -15,14 +13,19 @@ public class Inventory : MonoBehaviour
     private int _count_of_items = 0;
     [SerializeField]
     private int size_of_inventory = 10;
+    public int cash 
+    {
+        get {return _cash;}
+    }
     void Awake() 
     {
         generator = GameObject.Find("Generator").GetComponent<InterfaceGenerator>();
     }
     public bool AddItem(Item item)
     {
-        if (_count_of_items >= size_of_inventory) {
-            generator.addEventText("You can't take one more!").disableAfterSec(2f);
+        if (_count_of_items >= size_of_inventory) 
+        {
+            generator.addEventText("You can't take anymore!").disableAfterSec(2f);
             return false;
         }
         Item tmp = GetItem(item.item_name);
@@ -34,18 +37,21 @@ public class Inventory : MonoBehaviour
         items.Add(item);
         return true;
     }
-    public int GetCountOfItem(string name) {
+    public int GetCountOfItem(string name) 
+    {
         Item tmp = GetItem(name);
         if (tmp == null)
             return 0;
         return tmp.count;
     }
-    public bool UseItem(string name) {
+    public bool UseItem(string name) 
+    {
         Item item = GetItem(name);
         if (item == null || just_used_items.Contains(name))
             return false;
         int count = item.count;
-        if (item.is_usable && item.UseItem()) {
+        if (item.is_usable && item.UseItem()) 
+        {
             generator.addEventText("You used " + item.full_name + "!").disableAfterSec(2f);
             if (item.time_of_wait > 0)
                 StartCoroutine(WaitOfUse(item.item_name, item.time_of_wait));
@@ -59,8 +65,10 @@ public class Inventory : MonoBehaviour
         }
         return false;
     }
-    public Item GetItem(string name) {
-        foreach (Item item in items) {
+    public Item GetItem(string name) 
+    {
+        foreach (Item item in items) 
+        {
             if (item.item_name == name) 
             {
                 return item;
