@@ -60,7 +60,10 @@ public class WorldGenerator : MonoBehaviour
     [SerializeField] private Bonus[] _bonusprefabs;
     [SerializeField] private EndPoint _endPoint;
     [SerializeField] private OilBase _oilBase;
-    private List<Struction> structions = new List<Struction>();
+    private List<Struction> _structions = new List<Struction>();
+    public List<Struction> structions {
+        get {return _structions;}
+    }
     private List<SpawnRect> rects = new List<SpawnRect>();
     private SpawnRect current_rect = null;
 
@@ -72,10 +75,10 @@ public class WorldGenerator : MonoBehaviour
         {
             sum_of_frequency += bonus.frequency;
         }
-        structions.Add(new Struction(controller.point_x, controller.point_z, _endPoint));
+        _structions.Add(new Struction(controller.point_x, controller.point_z, _endPoint));
         StartCoroutine(BonusGeneration());
-        StartCoroutine(StructionChecker());
         StartCoroutine(StructionGenerator());
+        StartCoroutine(StructionChecker());
     }
     void SpawnStructions()
     {
@@ -103,7 +106,7 @@ public class WorldGenerator : MonoBehaviour
                         }
                         if (!flag) 
                         {
-                            structions.Add(new Struction(i, j, _oilBase));
+                            _structions.Add(new Struction(i, j, _oilBase));
                         }
                     }
                 }
@@ -111,7 +114,7 @@ public class WorldGenerator : MonoBehaviour
     }
     void CheckStructions() 
     {
-        foreach (Struction struction in structions)
+        foreach (Struction struction in _structions)
         {
             if (struction.IsInDistance(controller.pos_x, controller.pos_z)) 
             {
