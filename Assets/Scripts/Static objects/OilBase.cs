@@ -13,6 +13,7 @@ public class OilBase : Port
     private bool waiting = false;
     private float time_of_wait = 0.5f;
     private Vector3 spawn;
+    private AudioSource _sale;
     public int barrel_cost {
         get {return _barrel_cost;}
     }
@@ -37,6 +38,8 @@ public class OilBase : Port
     }
     private void BuyOil() 
     {
+        _sale = GetComponent<AudioSource>();
+        _sale.Play();
         inventory.ChangeCash(-_barrel_cost);
         StartCoroutine(Wait());
         spawn = this.transform.GetChild(2).transform.position;
