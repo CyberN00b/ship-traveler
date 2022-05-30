@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class Cooller : Bonus
 {
+    bool is_taking = false;
     new void Awake()
     {
         base.Awake();
@@ -12,12 +13,34 @@ public class Cooller : Bonus
     }
     private void OnTriggerEnter(Collider other)
     {
-        if (other.name == "Player") {
+        if (other.name == "Player") 
+        {
             Inventory inventory = other.GetComponent<Inventory>();
-            if (inventory.AddItem(new Item_cooller())) {
+            if (inventory.AddItem(new Item_cooller())) 
+            {
                 interface_generator.addEventText("You picked up the cooller!").disableAfterSec(1.5f);
                 Destroy(gameObject);
+            } else {
+                is_taking = true;
+                StartCoroutine(IsTaking(inventory));
             }
+        }
+    }
+    private void OnTriggerExit(Collider other) 
+    {
+        if (other.name == "Player" && is_taking) 
+        {
+            is_taking = false;
+        }
+    }
+    IEnumerator IsTaking(Inventory inventory) 
+    {
+        yield return new WaitUntil(() => !inventory.CanAddItem());
+        if (is_taking) 
+        {
+            inventory.AddItem(new Item_cooller());
+            interface_generator.addEventText("You picked up the cooller!").disableAfterSec(1.5f);
+            Destroy(gameObject);
         }
     }
 }

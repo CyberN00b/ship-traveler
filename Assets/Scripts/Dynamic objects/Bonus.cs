@@ -15,7 +15,8 @@ public class Bonus : DynamicObject
     }
     protected new void Update()
     {
-        if (!is_prefab) {
+        if (!is_prefab) 
+        {
             base.Update();
             float x = transform.position.x, z = this.transform.position.z;
             if (radius_of_getting * radius_of_getting >= x * x + z * z)

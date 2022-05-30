@@ -932,9 +932,9 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 175, y: -50}
-  m_SizeDelta: {x: 350, y: 100}
-  m_Pivot: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 330, y: 0}
+  m_SizeDelta: {x: 330, y: 100}
+  m_Pivot: {x: 1, y: 1}
 --- !u!114 &409995190
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6361,6 +6361,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2513995140415829581, guid: ea861f694c0c98b8da4f798e5c24ee8a,
+        type: 3}
+      propertyPath: m_Constraints
+      value: 4
+      objectReference: {fileID: 0}
     - target: {fileID: 2698238762671636550, guid: ea861f694c0c98b8da4f798e5c24ee8a,
         type: 3}
       propertyPath: m_RootOrder
@@ -6921,7 +6926,12 @@ PrefabInstance:
     - target: {fileID: 8789066005614285144, guid: c3c7d0d12c3982a4e82b9275b2ad0778,
         type: 3}
       propertyPath: _cash
-      value: 88
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8789066005614285144, guid: c3c7d0d12c3982a4e82b9275b2ad0778,
+        type: 3}
+      propertyPath: size_of_inventory
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 9111821678806878613, guid: c3c7d0d12c3982a4e82b9275b2ad0778,
         type: 3}

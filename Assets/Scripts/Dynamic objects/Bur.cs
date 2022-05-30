@@ -15,7 +15,8 @@ public class Bur : DynamicObject
     }
     private void OnTriggerEnter(Collider other)
     {
-        if (other.name == "Player") {
+        if (other.name == "Player") 
+        {
             Moving ship = other.GetComponent<Moving>();
             int damage_take = (int)(damage * Mathf.Abs(ship.speed) / 2f);
             interface_generator.addEventText("You got " + damage_take + " damage on your ship by thurn!").disableAfterSec(2f);

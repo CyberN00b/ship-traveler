@@ -14,7 +14,8 @@ public class Coin : Bonus
     }
     private void OnTriggerEnter(Collider other)
     {
-        if (other.name == "Player") {
+        if (other.name == "Player") 
+        {
             Inventory inventory = other.GetComponent<Inventory>();
             inventory.ChangeCash(value);
             interface_generator.addEventText("+" + value + " coin").disableAfterSec(1.5f);

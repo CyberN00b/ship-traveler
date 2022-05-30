@@ -23,7 +23,7 @@ public class Inventory : MonoBehaviour
     }
     public bool AddItem(Item item)
     {
-        if (_count_of_items >= size_of_inventory) 
+        if (CanAddItem()) 
         {
             generator.addEventText("You can't take anymore!").disableAfterSec(2f);
             return false;
@@ -76,7 +76,11 @@ public class Inventory : MonoBehaviour
         }
         return null;
     }
-    bool RemoveItem(string name)
+    public bool CanAddItem(int count = 1) 
+    {
+        return (_count_of_items + count) > size_of_inventory;
+    }
+    public bool RemoveItem(string name)
     {
         Item item = GetItem(name);
         if (item == null)
