@@ -12,37 +12,42 @@ public class Port : StaticObject
     public float spawn_distance {
         get {return _spawn_distance;}
     }
-    protected new void Start() {
+    protected new void Start() 
+    {
         base.Start();
         StartCoroutine("PortCheck");
         this.GetComponent<SphereCollider>().radius = _collide_zone;
     }
-    protected new void Update() {
+    protected new void Update() 
+    {
         base.Update();
-        if (_is_collide) {
+        if (_is_collide) 
+        {
             float x = this.transform.position.x, z = this.transform.position.z;
             controller.stop_angle = Mathf.Atan2(x, z);
         }
     }
     IEnumerator PortCheck()
     {
-        for (;;) {
-            if (!is_prefab) {
+        if (!is_prefab)
+            for (;;) 
+            {
                 float x = this.transform.position.x, z = this.transform.position.z;
                 if (x * x + z * z <= _distance * _distance)
                     _is_activated = true;
                 else
                     _is_activated = false;
-                if (x * x  + z * z < _collide_zone * _collide_zone) {
+                if (x * x  + z * z < _collide_zone * _collide_zone) 
+                {
                     _is_collide = true;
                     controller.is_collide = true;
                 } else 
-                    if (_is_collide) {
+                    if (_is_collide)
+                    {
                         _is_collide = false;
                         controller.is_collide = false;
                     }
+                yield return new WaitForSeconds(0.1f);
             }
-            yield return new WaitForSeconds(0.1f);
-        }
     }
 }

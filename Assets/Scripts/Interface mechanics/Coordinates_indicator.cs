@@ -12,6 +12,9 @@ public class Coordinates_indicator : MonoBehaviour
     }
     void Update()
     {
-        this.GetComponent<TextMeshProUGUI>().text = "Your coordinates - x: " + controller.pos_z.ToString("0.") + " z: " + controller.pos_x.ToString("0.");
+        this.GetComponent<TextMeshProUGUI>().text = (
+            "Your coordinates - x: " + controller.pos_z.ToString("0.") + 
+            " z: " + controller.pos_x.ToString("0.")
+        );
     }
 }

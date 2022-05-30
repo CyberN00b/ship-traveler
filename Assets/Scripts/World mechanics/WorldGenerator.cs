@@ -44,6 +44,7 @@ public class WorldGenerator : MonoBehaviour
 {
     [SerializeField]
     private float _player_radius = 85;
+    [SerializeField]
     private float _game_radius = 90;
     private int sum_of_frequency = 0;
     private EndPoint _End = null;
@@ -88,16 +89,17 @@ public class WorldGenerator : MonoBehaviour
         {
             current_rect = new SpawnRect((int)controller.pos_x, (int)controller.pos_z);
             for (int i = current_rect.lx; i <= current_rect.rx; i += 200)
-                for (int j = current_rect.lx; j <= current_rect.rx; j += 200)
+                for (int j = current_rect.lz; j <= current_rect.rz; j += 200)
                 {
                     if (Mathf.Abs(i - controller.pos_x) + Mathf.Abs(j - controller.pos_z) < 100)
                         continue;
-                    if (Random.Range(0, 5) == 0) 
+                    if (Random.Range(0, 3) == 0) 
                     {
                         bool flag = false;
                         foreach (SpawnRect rect in rects) 
                         {
-                            if (rect.IsCollide(i, j)) {
+                            if (rect.IsCollide(i, j)) 
+                            {
                                 flag = true;
                                 break;
                             }
@@ -127,7 +129,8 @@ public class WorldGenerator : MonoBehaviour
                     );
                     struction.spawned_port.is_prefab = false;
                 }
-            } else {
+            } else 
+            {
                 if (struction.spawned_port != null)
                 {
                     Destroy(struction.spawned_port);
@@ -163,7 +166,7 @@ public class WorldGenerator : MonoBehaviour
                     {
                         angle = 360 - Mathf.Abs(angle) - Mathf.Abs(point_angle);
                     } 
-                    if (Random.Range(0, 5000) == 0 && angle > -90 && angle < 90)
+                    if (Random.Range(0, 2000) == 0 && angle > -90 && angle < 90)
                     {
                         var tmp = Instantiate(GetRandomBonus(), new Vector3(i, 0f, j), Quaternion.identity, transform);
                         tmp.transform.SetLocalPositionY(tmp.spawnY);
@@ -181,7 +184,8 @@ public class WorldGenerator : MonoBehaviour
             if (rand >= bonus.frequency) 
             {
                 rand -= bonus.frequency;
-            } else {
+            } else 
+            {
                 return bonus;
             }
         }
@@ -197,14 +201,16 @@ public class WorldGenerator : MonoBehaviour
     }
     IEnumerator StructionGenerator() 
     {
-        for (;;) {
+        for (;;) 
+        {
             SpawnStructions();
             yield return new WaitForSeconds(5f);
         }
     }
     IEnumerator StructionChecker() 
     {
-        for (;;) {
+        for (;;) 
+        {
             CheckStructions();
             yield return new WaitForSeconds(4f);
         }

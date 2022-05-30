@@ -16,14 +16,16 @@ public class Health_indicator : MonoBehaviour
     void Update()
     {
         image.fillAmount = (float)player.health / (float)player.max_health;
-        if (image.fillAmount <= 0.3f && !coroutine_started) {
+        if (image.fillAmount <= 0.3f && !coroutine_started) 
+        {
             coroutine_started = true;
             StartCoroutine(CriticalHealth());
         }
     }
     IEnumerator CriticalHealth() 
     {
-        for(;image.fillAmount <= 0.3f;) {
+        for(;image.fillAmount <= 0.3f;) 
+        {
             image.color = Color.white;
             yield return new WaitForSeconds(0.1f);
             image.color = Color.red;

@@ -9,6 +9,9 @@ public class End_indicator : MonoBehaviour
     void Start()
     {
         controller = GameObject.Find("GameController").GetComponent<Controller>();
-        this.GetComponent<TextMeshProUGUI>().text = "End on coordinates - x: " + controller.point_z.ToString("0.") + " z: " + controller.point_x.ToString("0.");
+        this.GetComponent<TextMeshProUGUI>().text = (
+            "End on coordinates - x: " + controller.point_z.ToString("0.") + 
+            " z: " + controller.point_x.ToString("0.")
+        );
     }
 }

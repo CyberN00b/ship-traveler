@@ -15,7 +15,8 @@ public class InterfaceGenerator : MonoBehaviour
     }
 
     public EventText addEventText(string text, string name = "unidentified") {
-        if (!_events.Exists(txt => txt.text == text)) {
+        if (!_events.Exists(txt => txt.text == text)) 
+        {
             EventText tmp = Instantiate(_eventText, new Vector3(0, 0, 0), Quaternion.Euler(0, 0, 0), _interface.transform).GetComponent<EventText>();
             tmp.gameObject.GetComponent<RectTransform>().localPosition = new Vector3(0, 150 - _eventText.GetComponent<RectTransform>().rect.height * _events.Count, 0);
             tmp.gameObject.GetComponent<RectTransform>().localRotation = Quaternion.Euler(0, 0, 0);
@@ -24,24 +25,30 @@ public class InterfaceGenerator : MonoBehaviour
             tmp.show();
             _events.Add(tmp);
             return tmp;
-        } else {
+        } else 
+        {
             return _events.Find(txt => txt.text == text);
         }
     }
-    public void removeEventText(EventText text) {
+    public void removeEventText(EventText text) 
+    {
         int i = 0;
-        for (; i < _events.Count; ++i) {
-            if (_events[i] == text) {
+        for (; i < _events.Count; ++i) 
+        {
+            if (_events[i] == text) 
+            {
                 break;
             }
         }
-        for (i += 1; i < _events.Count; ++i) {
+        for (i += 1; i < _events.Count; ++i) 
+        {
             _events[i].GetComponent<RectTransform>().localPosition +=  Vector3.up * _eventText.GetComponent<RectTransform>().rect.height;
         }
         _events.Remove(text);
         Destroy(text.gameObject);
     }
-    public bool isEventActive(string name) {
+    public bool isEventActive(string name) 
+    {
         return _events.Exists(txt => txt.txt_name == name);
     }
 }
