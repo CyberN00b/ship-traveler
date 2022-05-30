@@ -44,6 +44,7 @@ public class WorldGenerator : MonoBehaviour
 {
     [SerializeField]
     private float _player_radius = 85;
+    [SerializeField]
     private float _game_radius = 90;
     private int sum_of_frequency = 0;
     private EndPoint _End = null;

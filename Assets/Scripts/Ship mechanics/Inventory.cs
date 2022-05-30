@@ -48,7 +48,7 @@ public class Inventory : MonoBehaviour
     public bool UseItem(string name) 
     {
         Item item = GetItem(name);
-        if (item == null || just_used_items.Contains(name))
+        if (!CanUseItem(item))
             return false;
         int count = item.count;
         if (item.is_usable && item.UseItem()) 
@@ -76,6 +76,15 @@ public class Inventory : MonoBehaviour
             }
         }
         return null;
+    }
+    public bool CanUseItem(string name) 
+    {
+        Item item = GetItem(name);
+        return !(item == null || just_used_items.Contains(name));
+    }
+    public bool CanUseItem(Item item)
+    {
+        return !(item == null || just_used_items.Contains(item.item_name));
     }
     public bool CanAddItem(int count = 1) 
     {

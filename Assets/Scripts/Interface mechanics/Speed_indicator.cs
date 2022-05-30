@@ -15,7 +15,7 @@ public class Speed_indicator : MonoBehaviour
     void Update()
     {
         this.GetComponent<TextMeshProUGUI>().text = (
-            "Speed: " + (player.speed * 4 + delta_speed).ToString("0.#") + " km/h"
+            "Speed: " + (player.speed * 4 + delta_speed).ToString("0.0") + " km/h"
         );
     }
 
