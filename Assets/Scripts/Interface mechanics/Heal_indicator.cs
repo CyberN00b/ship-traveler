@@ -15,7 +15,10 @@ public class Heal_indicator : MonoBehaviour
     void Update()
     {
         if (ship.heal_item_selected != null)
-            this.GetComponent<TextMeshProUGUI>().text = "" + ship.heal_item_selected.FullNameOnUpper() + ": " + inventory.GetCountOfItem(ship.heal_item_selected.item_name);
+            this.GetComponent<TextMeshProUGUI>().text = (
+                ship.heal_item_selected.FullNameOnUpper() + ": " + 
+                inventory.GetCountOfItem(ship.heal_item_selected.item_name)
+            );
         else
             this.GetComponent<TextMeshProUGUI>().text = "None";
 

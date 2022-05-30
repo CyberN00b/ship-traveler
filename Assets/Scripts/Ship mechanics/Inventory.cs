@@ -30,7 +30,8 @@ public class Inventory : MonoBehaviour
         }
         Item tmp = GetItem(item.item_name);
         _count_of_items++;
-        if (tmp != null) {
+        if (tmp != null) 
+        {
             tmp.count++;
             return true;
         }

@@ -61,10 +61,11 @@ public class Controller : MonoBehaviour
         sea = GameObject.Find("Plane").GetComponent<MeshRenderer>().material;
     }
 
-    public void ChangePositionByShip(float ship_speed, float delta_angle) {
-        
+    public void ChangePositionByShip(float ship_speed, float delta_angle) 
+    {
         _angle += Time.deltaTime * delta_angle * ship_speed / 10;
-        if (Mathf.Abs(_angle) > 180f) {
+        if (Mathf.Abs(_angle) > 180f) 
+        {
             if (angle < 0)
                 _angle += 360;
             else
@@ -72,7 +73,8 @@ public class Controller : MonoBehaviour
         }
         _delta_x = Mathf.Sin(Mathf.Deg2Rad * angle) * ship_speed * Time.deltaTime;
         _delta_z = Mathf.Cos(Mathf.Deg2Rad * angle) * ship_speed * Time.deltaTime;
-        if (is_collide) {
+        if (is_collide) 
+        {
             _delta_x -= Mathf.Sin(stop_angle) * ship_speed * Time.deltaTime;
             _delta_z -= Mathf.Cos(stop_angle) * ship_speed * Time.deltaTime;
         }
@@ -80,7 +82,8 @@ public class Controller : MonoBehaviour
         _pos_x += delta_x;
         SeaWork();
     }
-    void SeaWork(){
+    void SeaWork()
+    {
         Vector2  tmpVector = 
          new Vector2(
             (_pos_x + _speed * Mathf.Sin(Mathf.Deg2Rad * _direction) * Time.time) / 4,
@@ -91,7 +94,8 @@ public class Controller : MonoBehaviour
         tmpVector.y += _speed * Mathf.Cos(Mathf.Deg2Rad * _direction) * Time.time * 0.45f;
         sea.SetVector("_Normal_vector", tmpVector);
     }
-    public void End(){
+    public void End()
+    {
         _completedLevel.SetActive(true);
         Cursor.lockState = CursorLockMode.Confined;
         Time.timeScale = 0f;

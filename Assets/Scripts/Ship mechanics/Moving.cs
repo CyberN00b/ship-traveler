@@ -91,7 +91,8 @@ public class Moving : MonoBehaviour
     }    
     void Update()
     {   
-        if (_fuel > 0 && _health > 0) {
+        if (_fuel > 0 && _health > 0) 
+        {
             if (Input.GetKeyDown(KeyCode.W))
                 _acceleration = _force / _mass;
             else 
@@ -100,46 +101,51 @@ public class Moving : MonoBehaviour
             if ((Input.GetKeyUp(KeyCode.S) && _acceleration < 0) 
                 || (Input.GetKeyUp(KeyCode.W) && _acceleration > 0))
                 _acceleration = 0;
-            if (Input.GetKeyDown(KeyCode.LeftShift))
+        } else 
+        {
+            _acceleration = 0;
+        }
+        if (Input.GetKeyDown(KeyCode.LeftShift))
+        {
+            if (_boost_amount <= 0)
+                inventory.UseItem("boost");
+            else
+                is_boosted = true;
+        }
+        if (Input.GetKeyDown(KeyCode.UpArrow)) 
+        {
+            _heal_item_selected++;
+            _heal_item_selected %= heal_items.Length;
+        } else 
+            if (Input.GetKeyDown(KeyCode.DownArrow)) 
             {
-                if (_boost_amount <= 0)
-                    inventory.UseItem("boost");
-                else
-                    is_boosted = true;
-            }
-            if (Input.GetKeyDown(KeyCode.UpArrow)) 
-            {
-                _heal_item_selected++;
-                _heal_item_selected %= heal_items.Length;
-            } else {
-                if (Input.GetKeyDown(KeyCode.DownArrow)) {
                 _heal_item_selected--;
                 if (_heal_item_selected < 0)
                     _heal_item_selected += heal_items.Length;
             }
-            if (Input.GetKeyDown(KeyCode.H)) 
-            {
-                if (heal_items[_heal_item_selected] != null)
-                    inventory.UseItem(heal_items[_heal_item_selected].item_name);
-            }
-            }
-            if (Input.GetKeyUp(KeyCode.LeftShift) && is_boosted == true) {
-                is_boosted = false;
-            }
-        } else {
-            _acceleration = 0;
+        if (Input.GetKeyDown(KeyCode.H)) 
+        {
+            if (heal_items[_heal_item_selected] != null)
+                inventory.UseItem(heal_items[_heal_item_selected].item_name);
         }
-        if (Input.GetKeyDown(KeyCode.A)){
+        if (Input.GetKeyUp(KeyCode.LeftShift) && is_boosted == true) 
+        {
+            is_boosted = false;
+        }
+        if (Input.GetKeyDown(KeyCode.A))
+        {
             _rotation_direction = -1;
         } else 
-            if (Input.GetKeyDown(KeyCode.D)){
+            if (Input.GetKeyDown(KeyCode.D))
+            {
                 _rotation_direction = 1; 
             }
         if ((Input.GetKeyUp(KeyCode.A) && _rotation_direction < 0)
             || (Input.GetKeyUp(KeyCode.D) && _rotation_direction > 0))
             _rotation_direction = 0;
         fuel -= (_fuel_decrease + Mathf.Abs(_speed / 10)) * Time.deltaTime;
-        if (is_boosted) {
+        if (is_boosted) 
+        {
             boost_amount -= 100f / booster.time_of_boost * Time.deltaTime;;
             if (_boost_amount <= 0) {
                 if (!inventory.UseItem("boost"))
@@ -149,10 +155,13 @@ public class Moving : MonoBehaviour
                 _overheat += (_overheat_increase + _overheat * 0.05f) * Time.deltaTime;
             else
                 _overheat = 100f;
-        } else {
-            if (_overheat > 0) {
+        } else 
+        {
+            if (_overheat > 0) 
+            {
                 _overheat -= _overheat_increase * Time.deltaTime * 0.5f;
-                if (_overheat < 0) {
+                if (_overheat < 0) 
+                {
                     _overheat = 0;
                 }
             }
@@ -172,15 +181,19 @@ public class Moving : MonoBehaviour
             yield return new WaitForSeconds(0.05f);
         }
     }
-    public void decreaseHealth(int damage) {
+    public void decreaseHealth(int damage) 
+    {
         _health -= damage;
-        if (_health <= 0) {
+        if (_health <= 0) 
+        {
             _health = 0;
             GameObject.Find("GameOver").GetComponent<GameOver>().EndOfHealth();
         }
     }
-    IEnumerator OverheatDamage() {
-        for (;;) {
+    IEnumerator OverheatDamage() 
+    {
+        for (;;) 
+        {
             int damage = 0;
             if (50 <= _overheat && _overheat < 75)
                 damage = Random.Range(1, 4);
@@ -190,7 +203,8 @@ public class Moving : MonoBehaviour
                 else 
                     if (90 <= _overheat && _overheat <= 100)
                         damage = Random.Range(8, 10);
-            if (damage > 0) {
+            if (damage > 0) 
+            {
                 generator.addEventText("You got " + damage + " damage on your ship by overheat!").disableAfterSec(2f);
                 decreaseHealth(damage);
             }

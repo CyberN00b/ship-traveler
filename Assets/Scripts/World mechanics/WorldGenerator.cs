@@ -88,7 +88,7 @@ public class WorldGenerator : MonoBehaviour
         {
             current_rect = new SpawnRect((int)controller.pos_x, (int)controller.pos_z);
             for (int i = current_rect.lx; i <= current_rect.rx; i += 200)
-                for (int j = current_rect.lx; j <= current_rect.rx; j += 200)
+                for (int j = current_rect.lz; j <= current_rect.rz; j += 200)
                 {
                     if (Mathf.Abs(i - controller.pos_x) + Mathf.Abs(j - controller.pos_z) < 100)
                         continue;
@@ -97,7 +97,8 @@ public class WorldGenerator : MonoBehaviour
                         bool flag = false;
                         foreach (SpawnRect rect in rects) 
                         {
-                            if (rect.IsCollide(i, j)) {
+                            if (rect.IsCollide(i, j)) 
+                            {
                                 flag = true;
                                 break;
                             }
@@ -127,7 +128,8 @@ public class WorldGenerator : MonoBehaviour
                     );
                     struction.spawned_port.is_prefab = false;
                 }
-            } else {
+            } else 
+            {
                 if (struction.spawned_port != null)
                 {
                     Destroy(struction.spawned_port);
@@ -181,7 +183,8 @@ public class WorldGenerator : MonoBehaviour
             if (rand >= bonus.frequency) 
             {
                 rand -= bonus.frequency;
-            } else {
+            } else 
+            {
                 return bonus;
             }
         }
@@ -197,14 +200,16 @@ public class WorldGenerator : MonoBehaviour
     }
     IEnumerator StructionGenerator() 
     {
-        for (;;) {
+        for (;;) 
+        {
             SpawnStructions();
             yield return new WaitForSeconds(5f);
         }
     }
     IEnumerator StructionChecker() 
     {
-        for (;;) {
+        for (;;) 
+        {
             CheckStructions();
             yield return new WaitForSeconds(4f);
         }

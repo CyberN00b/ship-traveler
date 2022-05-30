@@ -14,12 +14,15 @@ public class Speed_indicator : MonoBehaviour
     }
     void Update()
     {
-        this.GetComponent<TextMeshProUGUI>().text = "Speed: " + (player.speed * 4 + delta_speed).ToString("0.#") + " km/h";
+        this.GetComponent<TextMeshProUGUI>().text = (
+            "Speed: " + (player.speed * 4 + delta_speed).ToString("0.#") + " km/h"
+        );
     }
 
     IEnumerator NotStatic()
     {
-        for(;;) {
+        for(;;) 
+        {
             delta_speed = 0.1f * Random.Range(-Mathf.Abs(player.speed), Mathf.Abs(player.speed));
             yield return new WaitForSeconds(0.5f);
         }

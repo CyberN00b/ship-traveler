@@ -12,11 +12,13 @@ public class StaticObject : MonoBehaviour
         controller = GameObject.Find("GameController").GetComponent<Controller>();
     }
 
-    protected void Update(){
+    protected void Update()
+    {
         if (!is_prefab)
             ChangePosition();
     }
-    void ChangePosition(){
+    void ChangePosition()
+    {
         this.transform.SetPositionXZ(
             this.transform.position.x - controller.delta_x,
             this.transform.position.z - controller.delta_z

@@ -14,7 +14,6 @@ public class EventText : MonoBehaviour
     {
         _animation = this.GetComponent<Animation>();
         generator = GameObject.Find("Generator").GetComponent<InterfaceGenerator>();
-
     }
     public void changeText(string new_text) 
     {
@@ -36,10 +35,12 @@ public class EventText : MonoBehaviour
     {
         StartCoroutine("HideAndDisable");
     }
-    public void disableAfterSec(float seconds) {
+    public void disableAfterSec(float seconds) 
+    {
         StartCoroutine(DisableAfterSec(seconds));
     }
-    IEnumerator DisableAfterSec(float seconds) {
+    IEnumerator DisableAfterSec(float seconds) 
+    {
         yield return new WaitForSeconds(seconds);
         hideAndDisable();
     }
@@ -57,7 +58,8 @@ public class EventText : MonoBehaviour
     }
     IEnumerator HideAndDisable()
     {
-        if (is_showed) {
+        if (is_showed) 
+        {
             yield return StartCoroutine("Hide");
         }
         generator.removeEventText(this);

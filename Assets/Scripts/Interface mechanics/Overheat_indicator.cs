@@ -26,13 +26,16 @@ public class Overheat_indicator : MonoBehaviour
                 if (75 <= overheat && overheat < 90)
                     image.color = Color.red;
                 else 
-                    if (90 <= overheat && !coroutine_started) {
+                    if (90 <= overheat && !coroutine_started) 
+                    {
                         coroutine_started = true;
                         StartCoroutine(CriticalOverheat());
                     }
     }
-    IEnumerator CriticalOverheat() {
-        for(; player.overheat >= 90;) {
+    IEnumerator CriticalOverheat()
+    {
+        for(; player.overheat >= 90;)
+        {
             image.color = Color.yellow;
             yield return new WaitForSeconds(0.1f);
             image.color = Color.red;
