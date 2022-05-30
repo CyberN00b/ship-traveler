@@ -19,8 +19,12 @@ public class Bur : DynamicObject
         {
             Moving ship = other.GetComponent<Moving>();
             int damage_take = (int)(damage * Mathf.Abs(ship.speed) / 2f);
-            interface_generator.addEventText("You got " + damage_take + " damage on your ship by thurn!").disableAfterSec(2f);
-            ship.decreaseHealth(damage_take);
+            damage_take = Random.Range(damage_take - 2, damage_take + 2);
+            if (damage_take > 0)
+            {
+                interface_generator.addEventText("You got " + damage_take + " damage on your ship by thurn!").disableAfterSec(2f);
+                ship.decreaseHealth(damage_take);
+            }
         }
     }
 }
