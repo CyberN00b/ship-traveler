@@ -54,8 +54,10 @@ public class Controller : MonoBehaviour
     }
     void Awake() 
     {
-        _point_x = Random.Range(0, 50); // need rework
-        _point_z = Random.Range(50, 100);
+        _point_x = Random.Range(-150, 150); // need rework
+        _point_z = Random.Range(800, 1000);
+        _direction = Random.Range(-60, 60);
+        _speed = Random.Range(0.5f, 2f);
         sea = GameObject.Find("Plane").GetComponent<MeshRenderer>().material;
     }
 

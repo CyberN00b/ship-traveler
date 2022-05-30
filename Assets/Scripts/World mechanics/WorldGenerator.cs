@@ -92,7 +92,7 @@ public class WorldGenerator : MonoBehaviour
                 {
                     if (Mathf.Abs(i - controller.pos_x) + Mathf.Abs(j - controller.pos_z) < 100)
                         continue;
-                    if (Random.Range(0, 5) == 0) 
+                    if (Random.Range(0, 3) == 0) 
                     {
                         bool flag = false;
                         foreach (SpawnRect rect in rects) 
@@ -163,7 +163,7 @@ public class WorldGenerator : MonoBehaviour
                     {
                         angle = 360 - Mathf.Abs(angle) - Mathf.Abs(point_angle);
                     } 
-                    if (Random.Range(0, 5000) == 0 && angle > -90 && angle < 90)
+                    if (Random.Range(0, 2000) == 0 && angle > -90 && angle < 90)
                     {
                         var tmp = Instantiate(GetRandomBonus(), new Vector3(i, 0f, j), Quaternion.identity, transform);
                         tmp.transform.SetLocalPositionY(tmp.spawnY);
