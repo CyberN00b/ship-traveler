@@ -46,7 +46,9 @@ public class OilBase : Port
     private IEnumerator CheckBase()
     {
         yield return new WaitUntil(() => _is_activated == true);
-        EventText text = interface_generator.addEventText("Press F to buy barrel of oil (" + _barrel_cost + " coins)", "oil_base");
+        EventText text = interface_generator.addEventText(
+            "Press F to buy barrel of oil (" + _barrel_cost + " coins)", "oil_base"
+        );
         yield return new WaitUntil(() => _is_activated == false);
         text.hideAndDisable();
         StartCoroutine(CheckBase());

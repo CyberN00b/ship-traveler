@@ -30,14 +30,20 @@ public class Effect : MonoBehaviour
             if (_currentSpeed > high_speed)
             {
                 transform.localPosition -= new Vector3(0, -_speedEff, _speedEff) * Time.deltaTime;
-                transform.localPosition = new Vector3(transform.localPosition.x, Mathf.Clamp(transform.localPosition.y, min_y, max_y), 
-                    Mathf.Clamp(transform.localPosition.z, max_z , min_z));
+                transform.localPosition = new Vector3(
+                    transform.localPosition.x, 
+                    Mathf.Clamp(transform.localPosition.y, min_y, max_y), 
+                    Mathf.Clamp(transform.localPosition.z, max_z , min_z)
+                );
             }
             else
             {
                 transform.localPosition += new Vector3(0, -_speedEff, _speedEff) * Time.deltaTime;
-                transform.localPosition = new Vector3(transform.localPosition.x, Mathf.Clamp(transform.localPosition.y, min_y, max_y),
-                    Mathf.Clamp(transform.localPosition.z, max_z, min_z));
+                transform.localPosition = new Vector3(
+                    transform.localPosition.x, 
+                    Mathf.Clamp(transform.localPosition.y, min_y, max_y),
+                    Mathf.Clamp(transform.localPosition.z, max_z, min_z)
+                );
             }
         }
     }

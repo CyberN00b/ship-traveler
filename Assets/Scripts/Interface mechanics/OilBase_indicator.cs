@@ -36,7 +36,10 @@ public class OilBase_indicator : MonoBehaviour
                 } 
             }
             if (flag)
-                this.GetComponent<TextMeshProUGUI>().text = "Nearest oil base - x: " + z.ToString("0.") + " z: " + x.ToString("0.");
+                this.GetComponent<TextMeshProUGUI>().text = (
+                    "Nearest oil base - x: " + z.ToString("0.") + 
+                    " z: " + x.ToString("0.")
+                );
             else
                 this.GetComponent<TextMeshProUGUI>().text = "Nearest oil base is not found";
             yield return new WaitForSeconds(3f);

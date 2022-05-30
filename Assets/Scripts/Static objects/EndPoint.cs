@@ -5,7 +5,8 @@ using UnityEngine;
 public class EndPoint : Port
 {
     private InterfaceGenerator generator = null;
-    new void Start() {
+    new void Start() 
+    {
         _distance = 20;
         _collide_zone = 10;
         base.Start();
@@ -17,7 +18,8 @@ public class EndPoint : Port
     new void Update()
     {
         base.Update();
-        if (_is_activated) {
+        if (_is_activated) 
+        {
             if (Input.GetKey(KeyCode.F))
                 controller.End();
         }

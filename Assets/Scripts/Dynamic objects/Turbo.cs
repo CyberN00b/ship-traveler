@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class Turbo : Bonus
 {
+    bool is_taking = false;
     new void Awake()
     {
         base.Awake();
@@ -12,13 +13,34 @@ public class Turbo : Bonus
     }
     private void OnTriggerEnter(Collider other)
     {
-        if (other.name == "Player") {
+        if (other.name == "Player") 
+        {
             Inventory inventory = other.GetComponent<Inventory>();
-            Item_boost boost = new Item_boost();
-            if (inventory.AddItem(boost)) {
+            if (inventory.AddItem(new Item_boost())) 
+            {
                 interface_generator.addEventText("You picked up the booster!").disableAfterSec(1.5f);
                 Destroy(gameObject);
+            } else {
+                is_taking = true;
+                StartCoroutine(IsTaking(inventory));
             }
+        }
+    }
+    private void OnTriggerExit(Collider other) 
+    {
+        if (other.name == "Player" && is_taking) 
+        {
+            is_taking = false;
+        }
+    }
+    IEnumerator IsTaking(Inventory inventory) 
+    {
+        yield return new WaitUntil(() => !inventory.CanAddItem());
+        if (is_taking) 
+        {
+            inventory.AddItem(new Item_boost());
+            interface_generator.addEventText("You picked up the booster!").disableAfterSec(1.5f);
+            Destroy(gameObject);
         }
     }
 }

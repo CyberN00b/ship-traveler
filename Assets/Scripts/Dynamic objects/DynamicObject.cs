@@ -28,7 +28,8 @@ public class DynamicObject : MonoBehaviour
 
     protected void Update()
     {
-        if (!is_prefab) {
+        if (!is_prefab) 
+        {
             float x = transform.position.x, z = this.transform.position.z;
             if (radius * radius <= x * x + z * z)
                 Destroy(gameObject);

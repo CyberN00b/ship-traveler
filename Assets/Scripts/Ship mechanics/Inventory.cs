@@ -23,14 +23,15 @@ public class Inventory : MonoBehaviour
     }
     public bool AddItem(Item item)
     {
-        if (_count_of_items >= size_of_inventory) 
+        if (CanAddItem()) 
         {
             generator.addEventText("You can't take anymore!").disableAfterSec(2f);
             return false;
         }
         Item tmp = GetItem(item.item_name);
         _count_of_items++;
-        if (tmp != null) {
+        if (tmp != null) 
+        {
             tmp.count++;
             return true;
         }
@@ -47,7 +48,7 @@ public class Inventory : MonoBehaviour
     public bool UseItem(string name) 
     {
         Item item = GetItem(name);
-        if (item == null || just_used_items.Contains(name))
+        if (!CanUseItem(item))
             return false;
         int count = item.count;
         if (item.is_usable && item.UseItem()) 
@@ -76,7 +77,20 @@ public class Inventory : MonoBehaviour
         }
         return null;
     }
-    bool RemoveItem(string name)
+    public bool CanUseItem(string name) 
+    {
+        Item item = GetItem(name);
+        return !(item == null || just_used_items.Contains(name));
+    }
+    public bool CanUseItem(Item item)
+    {
+        return !(item == null || just_used_items.Contains(item.item_name));
+    }
+    public bool CanAddItem(int count = 1) 
+    {
+        return (_count_of_items + count) > size_of_inventory;
+    }
+    public bool RemoveItem(string name)
     {
         Item item = GetItem(name);
         if (item == null)

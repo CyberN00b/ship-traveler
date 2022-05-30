@@ -12,6 +12,6 @@ public class Fuel_indicator : MonoBehaviour
     }
     void Update()
     {
-        this.GetComponent<TextMeshProUGUI>().text = "Fuel: " + player.fuel.ToString("0.##");
+        this.GetComponent<TextMeshProUGUI>().text = "Fuel: " + player.fuel.ToString("0.00");
     }
 }
