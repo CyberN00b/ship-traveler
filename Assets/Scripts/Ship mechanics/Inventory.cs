@@ -13,6 +13,7 @@ public class Inventory : MonoBehaviour
     private int _count_of_items = 0;
     [SerializeField]
     private int size_of_inventory = 10;
+    private AudioSource audio;
     public int cash 
     {
         get {return _cash;}
@@ -51,9 +52,11 @@ public class Inventory : MonoBehaviour
         if (!CanUseItem(item))
             return false;
         int count = item.count;
-        if (item.is_usable && item.UseItem()) 
-        {
+        if (item.is_usable && item.UseItem()) {
+            audio = item._audio;
+            audio.Play();
             generator.addEventText("You used " + item.full_name + "!").disableAfterSec(2f);
+            
             if (item.time_of_wait > 0)
                 StartCoroutine(WaitOfUse(item.item_name, item.time_of_wait));
             if (item.count != count) {
