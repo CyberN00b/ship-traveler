@@ -12,6 +12,7 @@ public class Controller : MonoBehaviour
     private Material sea = null;
     [SerializeField]
     private GameObject _completedLevel;
+    private MenuController _menuController = null;
     private float _point_x = 0;
     private float _point_z = 0; 
     private float _speed = 1; // - sea speed 
@@ -54,11 +55,12 @@ public class Controller : MonoBehaviour
     }
     void Awake() 
     {
-        _point_x = Random.Range(-150, 150); // need rework
-        _point_z = Random.Range(800, 1000);
+        _point_x = Random.Range(-15, 15); // need rework
+        _point_z = Random.Range(80,100);
         _direction = Random.Range(-60, 60);
         _speed = Random.Range(0.5f, 2f);
         sea = GameObject.Find("Plane").GetComponent<MeshRenderer>().material;
+        _menuController = this.GetComponent<MenuController>();
     }
 
     public void ChangePositionByShip(float ship_speed, float delta_angle) 
@@ -96,8 +98,6 @@ public class Controller : MonoBehaviour
     }
     public void End()
     {
-        _completedLevel.SetActive(true);
-        Cursor.lockState = CursorLockMode.Confined;
-        Time.timeScale = 0f;
+        _menuController.EnableMenu(_completedLevel, 2);
     }
 }

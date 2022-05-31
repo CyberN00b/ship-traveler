@@ -31,6 +31,7 @@ public class Moving : MonoBehaviour
     public bool is_boosted = false;
     private Controller controller = null;
     private InterfaceGenerator generator = null;
+    private MenuController menu_controller = null;
     private Inventory inventory = null;
     private Item_boost booster = null;
     private Item[] heal_items;
@@ -77,6 +78,7 @@ public class Moving : MonoBehaviour
     {
         controller = GameObject.Find("GameController").GetComponent<Controller>();
         generator = GameObject.Find("Generator").GetComponent<InterfaceGenerator>();
+        menu_controller = GameObject.Find("GameController").GetComponent<MenuController>();
         inventory = this.GetComponent<Inventory>();
         _max_speed = _force / (_percent_stop * _mass);
         _rotation_N = _max_rotation / _max_speed;
@@ -91,6 +93,8 @@ public class Moving : MonoBehaviour
     }    
     void Update()
     {   
+        if (menu_controller.IsEnabled())
+            return;
         if (_fuel > 0 && _health > 0) 
         {
             if (Input.GetKeyDown(KeyCode.W))

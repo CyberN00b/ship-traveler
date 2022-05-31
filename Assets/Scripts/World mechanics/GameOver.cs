@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 
 public class GameOver : MonoBehaviour
@@ -11,26 +12,16 @@ public class GameOver : MonoBehaviour
 
     private GameObject _player;
     private InterfaceGenerator generator = null; 
-    
+    private MenuController menu_controller = null;
 
     void Start()
     {
         _player = GameObject.Find("Player");
         generator = GameObject.Find("Generator").GetComponent<InterfaceGenerator>();
+        menu_controller = GameObject.Find("GameController").GetComponent<MenuController>();
+        _gameOver.transform.GetChild(0).GetComponent<Button>().onClick.AddListener(menu_controller.StartGame);
+        _gameOver.transform.GetChild(1).GetComponent<Button>().onClick.AddListener(menu_controller.ToMainMenu);
         StartCoroutine(IncreaseCanvas());
-    }
-
-    public void Restart()
-    {
-        SceneManager.LoadScene("Game");
-        Time.timeScale = 1f;
-        Cursor.lockState = CursorLockMode.Locked;
-    }
-
-    public void Menu()
-    {
-        SceneManager.LoadScene("MainMenu");
-        Time.timeScale = 1f;
     }
     private void RestartCoroutine() 
     {
@@ -50,7 +41,7 @@ public class GameOver : MonoBehaviour
     private IEnumerator IncreaseCanvas()
     {
         Moving player = _player.GetComponent<Moving>();
-        while (player.fuel > 0f) 
+        while (player.fuel > 0f)
         {
             yield return new WaitForSeconds(1f);  
         }
@@ -77,8 +68,6 @@ public class GameOver : MonoBehaviour
     }
     void GameIsOver() 
     {
-        _gameOver.SetActive(true);
-        Time.timeScale = 0f;
-        Cursor.lockState = CursorLockMode.Confined;
+        menu_controller.EnableMenu(_gameOver, 2);
     } 
 }

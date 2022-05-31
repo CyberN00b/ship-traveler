@@ -8,6 +8,7 @@ public class OilBase : Port
     private InterfaceGenerator interface_generator = null;
     private WorldGenerator generator = null;
     private Inventory inventory = null;
+    private MenuController menu_controller = null;
     [SerializeField]
     private FuelBuy barrel = null;
     private bool waiting = false;
@@ -25,13 +26,16 @@ public class OilBase : Port
         inventory = GameObject.Find("Player").GetComponent<Inventory>();
         interface_generator = GameObject.Find("Generator").GetComponent<InterfaceGenerator>();
         generator = GameObject.Find("Generator").GetComponent<WorldGenerator>();
+        menu_controller = GameObject.Find("GameController").GetComponent<MenuController>();
         StartCoroutine(CheckBase());
     }
     new void Update()
     {   
         base.Update();
         if (_is_activated) {
-            if (Input.GetKey(KeyCode.F) && !waiting && inventory.cash >= _barrel_cost)
+            if (Input.GetKey(KeyCode.F) && !waiting && 
+                inventory.cash >= _barrel_cost && !menu_controller.IsEnabled()
+            )
                 BuyOil();
         }
     }
