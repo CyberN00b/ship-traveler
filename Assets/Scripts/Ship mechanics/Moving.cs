@@ -92,7 +92,8 @@ public class Moving : MonoBehaviour
         StartCoroutine(OverheatDamage());
     }    
     void Update()
-    {   
+    {
+        controller.ChangePositionByShip(_speed, _rotation);
         if (menu_controller.IsEnabled())
             return;
         if (_fuel > 0 && _health > 0) 
@@ -161,7 +162,7 @@ public class Moving : MonoBehaviour
                 _overheat = 100f;
         } else 
         {
-            if (_overheat > 0) 
+            if (_overheat > 0)
             {
                 _overheat -= _overheat_increase * Time.deltaTime * 0.5f;
                 if (_overheat < 0) 
@@ -170,7 +171,6 @@ public class Moving : MonoBehaviour
                 }
             }
         }
-        controller.ChangePositionByShip(_speed, _rotation);
         this.transform.SetEulerAnglesY(controller.angle);
         this.transform.SetEulerAnglesZ(_rotation / 5);
     }

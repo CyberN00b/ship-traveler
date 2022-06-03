@@ -11,7 +11,7 @@ public class MenuController : MonoBehaviour
     void Start() 
     {
         Cursor.lockState = CursorLockMode.Locked;
-        Time.timeScale = 1;
+        Time.timeScale = 1f;
     }
     public void EnableMenu(GameObject menu, int menu_strength, bool is_stop = true) 
     {
@@ -23,9 +23,9 @@ public class MenuController : MonoBehaviour
             Cursor.lockState = CursorLockMode.Confined;
             current_menu = menu;
             if (is_stop) 
-                Time.timeScale = 0;
+                Time.timeScale = 0f;
             else 
-                Time.timeScale = 1;
+                Time.timeScale = 1f;
             is_time_stoped = is_stop;
             strength = menu_strength;
         }
@@ -34,7 +34,7 @@ public class MenuController : MonoBehaviour
     {
         if (is_time_stoped) 
         {
-            Time.timeScale = 1;
+            Time.timeScale = 1f;
             is_time_stoped = false;
         }
         strength = 0;
