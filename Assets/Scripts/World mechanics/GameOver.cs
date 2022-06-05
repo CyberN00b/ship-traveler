@@ -50,11 +50,6 @@ public class GameOver : MonoBehaviour
         {
             yield return new WaitForSeconds(1f);
         }
-        if (player.fuel > 0f) 
-        {
-            txt.hideAndDisable();
-            RestartCoroutine();
-        }
         Inventory inventory = _player.GetComponent<Inventory>();
         OilBase oilBase = new OilBase();
         while (
@@ -64,6 +59,11 @@ public class GameOver : MonoBehaviour
             yield return new WaitForSeconds(2f);
         }
         yield return new WaitForSeconds(2f);
+        if (player.fuel > 0f)
+        {
+            txt.hideAndDisable();
+            RestartCoroutine();
+        }
         GameIsOver();
     }
     void GameIsOver() 

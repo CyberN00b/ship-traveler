@@ -32,6 +32,7 @@ public class Moving : MonoBehaviour
     private Controller controller = null;
     private InterfaceGenerator generator = null;
     private MenuController menu_controller = null;
+    private AudioSource audio_source = null;
     private Inventory inventory = null;
     private Item_boost booster = null;
     private Item[] heal_items;
@@ -79,6 +80,7 @@ public class Moving : MonoBehaviour
         controller = GameObject.Find("GameController").GetComponent<Controller>();
         generator = GameObject.Find("Generator").GetComponent<InterfaceGenerator>();
         menu_controller = GameObject.Find("GameController").GetComponent<MenuController>();
+        audio_source = this.GetComponent<AudioSource>();
         inventory = this.GetComponent<Inventory>();
         _max_speed = _force / (_percent_stop * _mass);
         _rotation_N = _max_rotation / _max_speed;

@@ -47,6 +47,7 @@ public class WorldGenerator : MonoBehaviour
     [SerializeField]
     private float _game_radius = 90;
     private int sum_of_frequency = 0;
+    private float _last_bonuses_spawn = 0;
     private EndPoint _End = null;
     public float player_radius {
         get{return _player_radius;}
@@ -133,7 +134,7 @@ public class WorldGenerator : MonoBehaviour
             {
                 if (struction.spawned_port != null)
                 {
-                    Destroy(struction.spawned_port);
+                    Destroy(struction.spawned_port.gameObject);
                     struction.spawned_port = null;
                 }
             }
@@ -196,7 +197,10 @@ public class WorldGenerator : MonoBehaviour
         for (;;) 
         {
             SpawnBonus();
-            yield return new WaitForSeconds((game_radius - player_radius) / ((ship.speed + controller.speed) * 2));
+            _last_bonuses_spawn = Time.time;
+            yield return new WaitUntil(() => 
+                Time.time - _last_bonuses_spawn > ((game_radius - player_radius) / ((ship.speed + controller.speed) * 2))
+            );
         }
     }
     IEnumerator StructionGenerator() 
