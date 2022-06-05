@@ -21,6 +21,8 @@ public class Controller : MonoBehaviour
     private float _angle = 0;
     private float _delta_x = 0;
     private float _delta_z = 0;
+    public float delta_x = 0;
+    public float delta_z = 0;
     public float point_x {
         get {return _point_x;}
     }
@@ -33,8 +35,6 @@ public class Controller : MonoBehaviour
     public float angle {
         get {return _angle;}
     }
-    public float delta_x = 0;
-    public float delta_z = 0;
     public float direction {
         get {return _direction;}
     }
