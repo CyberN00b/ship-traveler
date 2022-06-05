@@ -199,7 +199,7 @@ public class WorldGenerator : MonoBehaviour
             SpawnBonus();
             _last_bonuses_spawn = Time.time;
             yield return new WaitUntil(() => 
-                Time.time - _last_bonuses_spawn > ((game_radius - player_radius) / ((ship.speed + controller.speed) * 2))
+                Time.time - _last_bonuses_spawn > ((game_radius - player_radius) / ((Mathf.Abs(ship.speed) + controller.speed) * 2))
             );
         }
     }
