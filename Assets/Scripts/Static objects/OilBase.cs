@@ -21,7 +21,7 @@ public class OilBase : Port
     new void Start()
     {
         _distance = 10;
-        _collide_zone = 6;
+        _collide_zone = 7;
         base.Start();
         this.GetComponent<SphereCollider>().radius = _collide_zone;
         inventory = GameObject.Find("Player").GetComponent<Inventory>();

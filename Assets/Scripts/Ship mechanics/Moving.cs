@@ -95,7 +95,7 @@ public class Moving : MonoBehaviour
     }    
     void Update()
     {
-        controller.ChangePositionByShip(_speed, _rotation);
+        controller.ChangePosition(_speed, _rotation);
         if (menu_controller.IsEnabled())
             return;
         if (_fuel > 0 && _health > 0) 

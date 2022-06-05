@@ -21,9 +21,6 @@ public class Controller : MonoBehaviour
     private float _angle = 0;
     private float _delta_x = 0;
     private float _delta_z = 0;
-    private float _delta_angle = 0;
-    public float stop_angle = 0;
-    public bool is_collide = false;
     public float point_x {
         get {return _point_x;}
     }
@@ -36,14 +33,8 @@ public class Controller : MonoBehaviour
     public float angle {
         get {return _angle;}
     }
-    public float delta_x {
-        get {return _delta_x;}
-        set {_delta_x = value;}
-    }
-    public float delta_z {
-        get {return _delta_z;}
-        set {_delta_z = value;}
-    }
+    public float delta_x = 0;
+    public float delta_z = 0;
     public float direction {
         get {return _direction;}
     }
@@ -62,27 +53,32 @@ public class Controller : MonoBehaviour
         sea = GameObject.Find("Plane").GetComponent<MeshRenderer>().material;
         _menuController = this.GetComponent<MenuController>();
     }
-
-    public void ChangePositionByShip(float ship_speed, float delta_angle) 
+    void Update() 
     {
-        _angle += Time.deltaTime * delta_angle * ship_speed / 10;
-        if (Mathf.Abs(_angle) > 180f) 
-        {
-            if (angle < 0)
-                _angle += 360;
-            else
-                _angle -= 360;
-        }
-        _delta_x = Mathf.Sin(Mathf.Deg2Rad * angle) * ship_speed * Time.deltaTime;
-        _delta_z = Mathf.Cos(Mathf.Deg2Rad * angle) * ship_speed * Time.deltaTime;
-        if (is_collide) 
-        {
-            _delta_x -= Mathf.Sin(stop_angle) * ship_speed * Time.deltaTime;
-            _delta_z -= Mathf.Cos(stop_angle) * ship_speed * Time.deltaTime;
-        }
+        delta_x = _delta_x;
+        delta_z = _delta_z;
         _pos_z += delta_z;
         _pos_x += delta_x;
         SeaWork();
+        _delta_x = 0;
+        _delta_z = 0;
+    }
+    public void ChangePosition(float change_speed, float change_angle = 0, bool is_delta = true) 
+    {
+        if (is_delta)
+        {
+            _angle += Time.deltaTime * change_angle * change_speed / 10;
+            if (Mathf.Abs(_angle) > 180f)
+            {
+                if (_angle < 0)
+                    _angle += 360;
+                else
+                    _angle -= 360;
+            }
+            change_angle = _angle;
+        }
+        _delta_x += Mathf.Sin(Mathf.Deg2Rad * change_angle) * change_speed * Time.deltaTime;
+        _delta_z += Mathf.Cos(Mathf.Deg2Rad * change_angle) * change_speed * Time.deltaTime;
     }
     void SeaWork()
     {
@@ -92,8 +88,7 @@ public class Controller : MonoBehaviour
             (_pos_z + _speed * Mathf.Cos(Mathf.Deg2Rad * _direction) * Time.time) / 4
          );
         sea.SetVector("_Wave_vector", tmpVector);
-        tmpVector.x += _speed * Mathf.Sin(Mathf.Deg2Rad * _direction) * Time.time * 0.45f;
-        tmpVector.y += _speed * Mathf.Cos(Mathf.Deg2Rad * _direction) * Time.time * 0.45f;
+        tmpVector *= 1.45f;
         sea.SetVector("_Normal_vector", tmpVector);
     }
     public void End()

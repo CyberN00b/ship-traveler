@@ -24,7 +24,8 @@ public class Port : StaticObject
         if (_is_collide) 
         {
             float x = this.transform.position.x, z = this.transform.position.z;
-            controller.stop_angle = Mathf.Atan2(x, z);
+            float stop_angle = Mathf.Atan2(-x, -z) * Mathf.Rad2Deg;
+            controller.ChangePosition((_collide_zone - Mathf.Sqrt(x * x + z * z)) * 2, stop_angle, false);
         }
     }
     IEnumerator PortCheck()
@@ -33,20 +34,8 @@ public class Port : StaticObject
             for (;;) 
             {
                 float x = this.transform.position.x, z = this.transform.position.z;
-                if (x * x + z * z <= _distance * _distance)
-                    _is_activated = true;
-                else
-                    _is_activated = false;
-                if (x * x  + z * z < _collide_zone * _collide_zone) 
-                {
-                    _is_collide = true;
-                    controller.is_collide = true;
-                } else 
-                    if (_is_collide)
-                    {
-                        _is_collide = false;
-                        controller.is_collide = false;
-                    }
+                _is_activated = x * x + z * z <= _distance * _distance;
+                _is_collide = x * x  + z * z <= _collide_zone * _collide_zone;
                 yield return new WaitForSeconds(0.1f);
             }
     }

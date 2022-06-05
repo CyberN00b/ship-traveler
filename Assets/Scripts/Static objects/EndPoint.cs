@@ -9,7 +9,7 @@ public class EndPoint : Port
     new void Start() 
     {
         _distance = 20;
-        _collide_zone = 10;
+        _collide_zone = 11;
         base.Start();
         this.GetComponent<SphereCollider>().radius = _collide_zone;
         generator = GameObject.Find("Generator").GetComponent<InterfaceGenerator>();
