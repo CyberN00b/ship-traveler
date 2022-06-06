@@ -5,9 +5,9 @@ using UnityEngine;
 public class Moving : MonoBehaviour
 {
     [SerializeField]
-    private float _speed = 0; // - ship speed
+    private float _speed = 0;
     [SerializeField]
-    private float _fuel = 100; // - ship fuel
+    private float _fuel = 100;
     private float _max_fuel = 100;
     private float _max_speed = 0;
     private float _fuel_decrease = 0.3f; 
@@ -20,14 +20,14 @@ public class Moving : MonoBehaviour
     private float _overheat = 0;
     private float _overheat_increase = 2f;
     private float _boost_amount = 0f;
-    private float _mass = 5; // - ship mass
-    private float _acceleration = 0; // - ship acceleration
-    private float _force = 5f; // - ship force
-    private float _rotation = 0; // - ship rotation
-    private int _rotation_direction = 0; // - ship rotation speed
-    private float _max_rotation = 30; // - ship max rotation speed
-    private float _rotation_N = 0; // - calculation variable
-    private float _percent_stop = 0.2f; // - ship passive stoping (_speed * _percent_stop)
+    private float _mass = 5;
+    private float _acceleration = 0;
+    private float _force = 5f;
+    private float _rotation = 0;
+    private int _rotation_direction = 0;
+    private float _max_rotation = 30;
+    private float _rotation_N = 0;
+    private float _percent_stop = 0.2f;
     public bool is_boosted = false;
     private Controller controller = null;
     private InterfaceGenerator generator = null;
