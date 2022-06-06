@@ -151,10 +151,17 @@ public class Moving : MonoBehaviour
             || (Input.GetKeyUp(KeyCode.D) && _rotation_direction > 0))
             _rotation_direction = 0;
         fuel -= (_fuel_decrease + Mathf.Abs(_speed / 10)) * Time.deltaTime;
-        if (is_boosted) 
+        BoostWork();
+        this.transform.SetEulerAnglesY(controller.angle);
+        this.transform.SetEulerAnglesZ(_rotation / 5);
+    }
+    void BoostWork() 
+    {
+        if (is_boosted)
         {
             boost_amount -= 100f / booster.time_of_boost * Time.deltaTime;;
-            if (_boost_amount <= 0) {
+            if (_boost_amount <= 0) 
+            {
                 if (!inventory.UseItem("boost"))
                     is_boosted = false;
             }
@@ -167,14 +174,12 @@ public class Moving : MonoBehaviour
             if (_overheat > 0)
             {
                 _overheat -= _overheat_increase * Time.deltaTime * 0.5f;
-                if (_overheat < 0) 
+                if (_overheat < 0)
                 {
                     _overheat = 0;
                 }
             }
         }
-        this.transform.SetEulerAnglesY(controller.angle);
-        this.transform.SetEulerAnglesZ(_rotation / 5);
     }
     IEnumerator SpeedWork() 
     {

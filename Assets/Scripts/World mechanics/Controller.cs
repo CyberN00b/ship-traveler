@@ -15,9 +15,9 @@ public class Controller : MonoBehaviour
     private MenuController _menuController = null;
     private float _point_x = 0;
     private float _point_z = 0; 
-    private float _speed = 1; // - sea speed 
-    private float _pos_x = 0; // - ship coord x
-    private float _pos_z = 0; // - ship coord z
+    private float _speed = 1;
+    private float _pos_x = 0;
+    private float _pos_z = 0;
     private float _angle = 0;
     private float _delta_x = 0;
     private float _delta_z = 0;

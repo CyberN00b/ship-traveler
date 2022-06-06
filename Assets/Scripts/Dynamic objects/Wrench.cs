@@ -28,7 +28,7 @@ public class Wrench : Bonus
     }
     private void OnTriggerExit(Collider other) 
     {
-        if (other.name == "Player" && is_taking) 
+        if (other.name == "Player") 
         {
             is_taking = false;
         }
@@ -36,7 +36,7 @@ public class Wrench : Bonus
     IEnumerator IsTaking(Inventory inventory) 
     {
         yield return new WaitUntil(() => !inventory.CanAddItem());
-        if (is_taking) 
+        if (is_taking)
         {
             inventory.AddItem(new Item_wrench());
             interface_generator.addEventText("You picked up the wrench!").disableAfterSec(1.5f);

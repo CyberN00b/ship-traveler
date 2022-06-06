@@ -86,7 +86,7 @@ public class WorldGenerator : MonoBehaviour
             current_rect == null ||
             Mathf.Abs(current_rect.center_x - controller.pos_x) > 350 || 
             Mathf.Abs(current_rect.center_z - controller.pos_z) > 350
-            ) 
+            )
         {
             current_rect = new SpawnRect((int)controller.pos_x, (int)controller.pos_z);
             for (int i = current_rect.lx; i <= current_rect.rx; i += 200)
@@ -111,6 +111,7 @@ public class WorldGenerator : MonoBehaviour
                         }
                     }
                 }
+            rects.Add(current_rect);
         }
     }
     void CheckStructions() 
@@ -143,7 +144,7 @@ public class WorldGenerator : MonoBehaviour
     void SpawnBonus()
     {
         float ship_angle = controller.angle;
-        if (ship.speed < 0) 
+        if (ship.speed < 0)
         {
             ship_angle += 180;
             if (Mathf.Abs(ship_angle) > 180f) 
@@ -163,10 +164,10 @@ public class WorldGenerator : MonoBehaviour
                 if (_game_radius * _game_radius > radius && radius > _player_radius * _player_radius) 
                 {
                     float angle = Mathf.Atan2(i, j) * Mathf.Rad2Deg - point_angle;
-                    if (Mathf.Abs(point_angle) > 90 && ((angle >= 0 && point_angle < 0) || (angle < 0 && point_angle >= 0))) 
+                    if (Mathf.Abs(point_angle) > 90 &&  Mathf.Sign(angle) != Mathf.Sign(point_angle)) 
                     {
-                        angle = 360 - Mathf.Abs(angle) - Mathf.Abs(point_angle);
-                    } 
+                        angle = 360 - Mathf.Abs(angle) - Mathf.Abs(point_angle); 
+                    }
                     if (Random.Range(0, 2000) == 0 && angle > -90 && angle < 90)
                     {
                         var tmp = Instantiate(GetRandomBonus(), new Vector3(i, 0f, j), Quaternion.identity, transform);
@@ -183,12 +184,9 @@ public class WorldGenerator : MonoBehaviour
         foreach (DynamicObject bonus in _bonusprefabs) 
         {
             if (rand >= bonus.frequency) 
-            {
                 rand -= bonus.frequency;
-            } else 
-            {
+             else 
                 return bonus;
-            }
         }
         return null;
     }

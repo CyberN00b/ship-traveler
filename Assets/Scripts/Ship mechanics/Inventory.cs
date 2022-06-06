@@ -24,7 +24,7 @@ public class Inventory : MonoBehaviour
     }
     public bool AddItem(Item item)
     {
-        if (CanAddItem()) 
+        if (CanAddItem())
         {
             generator.addEventText("You can't take anymore!").disableAfterSec(2f);
             return false;
@@ -46,23 +46,25 @@ public class Inventory : MonoBehaviour
             return 0;
         return tmp.count;
     }
-    public bool UseItem(string name) 
+    public bool UseItem(string name)
     {
         Item item = GetItem(name);
         if (!CanUseItem(item))
             return false;
         int count = item.count;
-        if (item.is_usable && item.UseItem()) {
+        if (item.is_usable && item.UseItem())
+        {
             audio = item._audio;
             audio.Play();
             generator.addEventText("You used " + item.full_name + "!").disableAfterSec(2f);
-            
             if (item.time_of_wait > 0)
                 StartCoroutine(WaitOfUse(item.item_name, item.time_of_wait));
-            if (item.count != count) {
+            if (item.count != count) 
+            {
                 _count_of_items -= count - item.count;
             }
-            if (item.count <= 0) {
+            if (item.count <= 0) 
+            {
                 items.Remove(item);
             }
             return true;
