@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class Item
 {
+    public AudioSource _audio;
     public bool is_usable = false;
     public string item_name = "";
     public string full_name = "";

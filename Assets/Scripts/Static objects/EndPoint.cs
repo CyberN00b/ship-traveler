@@ -5,13 +5,15 @@ using UnityEngine;
 public class EndPoint : Port
 {
     private InterfaceGenerator generator = null;
+    private MenuController menu_controller = null;
     new void Start() 
     {
         _distance = 20;
-        _collide_zone = 10;
+        _collide_zone = 11;
         base.Start();
         this.GetComponent<SphereCollider>().radius = _collide_zone;
         generator = GameObject.Find("Generator").GetComponent<InterfaceGenerator>();
+        menu_controller = GameObject.Find("GameController").GetComponent<MenuController>();
         StartCoroutine(EndLevel());
 
     }
@@ -20,7 +22,7 @@ public class EndPoint : Port
         base.Update();
         if (_is_activated) 
         {
-            if (Input.GetKey(KeyCode.F))
+            if (Input.GetKey(KeyCode.F) && !menu_controller.IsEnabled())
                 controller.End();
         }
     }

@@ -31,6 +31,8 @@ public class Moving : MonoBehaviour
     public bool is_boosted = false;
     private Controller controller = null;
     private InterfaceGenerator generator = null;
+    private MenuController menu_controller = null;
+    private AudioSource audio_source = null;
     private Inventory inventory = null;
     private Item_boost booster = null;
     private Item[] heal_items;
@@ -77,6 +79,8 @@ public class Moving : MonoBehaviour
     {
         controller = GameObject.Find("GameController").GetComponent<Controller>();
         generator = GameObject.Find("Generator").GetComponent<InterfaceGenerator>();
+        menu_controller = GameObject.Find("GameController").GetComponent<MenuController>();
+        audio_source = this.GetComponent<AudioSource>();
         inventory = this.GetComponent<Inventory>();
         _max_speed = _force / (_percent_stop * _mass);
         _rotation_N = _max_rotation / _max_speed;
@@ -90,7 +94,10 @@ public class Moving : MonoBehaviour
         StartCoroutine(OverheatDamage());
     }    
     void Update()
-    {   
+    {
+        controller.ChangePosition(_speed, _rotation);
+        if (menu_controller.IsEnabled())
+            return;
         if (_fuel > 0 && _health > 0) 
         {
             if (Input.GetKeyDown(KeyCode.W))
@@ -157,7 +164,7 @@ public class Moving : MonoBehaviour
                 _overheat = 100f;
         } else 
         {
-            if (_overheat > 0) 
+            if (_overheat > 0)
             {
                 _overheat -= _overheat_increase * Time.deltaTime * 0.5f;
                 if (_overheat < 0) 
@@ -166,7 +173,6 @@ public class Moving : MonoBehaviour
                 }
             }
         }
-        controller.ChangePositionByShip(_speed, _rotation);
         this.transform.SetEulerAnglesY(controller.angle);
         this.transform.SetEulerAnglesZ(_rotation / 5);
     }

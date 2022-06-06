@@ -22,8 +22,8 @@ public class Bonus : DynamicObject
             if (radius_of_getting * radius_of_getting >= x * x + z * z)
             {
                 this.transform.SetPositionXZ(
-                    x - (((x < 0)? -1 : 1) + x) * speed_of_getting * Time.deltaTime,
-                    z - (((z < 0)? -1 : 1) + z) * speed_of_getting * Time.deltaTime
+                    x - (((x < 0)? -controller.speed : controller.speed) + x) * speed_of_getting * Time.deltaTime,
+                    z - (((z < 0)? -controller.speed : controller.speed) + z) * speed_of_getting * Time.deltaTime
                 );
             }
         }

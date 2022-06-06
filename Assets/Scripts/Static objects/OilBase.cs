@@ -8,35 +8,42 @@ public class OilBase : Port
     private InterfaceGenerator interface_generator = null;
     private WorldGenerator generator = null;
     private Inventory inventory = null;
+    private MenuController menu_controller = null;
     [SerializeField]
     private FuelBuy barrel = null;
     private bool waiting = false;
     private float time_of_wait = 0.5f;
     private Vector3 spawn;
+    private AudioSource _sale;
     public int barrel_cost {
         get {return _barrel_cost;}
     }
     new void Start()
     {
         _distance = 10;
-        _collide_zone = 6;
+        _collide_zone = 7;
         base.Start();
         this.GetComponent<SphereCollider>().radius = _collide_zone;
         inventory = GameObject.Find("Player").GetComponent<Inventory>();
         interface_generator = GameObject.Find("Generator").GetComponent<InterfaceGenerator>();
         generator = GameObject.Find("Generator").GetComponent<WorldGenerator>();
+        menu_controller = GameObject.Find("GameController").GetComponent<MenuController>();
         StartCoroutine(CheckBase());
     }
     new void Update()
     {   
         base.Update();
         if (_is_activated) {
-            if (Input.GetKey(KeyCode.F) && !waiting && inventory.cash >= _barrel_cost)
+            if (Input.GetKey(KeyCode.F) && !waiting && 
+                inventory.cash >= _barrel_cost && !menu_controller.IsEnabled()
+            )
                 BuyOil();
         }
     }
     private void BuyOil() 
     {
+        _sale = GetComponent<AudioSource>();
+        _sale.Play();
         inventory.ChangeCash(-_barrel_cost);
         StartCoroutine(Wait());
         spawn = this.transform.GetChild(2).transform.position;

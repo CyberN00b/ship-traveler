@@ -12,51 +12,40 @@ public class PauseMenu : MonoBehaviour
     private GameObject _gameOver;
     [SerializeField]
     private GameObject _completedLevel;
-    private bool _isPaused = false;
-
+    private GameObject player;
+    private MenuController menu_controller = null;
     private void Start()
     {
+        menu_controller = GameObject.Find("GameController").GetComponent<MenuController>();
         _PauseMenu.SetActive(false);
-        Cursor.lockState = CursorLockMode.Locked;
+        player = GameObject.Find("Player");
+        this.transform.GetChild(0).GetChild(1).GetComponent<Button>().onClick.AddListener(menu_controller.StartGame);
+        this.transform.GetChild(0).GetChild(2).GetComponent<Button>().onClick.AddListener(menu_controller.ToMainMenu);
     }
     private void Update()
     {
         if(Input.GetKeyDown(KeyCode.Escape))
         {
-            if(_isPaused)
+            if (menu_controller.IsEnabled(_PauseMenu.name))
             {
                 Resume();
             }
             else
             {
-                if(_gameOver.activeSelf == false || _completedLevel.activeSelf == false)
                 Pause();
             }
         }
     }
     public void Resume()
     {
-        _isPaused = false;
-        _PauseMenu.SetActive(false);
-        Cursor.lockState = CursorLockMode.Locked;
-        Time.timeScale = 1f;
+        menu_controller.DisableMenu();
+        AudioSource audio = player.GetComponent<AudioSource>();
+        audio.UnPause();
     }
     public void Pause()
     {
-        _isPaused = true;
-        _PauseMenu.SetActive(true);
-        Cursor.lockState = CursorLockMode.Confined;
-        Time.timeScale = 0f;
-    }
-    public void Restart() 
-    { 
-        SceneManager.LoadScene("Game"); 
-        Cursor.lockState = CursorLockMode.Locked;
-        Time.timeScale = 1f;
-    }
-    public void Menu()
-    {
-        SceneManager.LoadScene("MainMenu");
-        Time.timeScale = 1f;
+        menu_controller.EnableMenu(_PauseMenu, 1);
+        AudioSource audio = player.GetComponent<AudioSource>();
+        audio.Pause();
     }
 }
