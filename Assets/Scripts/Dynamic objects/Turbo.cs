@@ -28,7 +28,7 @@ public class Turbo : Bonus
     }
     private void OnTriggerExit(Collider other) 
     {
-        if (other.name == "Player" && is_taking) 
+        if (other.name == "Player") 
         {
             is_taking = false;
         }
