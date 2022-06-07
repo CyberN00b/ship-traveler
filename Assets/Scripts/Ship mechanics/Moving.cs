@@ -2,8 +2,23 @@ using System.Collections;
 using System.Collections.Generic;
 using Redcode.Extensions;
 using UnityEngine;
+using UnityEngine.Audio;
 public class Moving : MonoBehaviour
 {
+    [SerializeField]
+    private AudioClip ship_staying = null;
+    [SerializeField]
+    private AudioClip ship_moving = null;
+    [SerializeField]
+    private AudioClip ship_begin = null;
+    [SerializeField]
+    private AudioClip ship_stopping = null;
+    [SerializeField]
+    private AudioClip ship_stop_move = null;
+    [SerializeField]
+    private AudioClip ship_move_stop = null;
+
+    private AudioSource sound = null;
     [SerializeField]
     private float _speed = 0;
     [SerializeField]
@@ -29,6 +44,8 @@ public class Moving : MonoBehaviour
     private float _rotation_N = 0;
     private float _percent_stop = 0.2f;
     public bool is_boosted = false;
+    private bool _is_engine_started = false;
+    private Coroutine sound_coroutine = null;
     private Controller controller = null;
     private InterfaceGenerator generator = null;
     private MenuController menu_controller = null;
@@ -80,6 +97,7 @@ public class Moving : MonoBehaviour
         controller = GameObject.Find("GameController").GetComponent<Controller>();
         generator = GameObject.Find("Generator").GetComponent<InterfaceGenerator>();
         menu_controller = GameObject.Find("GameController").GetComponent<MenuController>();
+        sound = this.GetComponent<AudioSource>();
         audio_source = this.GetComponent<AudioSource>();
         inventory = this.GetComponent<Inventory>();
         _max_speed = _force / (_percent_stop * _mass);
@@ -90,8 +108,9 @@ public class Moving : MonoBehaviour
     }
     void Start()
     {
-        StartCoroutine("SpeedWork");
+        StartCoroutine(SpeedWork());
         StartCoroutine(OverheatDamage());
+        sound_coroutine = StartCoroutine(Sound());
     }    
     void Update()
     {
@@ -185,11 +204,11 @@ public class Moving : MonoBehaviour
     {
         for(;;)
         {
+            yield return new WaitForSeconds(0.05f);
             if (Mathf.Abs(_rotation + (((_speed < 0)? -1f : 1f) * _speed * 
                 _rotation_N * _rotation_direction - _rotation / 2) / 60) < _max_rotation)
                 _rotation += (((_speed < 0)? -1f : 1f) * _speed * _rotation_N * _rotation_direction - _rotation / 2) / 60;
-            _speed += (_acceleration * ((is_boosted) ? 1.3f : 1) - _speed * _percent_stop) / 6;
-            yield return new WaitForSeconds(0.05f);
+            _speed += (_acceleration * ((is_boosted) ? 1.3f : 1) * ((!_is_engine_started) ? 0 : 1) - _speed * _percent_stop) / 6;
         }
     }
     public void decreaseHealth(int damage) 
@@ -199,6 +218,44 @@ public class Moving : MonoBehaviour
         {
             _health = 0;
             GameObject.Find("GameOver").GetComponent<GameOver>().EndOfHealth();
+        }
+    }
+    public void NoFuel() 
+    {
+        StopCoroutine(sound_coroutine);
+        _is_engine_started = false;
+        sound.clip = null;
+        sound.PlayOneShot(ship_stopping);
+        StartCoroutine(AfterFuelRestartSound());
+    }
+    IEnumerator AfterFuelRestartSound() 
+    {
+        yield return new WaitUntil(() => fuel > 0);
+        sound_coroutine = StartCoroutine(Sound());
+    }
+    IEnumerator Sound() 
+    {
+        sound.clip = ship_staying;
+        sound.PlayOneShot(ship_begin);
+        yield return new WaitForSeconds(ship_begin.length - 0.55f);
+        _is_engine_started = true;
+        sound.Play();
+        for (;;) 
+        {
+            yield return new WaitUntil(() => Mathf.Abs(_acceleration) > 0.5f);
+            sound.Pause();
+            sound.PlayOneShot(ship_stop_move);
+            yield return new WaitForSeconds(ship_stop_move.length - 0.2f);
+            sound.clip = ship_moving;
+            sound.Play();
+            yield return new WaitUntil(() => Mathf.Abs(_acceleration) < 0.5f);
+            sound.Pause();
+            if (fuel <= 0)
+                break;
+            sound.PlayOneShot(ship_move_stop);
+            yield return new WaitForSeconds(ship_move_stop.length - 0.2f);
+            sound.clip = ship_staying;
+            sound.Play();
         }
     }
     IEnumerator OverheatDamage() 

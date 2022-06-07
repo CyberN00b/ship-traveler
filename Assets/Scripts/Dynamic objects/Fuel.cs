@@ -20,6 +20,7 @@ public class Fuel : Bonus
         {
             Moving fuelcontroller = other.GetComponent<Moving>();
             fuelcontroller.fuel += _count_of_gas;
+            other.GetComponent<AudioSource>().PlayOneShot(sound_on_take);
             interface_generator.addEventText("+" + _count_of_gas + " fuel").disableAfterSec(1.5f);
             Destroy(gameObject);
         }

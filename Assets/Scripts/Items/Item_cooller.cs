@@ -9,7 +9,7 @@ public class Item_cooller: Item
     
     public Item_cooller()
     {
-        _audio = GameObject.Find("Cooller").GetComponent<AudioSource>();
+        _audio = GameObject.Find("Cooller").GetComponent<Cooller>().sound_item;
         item_name = "cooller";
         full_name = "cooller";
         is_usable = true;

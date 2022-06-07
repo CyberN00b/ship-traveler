@@ -19,14 +19,13 @@ public class Coin : Bonus
             Inventory inventory = other.GetComponent<Inventory>();
             inventory.ChangeCash(value);
             interface_generator.addEventText("+" + value + " coin").disableAfterSec(1.5f);
+            other.GetComponent<AudioSource>().PlayOneShot(sound_on_take);
             StartCoroutine(Anim());
         }
     }
 
     private IEnumerator Anim()
     {
-        var audio = gameObject.GetComponent<AudioSource>();
-        audio.Play();   
         gameObject.transform.GetChild(0).gameObject.GetComponent<Animation>().Play();
         yield return new WaitForSeconds(1f);
         Destroy(gameObject);

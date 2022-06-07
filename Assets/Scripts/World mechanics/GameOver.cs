@@ -23,11 +23,6 @@ public class GameOver : MonoBehaviour
         _gameOver.transform.GetChild(1).GetComponent<Button>().onClick.AddListener(menu_controller.ToMainMenu);
         StartCoroutine(IncreaseCanvas());
     }
-    private void RestartCoroutine() 
-    {
-        StopCoroutine(IncreaseCanvas());
-        StartCoroutine(IncreaseCanvas());
-    }
     public void EndOfHealth() 
     {
         StartCoroutine(endOfHealth());
@@ -41,28 +36,29 @@ public class GameOver : MonoBehaviour
     private IEnumerator IncreaseCanvas()
     {
         Moving player = _player.GetComponent<Moving>();
-        while (player.fuel > 0f)
-        {
-            yield return new WaitForSeconds(1f);  
-        }
-        EventText txt = generator.addEventText("Ran out of fuel!");
-        while (Mathf.Abs(player.speed) > 0.1f && player.fuel <= 0f)
-        {
-            yield return new WaitForSeconds(1f);
-        }
         Inventory inventory = _player.GetComponent<Inventory>();
-        OilBase oilBase = new OilBase();
-        while (
-            generator.isEventActive("end_level") || 
-            (generator.isEventActive("oil_base") && inventory.cash >= oilBase.barrel_cost)
-        ) {
+        EventText txt = null;
+        for (;;) {
+            yield return new WaitUntil(() => player.fuel <= 0);
+            player.NoFuel();
+            txt = generator.addEventText("Ran out of fuel!");
+            while (Mathf.Abs(player.speed) > 0.1f && player.fuel <= 0f)
+            {
+                yield return new WaitForSeconds(1f);
+            }
+            while (
+                generator.isEventActive("end_level") || 
+                (generator.isEventActive("oil_base") && inventory.cash >= OilBase.barrel_cost)
+            ) {
+                yield return new WaitForSeconds(2f);
+            }
             yield return new WaitForSeconds(2f);
-        }
-        yield return new WaitForSeconds(2f);
-        if (player.fuel > 0f)
-        {
-            txt.hideAndDisable();
-            RestartCoroutine();
+            if (player.fuel > 0f)
+            {
+                txt.hideAndDisable();
+                yield return 0;
+            } else 
+                break;
         }
         GameIsOver();
     }

@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class OilBase : Port
 {
-    private int _barrel_cost = 5;
+    private static int _barrel_cost = 5;
     private InterfaceGenerator interface_generator = null;
     private WorldGenerator generator = null;
     private Inventory inventory = null;
@@ -15,7 +15,7 @@ public class OilBase : Port
     private float time_of_wait = 0.5f;
     private Vector3 spawn;
     private AudioSource _sale;
-    public int barrel_cost {
+    public static int barrel_cost {
         get {return _barrel_cost;}
     }
     new void Start()
