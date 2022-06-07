@@ -8,10 +8,16 @@ public class MenuController : MonoBehaviour
     private GameObject current_menu = null;
     private int strength = 0;
     private bool is_time_stoped = false;
+    [SerializeField]
+    private AudioSource[] sources;
+    private List<bool> is_active;
     void Start() 
     {
         Cursor.lockState = CursorLockMode.Locked;
         Time.timeScale = 1f;
+        is_active = new List<bool>();
+        foreach(var source in sources)
+            is_active.Add(false);
     }
     public void EnableMenu(GameObject menu, int menu_strength, bool is_stop = true) 
     {
@@ -19,13 +25,21 @@ public class MenuController : MonoBehaviour
         {
             if ( current_menu != null)
                 current_menu.SetActive(false);
+            for (int i = 0; i < sources.Length; ++i) 
+                if (sources[i].isPlaying) 
+                {
+                    sources[i].Pause();
+                    is_active[i] = true;
+                } else 
+                    is_active[i] = false;
             menu.SetActive(true);
             Cursor.lockState = CursorLockMode.Confined;
             current_menu = menu;
-            if (is_stop) 
+            if (is_stop)
                 Time.timeScale = 0f;
-            else 
+            else
                 Time.timeScale = 1f;
+            
             is_time_stoped = is_stop;
             strength = menu_strength;
         }
@@ -39,6 +53,9 @@ public class MenuController : MonoBehaviour
         }
         strength = 0;
         current_menu.SetActive(false);
+        for (int i = 0; i < sources.Length; ++i) 
+            if (is_active[i])
+                sources[i].UnPause();
         current_menu = null;
         Cursor.lockState = CursorLockMode.Locked;
     }

@@ -5,6 +5,8 @@ using UnityEngine;
 public class Wrench : Bonus
 {
     bool is_taking = false;
+    [SerializeField]
+    public AudioClip sound_item = null;
     new void Awake()
     {
         base.Awake();
@@ -18,6 +20,7 @@ public class Wrench : Bonus
             Inventory inventory = other.GetComponent<Inventory>();
             if (inventory.AddItem(new Item_wrench())) 
             {
+                other.GetComponent<AudioSource>().PlayOneShot(sound_on_take);
                 interface_generator.addEventText("You picked up the wrench!").disableAfterSec(1.5f);
                 Destroy(gameObject);
             } else {
@@ -39,6 +42,7 @@ public class Wrench : Bonus
         if (is_taking)
         {
             inventory.AddItem(new Item_wrench());
+            inventory.GetComponent<AudioSource>().PlayOneShot(sound_on_take);
             interface_generator.addEventText("You picked up the wrench!").disableAfterSec(1.5f);
             Destroy(gameObject);
         }

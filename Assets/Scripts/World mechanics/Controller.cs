@@ -88,7 +88,8 @@ public class Controller : MonoBehaviour
             (_pos_z + _speed * Mathf.Cos(Mathf.Deg2Rad * _direction) * Time.time) / 4
          );
         sea.SetVector("_Wave_vector", tmpVector);
-        tmpVector *= 1.45f;
+        tmpVector.x += _speed * Mathf.Sin(Mathf.Deg2Rad * _direction) * Time.time * 0.45f;
+        tmpVector.y += _speed * Mathf.Cos(Mathf.Deg2Rad * _direction) * Time.time * 0.45f;
         sea.SetVector("_Normal_vector", tmpVector);
     }
     public void End()

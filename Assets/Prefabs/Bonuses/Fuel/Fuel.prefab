@@ -61,8 +61,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5a87a7f39d4fb3c4a9a24b24d3339457, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _bonusPrefabs: 1
   is_prefab: 1
+  sound_on_take: {fileID: 8300000, guid: 520b9efcd02a8d4e5a6d106045c972b7, type: 3}
 --- !u!54 &7718752120455351198
 Rigidbody:
   m_ObjectHideFlags: 0

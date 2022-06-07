@@ -8,6 +8,9 @@ public class Bonus : DynamicObject
     protected InterfaceGenerator interface_generator = null;
     protected float radius_of_getting = 4f;
     protected float speed_of_getting = 0.5f;
+    [SerializeField]
+    protected AudioClip sound_on_take = null;
+    
     protected new void Awake()
     {
         base.Awake();

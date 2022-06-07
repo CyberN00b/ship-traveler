@@ -39,13 +39,9 @@ public class PauseMenu : MonoBehaviour
     public void Resume()
     {
         menu_controller.DisableMenu();
-        AudioSource audio = player.GetComponent<AudioSource>();
-        audio.UnPause();
     }
     public void Pause()
     {
         menu_controller.EnableMenu(_PauseMenu, 1);
-        AudioSource audio = player.GetComponent<AudioSource>();
-        audio.Pause();
     }
 }
